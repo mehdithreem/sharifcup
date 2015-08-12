@@ -11,6 +11,6 @@ vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector g
     for(int j=0 ; j<visGraph[i].size() ; j++)
       if(visGraph[i][j])
         weightedVisGraph[i].push_back(make_pair(j , (S->at(i).first-S->at(j).first).size()));
-  return AStar(start ,goal ,&weightedVisGraph);
+  return AStar(S->size()-2 , S->size()-1 ,&weightedVisGraph);
 }
 

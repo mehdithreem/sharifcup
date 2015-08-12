@@ -24,7 +24,7 @@ public:
     MovingObj();
     ~MovingObj();
     void update(geometry::Vector _v , vector<geometry::Vector> _coords);
-    void sortCoordsByPolar(geometry::Vector);
+    void sortCoordsByPolar(geometry::Vector);//has not been coded
 };
 
 
