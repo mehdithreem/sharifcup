@@ -30,7 +30,7 @@ namespace geometry{
         double size()const;
     };
     
-    Vector cart2polar (Vector cart); // has not been coded
+    Vector cart2polar (Vector cart);
     bool polarComparator(const pair < Vector , Vector >& coord1 , const pair < Vector , Vector >& coord2); //has not been coded
 };
 

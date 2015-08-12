@@ -20,7 +20,7 @@ int main(){
   vector<MovingObj> obstacles;
   while(true){
     if(NewFrameIsReady()){
-      update(ourBot, enemyBot, obstacles);
+      update(&ourBot, &enemyBot, &obstacles);
       // code to find the best dest 
       // determine the best dest is goal
       geometry::Vector goal(0,0);
