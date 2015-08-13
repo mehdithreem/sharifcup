@@ -29,10 +29,20 @@ namespace geometry{
         void operator=(const Vector& v);
         double size()const;
     };
+
+    class Graph{
+    public:
+      vector< vector<bool> > matrix;
+      vector< vector<int> > list; 
+      int size;
+      Graph(vector<vector<geometry::Vector> > coords);
+    };
+
+
     
     Vector cart2polar (Vector cart);
     bool polarComparator(const pair < Vector , Vector >& coord1 , const pair < Vector , Vector >& coord2); //has not been coded
-    void sortCoordsByPolar(std::vector< geometry::Vector> >& coords ,geometry::Vector center);
+    void sortCoordsByPolar(std::vector< geometry::Vector >& coords ,geometry::Vector center);
 };
 
 
