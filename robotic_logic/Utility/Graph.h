@@ -8,12 +8,12 @@ class Graph{
 		vector< vector<double> > matrix;
 		vector< vector<int> > list;
 
-		vector< geometry::vector > nodes;
-	
+		vector< geometry::Vector > nodes;
+		
+		int _size; // num of vertices 
 		Graph();
 
-		int size; // num of vertices
-
 		void addComponent(vector<MovingObj>& obstacles);
-		void addSingleNode(geometry::vector newNode);
+		void addSingleNode(geometry::Vector newNode);
+		int size() { return list.size(); }
 };
