@@ -31,13 +31,12 @@ int main(){
   
       //Minkowski sum of −R,
       //
-      vector<vector<geometry::Vector> > initCoordsForGraph;
+      //vector<vector<geometry::Vector> > initCoordsForGraph;
 
-      for(int i=0 ; i<obstacles.size() ; i++)
-        initCoordsForGraph.push_back(obstacles[i].coords);
-      initCoordsForGraph.push_back(rival.coords);
- 
-      geometry::Graph initialGraph(initCoordsForGraph);
+      //for(int i=0 ; i<obstacles.size() ; i++)
+      //  initCoordsForGraph.push_back(obstacles[i].coords);
+      //initCoordsForGraph.push_back(rival.coords);
+      obstacles.push_back(rival);
       vector<geometry::Vector> path = ShortestPath(agent.COM,goal,initialGraph);
     }
   }

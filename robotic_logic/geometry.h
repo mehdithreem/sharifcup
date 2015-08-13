@@ -36,6 +36,7 @@ namespace geometry{
       vector< vector<int> > list; 
       int size;
       Graph(vector<vector<geometry::Vector> > coords);
+      void addNode();
     };
 
 

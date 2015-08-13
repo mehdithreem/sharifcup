@@ -7,7 +7,7 @@
 
 vector<geometry::Vector> ShortestPath( geometry::Vector start, geometry::Vector goal ,geometry::Graph& graph);
 
-vector <vector<int> > VisibiltyGraph( const vector< pair<geometry::Vector , geometry::Vector> >* S); //has not been coded
+void VisibiltyGraph(geometry::Graph& graph); //has not been coded
 vector<geometry::Vector> AStar(int start , int goal ,vector <vector <pair<int,double> > >* weightedVisGraph );// has not been coded
 
 #endif
