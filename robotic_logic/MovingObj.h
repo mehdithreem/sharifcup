@@ -18,13 +18,12 @@ using namespace std;
 class MovingObj{
 public:
     geometry::Vector velocity;
-    geometry::Vector gravityCenter;
-    vector < pair<geometry::Vector, geometry::Vector> > coords;
-    
+    geometry::Vector COM;
+    vector < geometry::Vector > coords;
+
     MovingObj();
-    ~MovingObj();
+
     void update(geometry::Vector _v , vector<geometry::Vector> _coords);
-    void sortCoordsByPolar(geometry::Vector);//has not been coded
 };
 
 

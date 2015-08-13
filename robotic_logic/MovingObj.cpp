@@ -5,32 +5,31 @@
 //  Created by Nahal on 8/9/15.
 //  Copyright (c) 2015 Nahal. All rights reserved.
 //
+
 #include <iostream>
 #include "MovingObj.h"
 
 using namespace std;
 using namespace geometry;
 
-MovingObj :: MovingObj(): velocity(Vector(0,0)) , gravityCenter(Vector(0,0)){}
+MovingObj::MovingObj(): velocity(Vector(0,0)) , COM(Vector(0,0)) {}
 
-MovingObj :: ~MovingObj(){
-  cerr <<"MovingObj deleted !"<<endl;
-}
-
-void MovingObj :: update(Vector _v , vector<Vector > _coords)
+void MovingObj :: update(Vector _v , vector<Vector> _coords)
 {
+    // reinit variables
     velocity = _v;
-    gravityCenter = Vector(0,0);
-    for(int i=0 ; i<_coords.size() ; i++){
-        gravityCenter.x += _coords[i].x;
-        gravityCenter.y += _coords[i].y;
-        Vector polar = cart2polar(_coords[i]);
-        pair< Vector , Vector> pairOfCartAndPolar = make_pair(_coords[i],polar);
-        coords.push_back(pairOfCartAndPolar);
-    }
-    gravityCenter = gravityCenter/_coords.size();
-}
+    coords.clear();
+    COM = Vector(0,0);
 
-void MovingObj :: sortCoordsByPolar(geometry::Vector newCenter){
-  sort(coords.begin() ,coords.end() ,geometry::polarComparator);
+    // update coordinates
+    for(int i = 0; i < _coords.size(); i++){
+        COM.x += _coords[i].x;
+        COM.y += _coords[i].y;
+        
+        coords.push_back(_coords[i]);
+    }
+
+    COM = COM/_coords.size();
+
+    sortCoordsByPolar(coords ,COM);
 }
