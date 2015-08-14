@@ -8,9 +8,11 @@
 
 #include <iostream>
 #include <vector>
-#include "MovingObj.h"
-#include "Vision.h"
-#include "ShortestPath.h"
+#include "./Core/MovingObj.h"
+#include "./Vision/Vision.h"
+#include "./Pathfinding/ShortestPath.h"
+#include "./Utility/Graph.h"
+#include "./Utility/geometry.h"
 
 using namespace std;
 
@@ -26,7 +28,7 @@ int main(){
 				
 			// code to find the best dest 
 			// determine the best dest is goal
-					
+							
 			geometry::Vector goal(0,0);
 					
 			//Minkowski sum of −R,
@@ -38,7 +40,8 @@ int main(){
 			//initCoordsForGraph.push_back(rival.coords);
 		
 			obstacles.push_back(rival);
-			vector<geometry::Vector> path = ShortestPath(agent.COM,goal,initialGraph);
+			vector<geometry::Vector> path = ShortestPath(agent.COM,goal,obstacles, rival);
+			//vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector goal, vector<MovingObj>& obstacles , MovingObj& rival);
 		}
 	}
 }

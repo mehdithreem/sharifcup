@@ -1,3 +1,5 @@
+#ifndef robotic_logic_Graph_h
+#define robotic_logic_Graph_h
 
 #include <vector>
 #include "geometry.h"
@@ -17,3 +19,5 @@ class Graph{
 		void addSingleNode(geometry::Vector newNode);
 		int size() { return list.size(); }
 };
+
+#endif

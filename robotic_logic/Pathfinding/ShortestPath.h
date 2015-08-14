@@ -4,10 +4,11 @@
 #include <utility>
 #include "../Core/MovingObj.h"
 #include "../Utility/geometry.h"
+#include "../Utility/Graph.h"
 
-vector<geometry::Vector> ShortestPath( geometry::Vector start, geometry::Vector goal ,geometry::Graph& graph);
+vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector goal, vector<MovingObj>& obstacles , MovingObj& rival);
 
 void VisibiltyGraph(Graph& graph); //has not been coded
-vector<geometry::Vector> AStar(int start , int goal ,vector <vector <pair<int,double> > >* weightedVisGraph );// has not been coded
+vector<int> AStar(int start , int goal ,Graph& G);
 
 #endif
