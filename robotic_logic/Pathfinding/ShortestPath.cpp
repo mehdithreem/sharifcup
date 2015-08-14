@@ -30,7 +30,8 @@ vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector g
 	G.addSingleNode(start);
 	G.addSingleNode(goal);
 
-	G.addComponet(obstacles.push_back(rival));
+	obstacles.push_back(rival);
+	G.addComponent(obstacles);
 	obstacles.pop_back();
 
 	// //add start and goal to graph
@@ -45,6 +46,21 @@ vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector g
 	// initialGraph.addNode(); initialGraph.addNode();
 	
 	VisibiltyGraph(G);
+
+	std::vector<geometry::Vector> path;
+
+	try {
+		std::vector<int> pathIndex = AStar(0, 1, G);
+
+		for (int i = pathIndex.size() - 1; i >= 0 ; i--)
+			path.push_back(G.nodes[pathIndex[i]]);
+
+	} catch (...) {
+		// no path found!!
+		// use a random direction to pathfind again
+	}
+
+	return path;
 }
 
 vector<int> AStar(int start , int goal ,Graph& G)
@@ -57,7 +73,7 @@ vector<int> AStar(int start , int goal ,Graph& G)
 	std::vector<int> parent(G.size());
 
 	gScore[start] = 0;
-	fScore[start] = gScore[start] + heuristic(start, goal);
+	fScore[start] = gScore[start] + heuristic(start, goal, G);
 
 	openSet.push_back(start);
 	std::make_heap(openSet.begin(), openSet.end(), openSetGreater(&fScore));
@@ -84,7 +100,7 @@ vector<int> AStar(int start , int goal ,Graph& G)
 				|| tempGScore < gScore[neighbor]) {
 				parent[neighbor] = curr;
 				gScore[neighbor] = tempGScore;
-				fScore[neighbor] = gScore[neighbor] + heuristic(curr, neighbor);
+				fScore[neighbor] = gScore[neighbor] + heuristic(curr, neighbor, G);
 
 				if (find(openSet.begin(), openSet.end(), neighbor) == openSet.end()) {
 					openSet.push_back(neighbor);
@@ -118,3 +134,5 @@ vector<int> constructPath(std::vector<int>& parent, int goal, int start)
 
 	return path;
 }
+
+void VisibiltyGraph(Graph& graph) { return; }

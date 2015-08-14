@@ -7,10 +7,18 @@ void Graph::addComponent (vector<MovingObj>& obstacles){
 
 	for(int i=0 ; i<obstacles.size() ; i++){
 		nodes.insert(nodes.end() , obstacles[i].coords.begin() , obstacles[i].coords.end());
-		vector<int> temp{penalty + 1, penalty + obstacles[i].coords.size() - 1};
+		
+		vector<int> temp;
+		temp.push_back(penalty + 1);
+		temp.push_back(penalty + obstacles[i].coords.size() - 1);
+
 		list.push_back(temp);
+		
 		for(int j=penalty+1 ; j<obstacles[i].coords.size()+penalty ; j++){
-			vector<int> temp2{j+1,j-1};
+			vector<int> temp2;
+			temp2.push_back(j+1);
+			temp2.push_back(j-1);
+
 			list.push_back(temp2);
 		}
 		penalty += obstacles[i].coords.size();
@@ -27,7 +35,9 @@ void Graph::addComponent (vector<MovingObj>& obstacles){
 }
 
 		 
-void addSingleNode(geometry::vector newNode);
+void addSingleNode(geometry::Vector newNode) {
+	return;
+}
 
 
 

@@ -59,3 +59,9 @@ namespace geometry{
 		return Vector(r,a);
 	}
 }
+
+namespace geometry{
+	void sortCoordsByPolar(std::vector< geometry::Vector >& coords ,geometry::Vector center) { return; }
+	bool polarComparator(const pair < Vector , Vector >& coord1 , const pair < Vector , Vector >& coord2) { return true; } //has not been coded
+
+}

@@ -14,7 +14,7 @@ using namespace geometry;
 
 MovingObj::MovingObj(): velocity(Vector(0,0)) , COM(Vector(0,0)) {}
 
-void MovingObj :: update(Vector _v , vector<Vector> _coords)
+void MovingObj::update(Vector _v , vector<Vector> _coords)
 {
 	// reinit variables
 	velocity = _v;
@@ -31,5 +31,5 @@ void MovingObj :: update(Vector _v , vector<Vector> _coords)
 
 	COM = COM/_coords.size();
 
-	sortCoordsByPolar(coords ,COM);
+	// sortCoordsByPolar(coords ,COM);
 }

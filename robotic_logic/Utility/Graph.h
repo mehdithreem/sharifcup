@@ -16,7 +16,7 @@ class Graph{
 		Graph();
 
 		void addComponent(vector<MovingObj>& obstacles);
-		void addSingleNode(geometry::Vector newNode);
+		void addSingleNode(geometry::Vector newNode) { return; }
 		int size() { return list.size(); }
 };
 

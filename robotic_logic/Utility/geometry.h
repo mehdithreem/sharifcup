@@ -31,7 +31,7 @@ namespace geometry{
 	};
 
 	Vector cart2polar (Vector cart);
-	bool polarComparator(const pair < Vector , Vector >& coord1 , const pair < Vector , Vector >& coord2); //has not been coded
+	bool polarComparator(const pair < Vector , Vector >& coord1 , const pair < Vector , Vector >& coord2);//has not been coded
 	void sortCoordsByPolar(std::vector< geometry::Vector >& coords ,geometry::Vector center);
 };
 
