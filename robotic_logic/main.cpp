@@ -15,29 +15,30 @@
 using namespace std;
 
 int main(){
-  MovingObj agent;
-  MovingObj rival;
-  vector<MovingObj> obstacles;
+	MovingObj agent;
+	MovingObj rival;
+	vector<MovingObj> obstacles;
 
-  while(true){
-  
-    if(NewFrameIsReady()){
-      update(agent, rival, obstacles);
-  
-      // code to find the best dest 
-      // determine the best dest is goal
-  
-      geometry::Vector goal(0,0);
-  
-      //Minkowski sum of −R,
-      //
-      //vector<vector<geometry::Vector> > initCoordsForGraph;
+	while(true){
 
-      //for(int i=0 ; i<obstacles.size() ; i++)
-      //  initCoordsForGraph.push_back(obstacles[i].coords);
-      //initCoordsForGraph.push_back(rival.coords);
-      obstacles.push_back(rival);
-      vector<geometry::Vector> path = ShortestPath(agent.COM,goal,initialGraph);
-    }
-  }
+		if(NewFrameIsReady()){
+			update(agent, rival, obstacles);
+				
+			// code to find the best dest 
+			// determine the best dest is goal
+					
+			geometry::Vector goal(0,0);
+					
+			//Minkowski sum of −R,
+			//
+			//vector<vector<geometry::Vector> > initCoordsForGraph;
+
+			//for(int i=0 ; i<obstacles.size() ; i++)
+			//  initCoordsForGraph.push_back(obstacles[i].coords);
+			//initCoordsForGraph.push_back(rival.coords);
+		
+			obstacles.push_back(rival);
+			vector<geometry::Vector> path = ShortestPath(agent.COM,goal,initialGraph);
+		}
+	}
 }

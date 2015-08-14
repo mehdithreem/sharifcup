@@ -11,19 +11,19 @@
 
 #include <vector>
 #include <utility>
-#include "geometry.h"
+#include "../Utility/geometry.h"
 
 using namespace std;
 
 class MovingObj{
 public:
-    geometry::Vector velocity;
-    geometry::Vector COM;
-    vector < geometry::Vector > coords;
+	geometry::Vector velocity;
+	geometry::Vector COM;
+	vector < geometry::Vector > coords;
 
-    MovingObj();
+	MovingObj();
 
-    void update(geometry::Vector _v , vector<geometry::Vector> _coords);
+	void update(geometry::Vector _v , vector<geometry::Vector> _coords);
 };
 
 
