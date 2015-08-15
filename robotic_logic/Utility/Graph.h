@@ -12,12 +12,12 @@ class Graph{
 
 		vector< geometry::Vector > nodes;
 		
-		int _size; // num of vertices 
+		int _size;
 		Graph();
 
 		void addComponent(vector<MovingObj>& obstacles);
-		void addSingleNode(geometry::Vector newNode) { return; }
-		int size() { return list.size(); }
+		void addSingleNode(geometry::Vector newNode);
+		int size();
 };
 
 #endif

@@ -34,17 +34,6 @@ vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector g
 	G.addComponent(obstacles);
 	obstacles.pop_back();
 
-	// //add start and goal to graph
-	// vector<vector<geometry::Vector> > initCoordsForGraph;
-
-	// for(int i=0 ; i<obstacles.size() ; i++)
-	// 	initCoordsForGraph.push_back(obstacles[i].coords);
-	
-	// initCoordsForGraph.push_back(rival.coords);
-	// Graph initialGraph(initCoordsForGraph);
-
-	// initialGraph.addNode(); initialGraph.addNode();
-	
 	VisibiltyGraph(G);
 
 	std::vector<geometry::Vector> path;

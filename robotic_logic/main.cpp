@@ -32,16 +32,9 @@ int main(){
 			geometry::Vector goal(0,0);
 					
 			//Minkowski sum of −R,
-			//
-			//vector<vector<geometry::Vector> > initCoordsForGraph;
 
-			//for(int i=0 ; i<obstacles.size() ; i++)
-			//  initCoordsForGraph.push_back(obstacles[i].coords);
-			//initCoordsForGraph.push_back(rival.coords);
-		
 			obstacles.push_back(rival);
 			vector<geometry::Vector> path = ShortestPath(agent.COM,goal,obstacles, rival);
-			//vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector goal, vector<MovingObj>& obstacles , MovingObj& rival);
 		}
 	}
 }

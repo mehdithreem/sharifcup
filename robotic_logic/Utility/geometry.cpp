@@ -61,7 +61,25 @@ namespace geometry{
 }
 
 namespace geometry{
-	void sortCoordsByPolar(std::vector< geometry::Vector >& coords ,geometry::Vector center) { return; }
-	bool polarComparator(const pair < Vector , Vector >& coord1 , const pair < Vector , Vector >& coord2) { return true; } //has not been coded
+	
+  void sortCoordsByPolar(std::vector< geometry::Vector >& coords ,geometry::Vector center) { 
+    vector<pair <geometry::Vector,geometry::Vector> > coordsTemp;
+    for(int i=0 ; i<coords.size() ; i++){
+      pair<geometry::Vector,geometry::Vector> t = make_pair(coords[i]-center , cart2polar(coords[i]-center));
+      coordsTemp.push_back(t);
+    }
+    sort(coordsTemp.begin() , coordsTemp.end() , polarComparator);
+    coords.clear();
+    for(int i=0 ; i<coordsTemp.size() ; i++)
+      coords.push_back(coordsTemp[i].first+center);
+  }
+
+
+	bool polarComparator(const pair < Vector , Vector >& coord1 , const pair < Vector , Vector >& coord2) { 
+    if(coord1.second.x>coord2.second.x)
+      return true;
+    else 
+      return coord1.second.y>coord2.second.y;
+  }
 
 }
