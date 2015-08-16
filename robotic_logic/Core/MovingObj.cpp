@@ -31,5 +31,14 @@ void MovingObj::update(Vector _v , vector<Vector> _coords)
 
 	COM = COM/_coords.size();
 
-	// sortCoordsByPolar(coords ,COM);
+	sortCoordsByPolar(coords ,COM);
+}
+
+void MovingObj::print()
+{
+	cout << "V:" << velocity << " C:" << COM << endl;
+	cout << "Pts: ";
+	for (geometry::Vector coordinate : coords)
+		cout << coords << " ";
+	cout << endl;
 }

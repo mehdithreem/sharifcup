@@ -18,6 +18,11 @@ class Graph{
 		void addComponent(vector<MovingObj>& obstacles);
 		void addSingleNode(geometry::Vector newNode);
 		int size();
+
+		void printNodes();
+		void printMatrix();
+		void printList();
+		void print();
 };
 
 #endif

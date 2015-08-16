@@ -38,16 +38,67 @@ int Graph::size() { return list.size(); }
 
 void Graph::addSingleNode(geometry::Vector newNode) {
 	vector<int> dummy;
-  list.push_back(dummy);
+	list.push_back(dummy);
   
-  for(int i=0 ; i<matrix.size() ; i++)
-    for(int j=0 ; j<matrix[i].size() ; j++)
-      matrix[i].push_back(0);
+	for(int i=0 ; i<matrix.size() ; i++)
+		for(int j=0 ; j<matrix[i].size() ; j++)
+    	matrix[i].push_back(0);
   
-  nodes.push_back(newNode);
-  matrix.resize(nodes.size() , vector<double>(nodes.size(),0));
+	nodes.push_back(newNode);
+	matrix.resize(nodes.size() , vector<double>(nodes.size(),0));
 }
 
 
+void Grpah::printNodes()
+{
+	cout << "Nodes: ";
+	for (int i=0; i < nodes.size(); i++) {
+		cout << i << v << " ";
+	}
+	cout << endl;
 
 
+	return;
+}
+
+void Graph::printMatrix()
+{
+	cout << "Adj matrix:" << endl;
+
+	cout << '\t'; 
+	for(int i=0; i < matrix.size(); i++)
+		cout << i << '\t';
+	cout << endl;
+
+	for(int i=0; i < matrix.size(); i++) {
+		cout << i << '\t';
+		for(int j=0; j < matrix[i]; j++)
+			cout << j << '\t';
+		cout << endl;
+	}
+
+	return;
+}
+
+void Graph::printList() {
+	cout << "Adj List:" << endl;
+	for(int i=0; i < list.size(); i++){
+		cout << i << ": ";
+		for(int neighbor : list[i])
+			cout << neighbor << " ";
+		cout << endl;
+	}
+}
+
+void Graph::print()
+{
+	cout << "size: " << _size << "or" << size() << endl;
+
+	printNodes();
+	cout << endl;
+	printMatrix();
+	cout << endl;
+	printList();
+
+	return;
+}

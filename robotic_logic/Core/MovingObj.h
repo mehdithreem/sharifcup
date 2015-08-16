@@ -24,7 +24,7 @@ public:
 	MovingObj();
 
 	void update(geometry::Vector _v , vector<geometry::Vector> _coords);
+	void print();
 };
-
 
 #endif
