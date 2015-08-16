@@ -25,7 +25,7 @@ void MovingObj::update(Vector _v , vector<Vector> _coords)
 	for(int i = 0; i < _coords.size(); i++){
 		COM.x += _coords[i].x;
 		COM.y += _coords[i].y;
-		
+
 		coords.push_back(_coords[i]);
 	}
 

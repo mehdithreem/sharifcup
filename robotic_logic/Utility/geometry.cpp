@@ -1,5 +1,6 @@
 #include "../Include/geometry.h"
 
+#define PI 3.14159265
 using namespace geometry;
 
 namespace geometry{
@@ -52,10 +53,22 @@ namespace geometry{
 	Vector cart2polar (Vector cart){
 		double r,a;
 		r=cart.size();
-		if(cart.y == 0)
-			a=std::numeric_limits<double>::infinity();
+		
+		if(cart.x == 0){
+			a=-std::numeric_limits<double>::infinity();
+			if (cart.y > 0)
+				a = -a;
+		}
 		else
 			a=atan(cart.x/cart.y);
+
+		if (cart.x < 0 ){
+			if(cart.y < 0)
+				a -= PI / 2;
+			else
+				a += PI / 2;	
+		}
+		
 		return Vector(r,a);
 	}
 }
@@ -67,6 +80,7 @@ namespace geometry{
     for(int i=0 ; i<coords.size() ; i++){
       pair<geometry::Vector,geometry::Vector> t = make_pair(coords[i]-center , cart2polar(coords[i]-center));
       coordsTemp.push_back(t);
+      cout << t.first << "+" << t.second << endl;
     }
     sort(coordsTemp.begin() , coordsTemp.end() , polarComparator);
     coords.clear();
@@ -75,11 +89,11 @@ namespace geometry{
   }
 
 
-	bool polarComparator(const pair < Vector , Vector >& coord1 , const pair < Vector , Vector >& coord2) { 
-    if(coord1.second.y>coord2.second.y)
-      return true;
+	bool polarComparator(const pair < Vector , Vector >& coord1 , const pair < Vector , Vector >& coord2) {
+    if(coord1.second.y==coord2.second.y)
+      return coord1.second.x<coord2.second.x;
     else 
-      return coord1.second.x>coord2.second.x;
+      return coord1.second.y>coord2.second.y;
   }
 
 }
