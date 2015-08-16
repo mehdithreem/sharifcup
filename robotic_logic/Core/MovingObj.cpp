@@ -30,8 +30,8 @@ void MovingObj::update(Vector _v , vector<Vector> _coords)
 	}
 
 	COM = COM/_coords.size();
-
-	sortCoordsByPolar(coords ,COM);
+  
+	sortCoordsByPolar(coords , COM);
 }
 
 void MovingObj::print()

@@ -55,18 +55,18 @@ namespace geometry{
 		r=cart.size();
 		
 		if(cart.x == 0){
-			a=-std::numeric_limits<double>::infinity();
+			a=-90;
 			if (cart.y > 0)
 				a = -a;
 		}
 		else
-			a=atan(cart.x/cart.y);
+			a=atan(cart.y/cart.x)*180/PI;
 
 		if (cart.x < 0 ){
 			if(cart.y < 0)
-				a -= PI / 2;
+				a -= 180;
 			else
-				a += PI / 2;	
+				a += 180;	
 		}
 		
 		return Vector(r,a);
@@ -80,12 +80,13 @@ namespace geometry{
     for(int i=0 ; i<coords.size() ; i++){
       pair<geometry::Vector,geometry::Vector> t = make_pair(coords[i]-center , cart2polar(coords[i]-center));
       coordsTemp.push_back(t);
-      //cout << t.first << "+" << t.second << endl;
     }
     sort(coordsTemp.begin() , coordsTemp.end() , polarComparator);
     coords.clear();
-    for(int i=0 ; i<coordsTemp.size() ; i++)
+    for(int i=0 ; i<coordsTemp.size() ; i++){
       coords.push_back(coordsTemp[i].first+center);
+      cout << coordsTemp[i].first+center << " + " << coordsTemp[i].second << endl;
+    }
   }
 
 
@@ -93,7 +94,7 @@ namespace geometry{
     if(coord1.second.y==coord2.second.y)
       return coord1.second.x<coord2.second.x;
     else 
-      return coord1.second.y>coord2.second.y;
+      return coord1.second.y<coord2.second.y;
   }
 
 }
