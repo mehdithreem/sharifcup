@@ -8,11 +8,11 @@
 
 #include <iostream>
 #include <vector>
-#include "./Core/MovingObj.h"
-#include "./Vision/Vision.h"
-#include "./Pathfinding/ShortestPath.h"
-#include "./Utility/Graph.h"
-#include "./Utility/geometry.h"
+#include "./Include/MovingObj.h"
+#include "./Include/Vision.h"
+#include "./Include/ShortestPath.h"
+#include "./Include/Graph.h"
+#include "./Include/geometry.h"
 
 using namespace std;
 

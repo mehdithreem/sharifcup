@@ -1,5 +1,5 @@
-#include "ShortestPath.h"
-#include "../Utility/Graph.h"
+#include "../Include/ShortestPath.h"
+#include "../Include/Graph.h"
 #include <set>
 #include <vector>
 #include <limits>

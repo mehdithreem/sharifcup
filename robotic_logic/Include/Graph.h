@@ -3,7 +3,7 @@
 
 #include <vector>
 #include "geometry.h"
-#include "../Core/MovingObj.h"
+#include "../Include/MovingObj.h"
 
 class Graph{
 	public:

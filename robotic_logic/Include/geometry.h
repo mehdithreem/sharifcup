@@ -13,6 +13,7 @@
 #include <limits>
 #include <algorithm>
 #include <vector>
+#include <iostream>
 using namespace std;
 
 namespace geometry{
@@ -28,7 +29,8 @@ namespace geometry{
 		Vector operator -()const;
 		void operator=(const Vector& v);
 		double size()const;
-	};
+  };
+  std::ostream& operator<<(std::ostream& out, const Vector& v);
 
 	Vector cart2polar (Vector cart);
 	bool polarComparator(const pair < Vector , Vector >& coord1 , const pair < Vector , Vector >& coord2);

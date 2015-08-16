@@ -1,4 +1,4 @@
-#include "Graph.h"
+#include "../Include/Graph.h"
 
 Graph::Graph() :_size(0) {}
 
@@ -49,11 +49,11 @@ void Graph::addSingleNode(geometry::Vector newNode) {
 }
 
 
-void Grpah::printNodes()
+void Graph::printNodes()
 {
 	cout << "Nodes: ";
 	for (int i=0; i < nodes.size(); i++) {
-		cout << i << v << " ";
+		cout << i << nodes[i] << " ";
 	}
 	cout << endl;
 
@@ -72,7 +72,7 @@ void Graph::printMatrix()
 
 	for(int i=0; i < matrix.size(); i++) {
 		cout << i << '\t';
-		for(int j=0; j < matrix[i]; j++)
+		for(int j=0; j < matrix[i].size(); j++)
 			cout << j << '\t';
 		cout << endl;
 	}

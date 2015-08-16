@@ -7,7 +7,7 @@
 //
 
 #include <iostream>
-#include "MovingObj.h"
+#include "../Include/MovingObj.h"
 
 using namespace std;
 using namespace geometry;
@@ -39,6 +39,6 @@ void MovingObj::print()
 	cout << "V:" << velocity << " C:" << COM << endl;
 	cout << "Pts: ";
 	for (geometry::Vector coordinate : coords)
-		cout << coords << " ";
+		cout << coordinate << " ";
 	cout << endl;
 }

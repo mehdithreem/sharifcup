@@ -1,4 +1,4 @@
-#include "geometry.h"
+#include "../Include/geometry.h"
 
 using namespace geometry;
 
@@ -41,7 +41,7 @@ namespace geometry{
 	void Vector:: operator=(const Vector& v){
 		x=v.x; y=v.y;
 	}
-
+ 
 	double Vector:: size()const{
 			return sqrt(x*x + y*y);
 	}
@@ -76,10 +76,16 @@ namespace geometry{
 
 
 	bool polarComparator(const pair < Vector , Vector >& coord1 , const pair < Vector , Vector >& coord2) { 
-    if(coord1.second.x>coord2.second.x)
+    if(coord1.second.y>coord2.second.y)
       return true;
     else 
-      return coord1.second.y>coord2.second.y;
+      return coord1.second.x>coord2.second.x;
   }
 
+}
+
+namespace geometry{
+   std::ostream& operator<<(std::ostream& out, const Vector& v){
+    return out<<"("<<v.x<<" , "<<v.y<<")";
+  }
 }

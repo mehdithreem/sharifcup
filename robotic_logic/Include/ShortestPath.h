@@ -2,9 +2,9 @@
 #define robotic_logic_ShortestPath_h
 #include <vector>
 #include <utility>
-#include "../Core/MovingObj.h"
-#include "../Utility/geometry.h"
-#include "../Utility/Graph.h"
+#include "../Include/MovingObj.h"
+#include "../Include/geometry.h"
+#include "../Include/Graph.h"
 
 vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector goal, vector<MovingObj>& obstacles , MovingObj& rival);
 
