@@ -26,9 +26,9 @@ void Graph::addComponent (vector<MovingObj>& obstacles){
 	_size = penalty;
 	matrix.resize(_size);
 	for(int i=0 ; i<matrix.size() ; i++){
-		matrix[i].resize(_size,-1);
+		matrix[i].resize(_size,0);
 		for(int j=0 ; j<matrix[i].size() ; j++)
-			if(matrix[i][j]==-1)
+			if(matrix[i][j]==0 && find(list[i].begin(), list[i].end(), j) != list[i].end())
 				matrix[i][j] = (nodes[i] - nodes[j]).size();
 	}
 
@@ -46,6 +46,8 @@ void Graph::addSingleNode(geometry::Vector newNode) {
   
 	nodes.push_back(newNode);
 	matrix.resize(nodes.size() , vector<double>(nodes.size(),0));
+
+	_size += 1;
 }
 
 
@@ -73,7 +75,7 @@ void Graph::printMatrix()
 	for(int i=0; i < matrix.size(); i++) {
 		cout << i << '\t';
 		for(int j=0; j < matrix[i].size(); j++)
-			cout << j << '\t';
+			cout << (int) matrix[i][j] << '\t';
 		cout << endl;
 	}
 
@@ -92,7 +94,7 @@ void Graph::printList() {
 
 void Graph::print()
 {
-	cout << "size: " << _size << "or" << size() << endl;
+	cout << "size: " << _size << " or " << size() << endl;
 
 	printNodes();
 	cout << endl;

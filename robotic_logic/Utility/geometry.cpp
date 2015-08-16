@@ -80,7 +80,7 @@ namespace geometry{
     for(int i=0 ; i<coords.size() ; i++){
       pair<geometry::Vector,geometry::Vector> t = make_pair(coords[i]-center , cart2polar(coords[i]-center));
       coordsTemp.push_back(t);
-      cout << t.first << "+" << t.second << endl;
+      //cout << t.first << "+" << t.second << endl;
     }
     sort(coordsTemp.begin() , coordsTemp.end() , polarComparator);
     coords.clear();

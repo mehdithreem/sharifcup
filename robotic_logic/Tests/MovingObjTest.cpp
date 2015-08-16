@@ -23,7 +23,7 @@ void testUpdate() {
 
 	testObj.print();
 
-	//sort by wrong order
+	//sort by correct order
 }
 
 int main() {
