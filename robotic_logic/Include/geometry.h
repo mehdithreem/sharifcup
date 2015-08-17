@@ -35,6 +35,7 @@ namespace geometry{
 	Vector cart2polar (Vector cart);
 	bool polarComparator(const pair < Vector , Vector >& coord1 , const pair < Vector , Vector >& coord2);
 	void sortCoordsByPolar(std::vector< geometry::Vector >& coords ,geometry::Vector center);
+  bool IsIntersect(Vector a , Vector b ,Vector c ,Vector d);
 };
 
 

@@ -8,7 +8,8 @@
 
 vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector goal, vector<MovingObj>& obstacles , MovingObj& rival);
 
-void VisibiltyGraph(Graph& graph); //has not been coded
+void VisibiltyGraph(Graph& graph);
+vector <int>  VisibileVertices(int i,Graph& garph);
 vector<int> AStar(int start , int goal ,Graph& G);
 
 #endif

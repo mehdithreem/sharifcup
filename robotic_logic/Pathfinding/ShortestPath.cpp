@@ -124,4 +124,26 @@ vector<int> constructPath(std::vector<int>& parent, int goal, int start)
 	return path;
 }
 
-void VisibiltyGraph(Graph& graph) { return; }
+void VisibiltyGraph(Graph& graph) {
+  for (int i=0 ; i<graph.size() ; i++){  
+    vector <int> w = VisibileVertices(i,graph);
+    for (int j=0 ; i<w.size() ; j++)
+      graph.addEdge(i,w[j]);
+  }
+  return;
+}
+
+vector <int>  VisibileVertices(int v,Graph& graph){
+  vector <int> res;
+  for(int i=0 ; i<graph.size() ; i++)
+    if(i!=v){
+      bool intersect = false;
+      for(int j=0 ; j<graph.size() && !intersect ; j++)
+        for(int k=0 ; k<graph.list[j].size() && !intersect ; k++)
+          if(graph.list[j][k]<0 && geometry::IsIntersect(graph.nodes[v] , graph.nodes[i] , graph.nodes[j] ,graph.nodes[k])==true )
+            intersect = true;
+      if(!intersect)
+        res.push_back(i);
+    }
+  return res;
+}

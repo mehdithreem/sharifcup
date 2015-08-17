@@ -2,6 +2,18 @@
 
 Graph::Graph() :_size(0) {}
 
+void Graph::addEdge(int v ,int u){
+  if(matrix[v][u]==0){
+    list[v].push_back(u);
+    list[u].push_back(v);
+  
+    matrix[u][v] = (nodes[u]-nodes[v]).size();
+    matrix[v][u] = matrix[u][v];
+  }
+  return;
+}
+
+
 void Graph::addComponent (vector<MovingObj>& obstacles){
 	int penalty = _size;
 
@@ -31,7 +43,7 @@ void Graph::addComponent (vector<MovingObj>& obstacles){
 			if(matrix[i][j]==0 && find(list[i].begin(), list[i].end(), j) != list[i].end())
 				matrix[i][j] = (nodes[i] - nodes[j]).size();
 	}
-
+  return;
 }
 
 int Graph::size() { return list.size(); }
@@ -48,6 +60,7 @@ void Graph::addSingleNode(geometry::Vector newNode) {
 	matrix.resize(nodes.size() , vector<double>(nodes.size(),0));
 
 	_size += 1;
+  return;
 }
 
 
@@ -94,7 +107,7 @@ void Graph::printList() {
 
 void Graph::print()
 {
-	cout << "size: " << _size << " or " << size() << endl;
+	cout << "size: " << _size << " and " << size() << endl;
 
 	printNodes();
 	cout << endl;

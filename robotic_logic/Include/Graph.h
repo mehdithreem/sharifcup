@@ -17,6 +17,7 @@ class Graph{
 
 		void addComponent(vector<MovingObj>& obstacles);
 		void addSingleNode(geometry::Vector newNode);
+    void addEdge(int v ,int u);
 		int size();
 
 		void printNodes();

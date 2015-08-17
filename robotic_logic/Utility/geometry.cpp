@@ -104,3 +104,14 @@ namespace geometry{
     return out<<"("<<v.x<<" , "<<v.y<<")";
   }
 }
+
+namespace geometry{
+  bool IsIntersect(Vector a , Vector b ,Vector c ,Vector d){
+    double m1,m2,c1,c2;
+    m1 = (a.y-b.y)/(a.x-b.x);
+    m2 = (c.y-d.y)/(c.x-d.x);
+    c1 = a.y-m1*a.x;
+    c2 = c.y-m2*c.x;
+    return !(((m1*c.x+c1-c.y)*(m1*d.x+c1-d.y)>=0)|((m2*a.x+c2-a.y)*(m2*b.x+c2-b.y)>=0));
+  }
+}
