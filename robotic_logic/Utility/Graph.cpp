@@ -1,3 +1,5 @@
+#include "Python.h"
+#include <sstream>
 #include "../Include/Graph.h"
 
 Graph::Graph() :_size(0) {}
@@ -41,7 +43,7 @@ void Graph::addComponent (vector<MovingObj>& obstacles){
 		matrix[i].resize(_size,0);
 		for(int j=0 ; j<matrix[i].size() ; j++)
 			if(matrix[i][j]==0 && find(list[i].begin(), list[i].end(), j) != list[i].end())
-				matrix[i][j] = (nodes[i] - nodes[j]).size();
+				matrix[i][j] = -(nodes[i] - nodes[j]).size();
 	}
   return;
 }
@@ -114,6 +116,48 @@ void Graph::print()
 	printMatrix();
 	cout << endl;
 	printList();
+
+	return;
+}
+
+void Graph::visualize(int argc, char *argv[])
+{
+	ostringstream out;
+
+	for(int i = 0; i < matrix.size(); i++) {
+		for (int j = i; j < matrix[i].size(); j++) {
+			// cout << i << "," << j << endl;
+			if (matrix[i][j] != 0) {
+				if (matrix[i][j] < 0) out << "C ";
+				else if (matrix[i][j] > 0) out << "L ";
+
+				out << nodes[i].x << "," << nodes[i].y << " " << nodes[j].x << "," << nodes[j].y << endl;
+			}
+		}
+	}
+
+	Py_Initialize();
+	PySys_SetArgv(argc,argv);
+
+	cout << out.str();
+
+	PyObject * cppInString = PyString_FromString(out.str().c_str());
+
+	PyObject * module = PyImport_AddModule("__main__");
+	PyObject * dictionary = PyModule_GetDict(module);
+
+	PyDict_SetItemString(dictionary, "inString", cppInString);
+	Py_DECREF(cppInString);
+
+	FILE* PythonScriptFile;
+	PythonScriptFile = fopen("../Utility/visualizer.py", "r");
+	
+	if (PythonScriptFile) {
+		PyRun_SimpleFile(PythonScriptFile, "../Utility/visualizer.py");
+		fclose(PythonScriptFile);
+	}
+
+	Py_Finalize();
 
 	return;
 }

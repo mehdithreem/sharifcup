@@ -85,7 +85,7 @@ namespace geometry{
     coords.clear();
     for(int i=0 ; i<coordsTemp.size() ; i++){
       coords.push_back(coordsTemp[i].first+center);
-      cout << coordsTemp[i].first+center << " + " << coordsTemp[i].second << endl;
+      // cout << coordsTemp[i].first+center << " + " << coordsTemp[i].second << endl;
     }
   }
 

@@ -24,6 +24,8 @@ class Graph{
 		void printMatrix();
 		void printList();
 		void print();
+
+		void visualize(int argc, char *argv[]);
 };
 
 #endif
