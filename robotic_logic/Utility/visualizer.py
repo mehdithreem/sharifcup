@@ -48,8 +48,6 @@ for line in inString:
 		line[i] = [int(float(point[0]))*constant, int(float(point[1]))*constant]
 		pygame.draw.circle(screen, color, line[i], 3)
 
-	print "LL", line
-	
 	if mode is 'C':
 		pygame.draw.lines(screen ,color ,True ,line)
 	elif mode is 'O':

@@ -85,7 +85,7 @@ void graphTest(int argc, char *argv[])
 	}
 
 	testG.addComponent(obstacles);
-	testG.print();
+	// testG.print();
 
 	// cerr << "befor first visualiztion" << endl;
 
