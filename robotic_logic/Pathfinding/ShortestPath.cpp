@@ -35,6 +35,7 @@ vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector g
 
 	VisibiltyGraph(G);
 
+
 	std::vector<geometry::Vector> path;
 
 	try {
@@ -126,10 +127,10 @@ void VisibiltyGraph(Graph& graph) {
   for (int i=0 ; i<graph.size() ; i++){  
     vector <int> w = VisibileVertices(i,graph);
 
-    cout << w.size() << endl;
-    for (int i = 0; i < w.size(); i++)
-    	cout << w[i] << ", ";
-    cout << endl;
+    //cout << w.size() << endl;
+    //for (int i = 0; i < w.size(); i++)
+    //	cout << w[i] << ", ";
+    //cout << endl;
 
     for (int j=0 ; j<w.size() ; j++)
       graph.addEdge(i,w[j]);
@@ -139,24 +140,17 @@ void VisibiltyGraph(Graph& graph) {
 
 vector <int>  VisibileVertices(int v,Graph& graph){
 	vector <int> res;
-	cout << "6" << endl;
 	for(int i = 0; i<graph.size() ; i++) {
-		if(i != v){
+		if(graph.obNum[i+1] != graph.obNum[v+1]){
 			bool intersect = false;
-
-			// cout << "looped for start" << endl;
-			
 			for(int j=0 ; j<graph.size() && !intersect ; j++) {
 				for(int k=0 ; k<graph.list[j].size() && !intersect ; k++) {
-					// cout << "before intersect" << endl;
 					if(graph.list[j][k] <= 0) {
 						cout << v << "," << i << " there is edge: " << j << "," << -graph.list[j][k] << endl;
 						intersect = geometry::IsIntersect(graph.nodes[v] , graph.nodes[i] , graph.nodes[j] ,graph.nodes[-graph.list[j][k]]);
 					}
-					// cout << "after intersect" << endl;
 				}
 			}
-			
 			cout<<"for end"<<endl;	
 			
 			if(!intersect) {
@@ -164,8 +158,6 @@ vector <int>  VisibileVertices(int v,Graph& graph){
 				res.push_back(i);
 			}
 		}
-		// cout << "for end" << endl;
 	}
-	// cout << "berfore return" << endl;
 	return res;
 }

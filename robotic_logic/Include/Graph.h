@@ -12,7 +12,8 @@ class Graph{
 
 		vector< geometry::Vector > nodes;
 
-		vector< MovingObj* > obstacles;
+		//vector< MovingObj* > obstacles;
+    vector< int > obNum;
 		
 		int _size;
 		Graph();

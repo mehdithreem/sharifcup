@@ -84,7 +84,42 @@ void graphTest(int argc, char *argv[])
 		obstacles[4].update(v, vertices);
 	}
 
-	testG.addComponent(obstacles);
+  obstacles.push_back(MovingObj());
+
+	{	geometry::Vector v(10,10);
+		std::vector<geometry::Vector> vertices;
+
+		vertices.push_back(geometry::Vector(240,200));
+	  vertices.push_back(geometry::Vector(280,240));
+		vertices.push_back(geometry::Vector(240,280));
+    vertices.push_back(geometry::Vector(200,240));
+    vertices.push_back(geometry::Vector(210,210));
+    vertices.push_back(geometry::Vector(270,210));
+    vertices.push_back(geometry::Vector(270,270));
+    vertices.push_back(geometry::Vector(210,270));
+
+    obstacles[5].update(v, vertices);
+	}
+  
+  obstacles.push_back(MovingObj());
+
+	{	geometry::Vector v(10,10);
+		std::vector<geometry::Vector> vertices;
+
+		vertices.push_back(geometry::Vector(140,200));
+	  vertices.push_back(geometry::Vector(180,240));
+		vertices.push_back(geometry::Vector(140,280));
+    vertices.push_back(geometry::Vector(100,240));
+    vertices.push_back(geometry::Vector(150,230));
+    vertices.push_back(geometry::Vector(150,250));
+    vertices.push_back(geometry::Vector(130,230));
+    vertices.push_back(geometry::Vector(130,250));
+
+    obstacles[6].update(v, vertices);
+	}
+
+
+  testG.addComponent(obstacles);
 	testG.print();
 
 	// cerr << "befor first visualiztion" << endl;

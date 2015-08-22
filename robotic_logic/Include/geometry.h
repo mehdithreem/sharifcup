@@ -28,6 +28,7 @@ namespace geometry{
 		Vector operator -(const Vector& v)const;
 		Vector operator -()const;
 		void operator=(const Vector& v);
+    bool operator ==(const Vector& v1);
 		double size()const;
   };
   std::ostream& operator<<(std::ostream& out, const Vector& v);
@@ -36,6 +37,7 @@ namespace geometry{
 	bool polarComparator(const pair < Vector , Vector >& coord1 , const pair < Vector , Vector >& coord2);
 	void sortCoordsByPolar(std::vector< geometry::Vector >& coords ,geometry::Vector center);
   bool IsIntersect(Vector a , Vector b ,Vector c ,Vector d);
+  int sign(double x);
 };
 
 
