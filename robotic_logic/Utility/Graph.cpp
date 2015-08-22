@@ -140,12 +140,14 @@ void Graph::print()
 	return;
 }
 
-void Graph::visualize(int argc, char *argv[])
+void Graph::visualize(int argc, char *argv[], std::vector<int> path)
 {
 	ostringstream out;
 
+	// create by matrix
 	for(int i = 0; i < matrix.size(); i++) {
 		for (int j = i; j < matrix[i].size(); j++) {
+			// cout << i << "," << j << endl;
 			if (matrix[i][j] != 0) {
 				if (matrix[i][j] < 0) out << "C ";
 				else if (matrix[i][j] > 0) out << "L ";
@@ -154,9 +156,24 @@ void Graph::visualize(int argc, char *argv[])
 			}
 		}
 	}
+
+	// create by list
+	// for(int i = 0; i < list.size(); i++) {
+	// 	for (int j = 0; j < list[i].size(); j++) {
+	// 		out << "L " << nodes[i].x << "," << nodes[i].y << " " << nodes[-list[i][j]].x << "," << nodes[-list[i][j]].y << endl;
+	// 	}
+	// }
+
+	// draw path
+	for (int i = 1; i < path.size(); i++) {
+		out << "P " << nodes[path[i]].x << "," << nodes[path[i]].y;
+		out << " " << nodes[path[i-1]].x << "," << nodes[path[i-1]].y << endl;
+	}
+
 	Py_Initialize();
 	PySys_SetArgv(argc,argv);
 
+	// cout << out.str();
 
 	PyObject * cppInString = PyString_FromString(out.str().c_str());
 

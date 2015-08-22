@@ -53,18 +53,22 @@ vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector g
 
 vector<int> AStar(int start , int goal ,Graph& G)
 {
-	std::set<int> closedSet;
+	// std::set<int> closedSet;
 	std::vector<int> openSet;
 
 	std::vector<double> gScore(G.size(), std::numeric_limits<double>::max());
 	std::vector<double> fScore(G.size(), std::numeric_limits<double>::max());
 	std::vector<int> parent(G.size());
+	std::vector<bool> closed(G.size(), false);
+	std::vector<bool> opened(G.size(), false);
 
 	gScore[start] = 0;
 	fScore[start] = gScore[start] + heuristic(start, goal, G);
 
 	openSet.push_back(start);
 	std::make_heap(openSet.begin(), openSet.end(), openSetGreater(&fScore));
+
+	// cerr << "flag1" << endl;
 
 	while (openSet.size() > 0) {
 		std::pop_heap(openSet.begin(),openSet.end(), openSetGreater(&fScore));
@@ -74,25 +78,32 @@ vector<int> AStar(int start , int goal ,Graph& G)
 			return constructPath(parent, goal, start);
 
 		openSet.pop_back();
-		closedSet.insert(curr);
+		closed[curr] = true;
+		// closedSet.insert(curr);
 
 		for (int i = 0; i < G.list[curr].size(); i++) {
-			int neighbor = G.list[curr][i];
+			int neighbor = abs(G.list[curr][i]);
 
-			if (closedSet.find(neighbor) != closedSet.end())
+			// if (closedSet.find(neighbor) != closedSet.end())
+			// 	continue;
+
+			if (closed[neighbor])
 				continue;
 
-			double tempGScore = gScore[curr] + G.matrix[curr][neighbor];
+			double tempGScore = gScore[curr] + abs(G.matrix[curr][neighbor]);
 
-			if (find(openSet.begin(), openSet.end(), neighbor) == openSet.end()
-				|| tempGScore < gScore[neighbor]) {
+			// if (find(openSet.begin(), openSet.end(), neighbor) == openSet.end()
+			// 	|| tempGScore < gScore[neighbor]) {
+			if (!opened[neighbor] || tempGScore < gScore[neighbor]) {
 				parent[neighbor] = curr;
 				gScore[neighbor] = tempGScore;
 				fScore[neighbor] = gScore[neighbor] + heuristic(curr, neighbor, G);
 
-				if (find(openSet.begin(), openSet.end(), neighbor) == openSet.end()) {
+				// if (find(openSet.begin(), openSet.end(), neighbor) == openSet.end()) {
+				if (!opened[neighbor]) {
 					openSet.push_back(neighbor);
 					std::push_heap (openSet.begin(),openSet.end(),openSetGreater(&fScore));
+					opened[neighbor] = true;
 				}
 			}
 		}
