@@ -154,10 +154,41 @@ vector <int>  VisibileVertices(int v,Graph& graph){
 			cout<<"for end"<<endl;	
 			
 			if(!intersect) {
-				cout << v << " added " << i << endl;
 				res.push_back(i);
 			}
 		}
+    else{
+      int sp = i+1 , ep = i+1 , obstaclesNum = graph.obNum[i+1];
+      bool intersect = false;
+      int orient=0;
+      while(graph.obNum[sp]==obstaclesNum)
+        sp--;
+      while(graph.obNum[ep]==obstaclesNum)
+        ep++;
+     // for(int q=0 ; q<graph.obNum.size() ; q++)
+     //   cout<<"@@@@"<<q<<" :"<<graph.obNum[q]<<endl;
+     // cout<<sp<<" , "<<ep<<endl;
+     // cout<<"#####"<<endl;
+     // cout<<obstaclesNum<<endl;
+     // cout<<graph.obNum[sp-1]<<endl;
+     // cout<<graph.obNum[sp]<<endl;
+     // cout<<graph.obNum[sp+2]<<endl;
+     // cout<<graph.obNum[ep-1]<<endl;
+     // cout<<graph.obNum[ep]<<endl;
+     // cout<<graph.obNum[ep+1]<<endl;
+     // cout<<"#####"<<endl;
+      for(int j=sp+1 ; j<ep && !intersect ; j++){
+        int o = geometry::sign((graph.nodes[v].x-graph.nodes[i].x)*(graph.nodes[j-1].y-graph.nodes[v].y)-(graph.nodes[v].y-graph.nodes[i].y)*(graph.nodes[j-1].x-graph.nodes[v].x));
+        if(orient==0 && o!=0)
+          orient=o;
+        else
+          if(o!=0 && o!=orient)
+            intersect = true;
+      }
+      if(!intersect) {
+				res.push_back(i);
+			}
+    }
 	}
 	return res;
 }
