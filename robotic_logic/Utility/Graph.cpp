@@ -8,11 +8,9 @@ Graph::Graph() :_size(0) {
 }
 
 void Graph::addEdge(int v ,int u){
-	v = abs(v);
-	u = abs(u);
-
 	cout << "edge: "<< u << "," << v << endl;
-
+  v = abs(v);
+	u = abs(u);
 	if(matrix[v][u]==0){
 		list[v].push_back(u);
 		list[u].push_back(v);
@@ -77,8 +75,7 @@ void Graph::addSingleNode(geometry::Vector newNode) {
 	list.push_back(dummy);
   
 	for(int i=0 ; i<matrix.size() ; i++)
-		for(int j=0 ; j<matrix[i].size() ; j++)
-    	matrix[i].push_back(0);
+    matrix[i].push_back(0);
   
 	nodes.push_back(newNode);
 	matrix.resize(nodes.size() , vector<double>(nodes.size(),0));
@@ -149,7 +146,6 @@ void Graph::visualize(int argc, char *argv[])
 
 	for(int i = 0; i < matrix.size(); i++) {
 		for (int j = i; j < matrix[i].size(); j++) {
-			// cout << i << "," << j << endl;
 			if (matrix[i][j] != 0) {
 				if (matrix[i][j] < 0) out << "C ";
 				else if (matrix[i][j] > 0) out << "L ";
@@ -158,17 +154,9 @@ void Graph::visualize(int argc, char *argv[])
 			}
 		}
 	}
-
-	// for(int i = 0; i < list.size(); i++) {
-	// 	for (int j = 0; j < list[i].size(); j++) {
-	// 		out << "L " << nodes[i].x << "," << nodes[i].y << " " << nodes[-list[i][j]].x << "," << nodes[-list[i][j]].y << endl;
-	// 	}
-	// }
-
 	Py_Initialize();
 	PySys_SetArgv(argc,argv);
 
-	// cout << out.str();
 
 	PyObject * cppInString = PyString_FromString(out.str().c_str());
 

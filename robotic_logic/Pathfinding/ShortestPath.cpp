@@ -127,11 +127,6 @@ void VisibiltyGraph(Graph& graph) {
   for (int i=0 ; i<graph.size() ; i++){  
     vector <int> w = VisibileVertices(i,graph);
 
-    //cout << w.size() << endl;
-    //for (int i = 0; i < w.size(); i++)
-    //	cout << w[i] << ", ";
-    //cout << endl;
-
     for (int j=0 ; j<w.size() ; j++)
       graph.addEdge(i,w[j]);
   }
@@ -145,14 +140,11 @@ vector <int>  VisibileVertices(int v,Graph& graph){
 			bool intersect = false;
 			for(int j=0 ; j<graph.size() && !intersect ; j++) {
 				for(int k=0 ; k<graph.list[j].size() && !intersect ; k++) {
-					if(graph.list[j][k] <= 0) {
-						cout << v << "," << i << " there is edge: " << j << "," << -graph.list[j][k] << endl;
+					if(graph.list[j][k] < 0) {
 						intersect = geometry::IsIntersect(graph.nodes[v] , graph.nodes[i] , graph.nodes[j] ,graph.nodes[-graph.list[j][k]]);
 					}
 				}
 			}
-			cout<<"for end"<<endl;	
-			
 			if(!intersect) {
 				res.push_back(i);
 			}
@@ -165,18 +157,6 @@ vector <int>  VisibileVertices(int v,Graph& graph){
         sp--;
       while(graph.obNum[ep]==obstaclesNum)
         ep++;
-     // for(int q=0 ; q<graph.obNum.size() ; q++)
-     //   cout<<"@@@@"<<q<<" :"<<graph.obNum[q]<<endl;
-     // cout<<sp<<" , "<<ep<<endl;
-     // cout<<"#####"<<endl;
-     // cout<<obstaclesNum<<endl;
-     // cout<<graph.obNum[sp-1]<<endl;
-     // cout<<graph.obNum[sp]<<endl;
-     // cout<<graph.obNum[sp+2]<<endl;
-     // cout<<graph.obNum[ep-1]<<endl;
-     // cout<<graph.obNum[ep]<<endl;
-     // cout<<graph.obNum[ep+1]<<endl;
-     // cout<<"#####"<<endl;
       for(int j=sp+1 ; j<ep && !intersect ; j++){
         int o = geometry::sign((graph.nodes[v].x-graph.nodes[i].x)*(graph.nodes[j-1].y-graph.nodes[v].y)-(graph.nodes[v].y-graph.nodes[i].y)*(graph.nodes[j-1].x-graph.nodes[v].x));
         if(orient==0 && o!=0)

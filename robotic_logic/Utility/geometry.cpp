@@ -124,9 +124,9 @@ namespace geometry{
     t2 = sign((a.x-b.x)*(d.y-a.y)-(a.y-b.y)*(d.x-a.x));
 
     if((s1&s2&t1&t2)==0){
-      if(t1==t2)
+      if(t1==t2 || s1==s2)
         return false;
-      if(a==c || a==d || b==c || b==d)
+      if(a==c || a==d || b==c || b==d || c==d)
         return false;
       return true;
     }
