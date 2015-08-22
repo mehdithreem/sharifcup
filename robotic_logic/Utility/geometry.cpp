@@ -123,8 +123,13 @@ namespace geometry{
     t1 = sign((a.x-b.x)*(c.y-a.y)-(a.y-b.y)*(c.x-a.x));
     t2 = sign((a.x-b.x)*(d.y-a.y)-(a.y-b.y)*(d.x-a.x));
 
-    if((s1&s2&t1&t2)==0)
-      return false;
+    if((s1&s2&t1&t2)==0){
+      if(t1==t2)
+        return false;
+      if(a==c || a==d || b==c || b==d)
+        return false;
+      return true;
+    }
  
     if (s1 != s2 && t1 != t2)
       return true;
