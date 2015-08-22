@@ -1,10 +1,16 @@
 #include "Python.h"
 #include <sstream>
+#include <cmath>
 #include "../Include/Graph.h"
 
 Graph::Graph() :_size(0) {}
 
 void Graph::addEdge(int v ,int u){
+	v = abs(v);
+	u = abs(u);
+
+	cout << "edge: "<< u << "," << v << endl;
+
 	if(matrix[v][u]==0){
 		list[v].push_back(u);
 		list[u].push_back(v);

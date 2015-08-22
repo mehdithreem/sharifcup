@@ -85,15 +85,15 @@ void graphTest(int argc, char *argv[])
 	}
 
 	testG.addComponent(obstacles);
-	// testG.print();
+	testG.print();
 
 	// cerr << "befor first visualiztion" << endl;
 
-	testG.visualize(argc, argv);
-
-	// VisibiltyGraph(testG);
-
 	// testG.visualize(argc, argv);
+
+	VisibiltyGraph(testG);
+
+	testG.visualize(argc, argv);
 
 	return;
 }

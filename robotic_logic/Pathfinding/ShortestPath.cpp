@@ -24,7 +24,6 @@ struct openSetGreater{
 };
 
 vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector goal, vector<MovingObj>& obstacles , MovingObj& rival ) {
-	
 	Graph G;
 
 	G.addSingleNode(start);
@@ -43,7 +42,6 @@ vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector g
 
 		for (int i = pathIndex.size() - 1; i >= 0 ; i--)
 			path.push_back(G.nodes[pathIndex[i]]);
-
 	} catch (...) {
 		// no path found!!
 		// use a random direction to pathfind again
@@ -127,23 +125,47 @@ vector<int> constructPath(std::vector<int>& parent, int goal, int start)
 void VisibiltyGraph(Graph& graph) {
   for (int i=0 ; i<graph.size() ; i++){  
     vector <int> w = VisibileVertices(i,graph);
-    for (int j=0 ; i<w.size() ; j++)
+
+    cout << w.size() << endl;
+    for (int i = 0; i < w.size(); i++)
+    	cout << w[i] << ", ";
+    cout << endl;
+
+    for (int j=0 ; j<w.size() ; j++)
       graph.addEdge(i,w[j]);
   }
   return;
 }
 
 vector <int>  VisibileVertices(int v,Graph& graph){
-  vector <int> res;
-  for(int i=0 ; i<graph.size() ; i++)
-    if(i!=v){
-      bool intersect = false;
-      for(int j=0 ; j<graph.size() && !intersect ; j++)
-        for(int k=0 ; k<graph.list[j].size() && !intersect ; k++)
-          if(graph.list[j][k]<0 && geometry::IsIntersect(graph.nodes[v] , graph.nodes[i] , graph.nodes[j] ,graph.nodes[k])==true )
-            intersect = true;
-      if(!intersect)
-        res.push_back(i);
-    }
-  return res;
+	vector <int> res;
+	cout << "6" << endl;
+	for(int i = 0; i<graph.size() ; i++) {
+		if(i != v){
+			bool intersect = false;
+
+			// cout << "looped for start" << endl;
+			
+			for(int j=0 ; j<graph.size() && !intersect ; j++) {
+				for(int k=0 ; k<graph.list[j].size() && !intersect ; k++) {
+					// cout << "before intersect" << endl;
+					if(graph.list[j][k] <= 0) {
+						cout << v << "," << i << " there is edge: " << j << "," << -graph.list[j][k] << endl;
+						intersect = geometry::IsIntersect(graph.nodes[v] , graph.nodes[i] , graph.nodes[j] ,graph.nodes[-graph.list[j][k]]);
+					}
+					// cout << "after intersect" << endl;
+				}
+			}
+			
+			cout<<"for end"<<endl;	
+			
+			if(!intersect) {
+				cout << v << " added " << i << endl;
+				res.push_back(i);
+			}
+		}
+		// cout << "for end" << endl;
+	}
+	// cout << "berfore return" << endl;
+	return res;
 }

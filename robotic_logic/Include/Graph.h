@@ -11,12 +11,15 @@ class Graph{
 		vector< vector<int> > list;
 
 		vector< geometry::Vector > nodes;
+
+		vector< MovingObj* > obstacles;
 		
 		int _size;
 		Graph();
 
 		void addComponent(vector<MovingObj>& obstacles);
 		void addSingleNode(geometry::Vector newNode);
+		
     void addEdge(int v ,int u);
 		int size();
 
