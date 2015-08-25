@@ -3,4 +3,4 @@ To run GraphTest, you shoulde have this features installed:
 	- PyGame
 
 Use this command to compile and run GraphTest.cpp:
-g++ -std=c++11  -I/usr/include/python2.7/ GraphTest.cpp ../Utility/Graph.cpp ../Pathfinding/ShortestPath.cpp ../Utility/geometry.cpp ../Core/MovingObj.cpp -lpython2.7
+g++ -std=c++11  -I/usr/include/python2.7/ GraphTest.cpp ../Utility/Graph.cpp ../Pathfinding/ShortestPath.cpp ../Utility/geometry.cpp ../Core/MovingObj.cpp ../Utility/clipper.cpp -lpython2.7

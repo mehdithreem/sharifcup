@@ -2,7 +2,6 @@
 #include "../Include/Graph.h"
 #include "../Include/geometry.h"
 #include "../Include/ShortestPath.h"
-// #include "/usr/local/include/polyclipping/clipper.hpp"
 #include "../Include/clipper.h"
 
 void graphTest(int argc, char *argv[])
@@ -13,7 +12,7 @@ void graphTest(int argc, char *argv[])
 
 	MovingObj agent;
 	{
-		geometry::Vector v(5,3.5);
+		geometry::Vector v(0,0);
 		std::vector<geometry::Vector> vertices;
 
 		vertices.push_back(geometry::Vector(100,100));
