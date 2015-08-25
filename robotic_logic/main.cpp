@@ -32,6 +32,9 @@ int main(){
 			geometry::Vector goal(0,0);
 					
 			//Minkowski sum of −R,
+			
+
+			// union obstacles
 
 			obstacles.push_back(rival);
 			vector<geometry::Vector> path = ShortestPath(agent.COM,goal,obstacles, rival);

@@ -11,5 +11,5 @@ vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector g
 void VisibiltyGraph(Graph& graph);
 vector <int>  VisibileVertices(int i,Graph& garph);
 vector<int> AStar(int start , int goal ,Graph& G);
-
+std::vector<MovingObj> MinkowskiAll(const MovingObj& agent, MovingObj& rival, const std::vector<MovingObj>& obstacles);
 #endif

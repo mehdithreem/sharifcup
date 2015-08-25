@@ -8,7 +8,7 @@ Graph::Graph() :_size(0) {
 }
 
 void Graph::addEdge(int v ,int u){
-	cout << "edge: "<< u << "," << v << endl;
+	// cout << "edge: "<< u << "," << v << endl;
   v = abs(v);
 	u = abs(u);
 	if(matrix[v][u]==0){

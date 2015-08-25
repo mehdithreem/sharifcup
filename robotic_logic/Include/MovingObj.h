@@ -12,6 +12,7 @@
 #include <vector>
 #include <utility>
 #include "../Include/geometry.h"
+#include "../Include/clipper.h"
 
 using namespace std;
 

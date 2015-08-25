@@ -35,7 +35,6 @@ vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector g
 
 	VisibiltyGraph(G);
 
-
 	std::vector<geometry::Vector> path;
 
 	try {
@@ -183,3 +182,27 @@ vector <int>  VisibileVertices(int v,Graph& graph){
 	}
 	return res;
 }
+
+std::vector<MovingObj> MinkowskiAll(const MovingObj& agent, MovingObj& rival, const std::vector<MovingObj>& obstacles) {
+	ClipperLib::Path pattern;
+	std::vector<ClipperLib::Paths> obstaclesPaths;
+
+	for (geometry::Vector coordinate: agent.coords) {
+		pattern << ClipperLib::IntPoint((agent.COM.x - coordinate.x)*10 ,(agent.COM.y - coordinate.y)*10);
+	}
+
+	for (MovingObj obj: obstacles) {
+		ClipperLib::Paths tmpPath(1);
+
+		for (geometry::Vector coordinate: obj.coords) {
+			tmpPath[0] << ClipperLib::IntPoint(coordinate.x * 10 ,coordinate.y * 10);
+		}
+
+		obstaclesPaths.push_back(tmpPath);
+
+		ClipperLib::MinkowskiSum(pattern, tmpPath, obstaclesPaths[obstaclesPaths.size()-1], true);
+	}
+
+	
+}
+
