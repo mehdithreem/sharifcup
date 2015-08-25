@@ -8,6 +8,8 @@
 vector<int> constructPath(std::vector<int>& parent, int goal, int start);
 int heuristic(int start, int goal, Graph& G);
 
+void PolyTree2MovingObj(std::vector<MovingObj>& obstacles, ClipperLib::PolyNode* currNode);
+
 
 // Comprator for heap used in a-star algorithm
 struct openSetGreater{
@@ -115,7 +117,8 @@ vector<int> AStar(int start , int goal ,Graph& G)
 
 int heuristic(int start, int goal, Graph& G)
 {
-	return abs(G.nodes[start].x - G.nodes[goal].x) + abs(G.nodes[start].y - G.nodes[goal].y);
+	// return abs(G.nodes[start].x - G.nodes[goal].x) + abs(G.nodes[start].y - G.nodes[goal].y);
+	return 0;
 }
 
 vector<int> constructPath(std::vector<int>& parent, int goal, int start)
@@ -183,7 +186,8 @@ vector <int>  VisibileVertices(int v,Graph& graph){
 	return res;
 }
 
-std::vector<MovingObj> MinkowskiAll(const MovingObj& agent, MovingObj& rival, const std::vector<MovingObj>& obstacles) {
+std::vector<MovingObj> MinkowskiAll(const MovingObj& agent, MovingObj& rival, const std::vector<MovingObj>& obstacles)
+{
 	ClipperLib::Path pattern;
 	std::vector<ClipperLib::Paths> obstaclesPaths;
 
@@ -203,6 +207,46 @@ std::vector<MovingObj> MinkowskiAll(const MovingObj& agent, MovingObj& rival, co
 		ClipperLib::MinkowskiSum(pattern, tmpPath, obstaclesPaths[obstaclesPaths.size()-1], true);
 	}
 
-	
+	ClipperLib::Clipper clipper(ClipperLib::ioPreserveCollinear);
+
+	for(ClipperLib::Paths itPaths: obstaclesPaths) {
+		clipper.AddPaths(itPaths, ClipperLib::ptSubject, true);
+	}
+
+	ClipperLib::PolyTree resultTree;
+	clipper.Execute(ClipperLib::ctUnion, resultTree);
+
+	std::vector<MovingObj> finalObstacles;
+	PolyTree2MovingObj(finalObstacles, resultTree.GetFirst());
+
+	if (finalObstacles.size() != resultTree.Total())
+		cout << "warning: some obstacles ignored from tree" << endl;
+
+	return finalObstacles;
+}
+
+void PolyTree2MovingObj(std::vector<MovingObj>& obstacles, ClipperLib::PolyNode* currNode)
+{
+	if (currNode == NULL)
+		return;
+
+	obstacles.push_back(MovingObj());
+	geometry::Vector v(0,0);
+	std::vector<geometry::Vector> vertices;
+
+	for (int i = 0; i < currNode->Contour.size(); ++i)
+	{
+		vertices.push_back(geometry::Vector(currNode->Contour[i].X/10, currNode->Contour[i].Y/10));
+	}
+
+	obstacles[obstacles.size()-1].updateConcave(v, vertices);
+
+	for (ClipperLib::PolyNode* child: currNode->Childs) {
+		cout << "warning: obstacles has child" << endl;
+		PolyTree2MovingObj(obstacles, child);
+	}
+
+	PolyTree2MovingObj(obstacles, currNode->GetNext());
+	return;
 }
 

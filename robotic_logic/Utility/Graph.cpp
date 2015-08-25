@@ -140,7 +140,8 @@ void Graph::print()
 	return;
 }
 
-void Graph::visualize(int argc, char *argv[], std::vector<int> path)
+void Graph::visualize(int argc, char *argv[], std::vector<int> path,
+	const MovingObj& agent, const MovingObj& rival, const std::vector<MovingObj>& obstacles)
 {
 	ostringstream out;
 
@@ -168,6 +169,28 @@ void Graph::visualize(int argc, char *argv[], std::vector<int> path)
 	for (int i = 1; i < path.size(); i++) {
 		out << "P " << nodes[path[i]].x << "," << nodes[path[i]].y;
 		out << " " << nodes[path[i-1]].x << "," << nodes[path[i-1]].y << endl;
+	}
+
+	// draw robot
+	out << "R";
+	for (geometry::Vector v: agent.coords) {
+		out << " " << v.x << "," << v.y;
+	}
+	out << endl;
+
+	out << "R";
+	for (geometry::Vector v: rival.coords) {
+		out << " " << v.x << "," << v.y;
+	}
+	out << endl;
+
+	// draw obstacles
+	for (MovingObj obj: obstacles) {
+		out << "O";
+		for (geometry::Vector v: obj.coords) {
+			out << " " << v.x << "," << v.y;
+		}
+		out << endl;
 	}
 
 	Py_Initialize();

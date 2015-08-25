@@ -29,7 +29,9 @@ public:
 	void printList();
 	void print();
 
-	void visualize(int argc, char *argv[], std::vector<int> path);
+	void visualize(int argc, char *argv[], std::vector<int> path,
+		const MovingObj& agent, const MovingObj& rival, const std::vector<MovingObj>& obstacles);
+
 };
 
 #endif

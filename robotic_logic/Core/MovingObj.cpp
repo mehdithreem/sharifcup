@@ -34,6 +34,24 @@ void MovingObj::update(Vector _v , vector<Vector> _coords)
 	sortCoordsByPolar(coords , COM);
 }
 
+void MovingObj::updateConcave(Vector _v , vector<Vector> _coords)
+{
+	// reinit variables
+	velocity = _v;
+	coords.clear();
+	COM = Vector(0,0);
+
+	// update coordinates
+	for(int i = 0; i < _coords.size(); i++){
+		COM.x += _coords[i].x;
+		COM.y += _coords[i].y;
+
+		coords.push_back(_coords[i]);
+	}
+
+	COM = COM/_coords.size();
+ }
+
 void MovingObj::print()
 {
 	cout << "V:" << velocity << " C:" << COM << endl;
