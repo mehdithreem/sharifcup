@@ -56,7 +56,7 @@ def robotCode(name, points):
 
 	for point in points:
 		outCode += "\t\tvertices.push_back(geometry::Vector(" + str(point[0]/2) + "," + str(point[1]/2) + "));\n"
-	outCode += """\n\t\tagent.update(v, vertices);
+	outCode += "\n\t\t" + name + """.update(v, vertices);
 	}\n\n"""
 
 	return outCode
