@@ -42,6 +42,7 @@ namespace geometry{
     double cross(const Vector &O, const Vector &A, const Vector &B);
     vector<Vector> convex_hull(vector<Vector> P);
     int sign(double x);
+    int angleDiff(Vector v , Vector u);
 };
 
 

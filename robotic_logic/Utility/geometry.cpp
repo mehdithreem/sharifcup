@@ -138,6 +138,13 @@ namespace geometry{
         H.resize(k);
         return H;
     }
+
+
+    int angleDiff(Vector v , Vector u){
+      double dot = v.x*u.x + v.y*u.y;
+      double det = v.x*u.y - v.y*u.x;
+      return atan2 (det,dot) * 180 / PI;
+    }
 }
 
 namespace geometry{

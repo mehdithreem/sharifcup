@@ -1,9 +1,12 @@
 #include <unistd.h>
 #include <iostream>
 #include <boost/asio.hpp> 
-#include"../Include/Controller.h"
+#include "../Include/geometry.h"
+#include "../Include/Controller.h"
 using namespace::boost::asio;
 using std::cin;
+const int TIME = 1000*1000;
+const double COEF = 1.0/30;
 
 const char *PORT = "/dev/tty.Setareh-DevB";
 
@@ -88,4 +91,45 @@ void talkToSetare(int velocity, int angle, int rotation)
     port.send_break();
 }
 
+void moveFree(vector< geometry::Vector > path , geometry::Vector vel){
+  int v;
+  for(v=0 ; v<80 ; v++)
+    talkToSetare(v,0,0); 
+  for(int i=1 ; i<path.size() ; i++){
+    geometry::Vector currP = path[i]-path[i-1];
+    int angle = geometry::angleDiff(vel , currP);
+    int t = TIME*COEF*currP.size()/v;
+    int r = 0;
+    if(i==path.size()-1)
+      r=angle;
+    talkToSetare(v,angle,r);
+    usleep(t);
+  }
+  return;
+}
 
+void moveWithObs(vector< geometry::Vector > path , geometry::Vector vel){
+  int v;
+  geometry::Vector lastP = vel;
+  for(v=0 ; v<80 ; v++)
+    talkToSetare(v,0,0); 
+  if(path.size()==0)
+    return;
+  geometry::Vector currP = path[1]-path[0];
+  int angle = geometry::angleDiff(vel , currP);
+  int t = TIME*COEF*currP.size()/v;
+  int r=angle;
+  talkToSetare(v,angle,r);
+  usleep(t);
+  lastP=currP;
+  for(int i=2 ; i<path.size() ; i++){
+    geometry::Vector currP = path[i]-path[i-1];
+    angle = 0; 
+    t = TIME*COEF*currP.size()/v;
+    r=geometry::angleDiff(lastP , currP);
+    talkToSetare(v,angle,r);
+    usleep(t);
+    lastP=currP;
+  }
+  return;
+}

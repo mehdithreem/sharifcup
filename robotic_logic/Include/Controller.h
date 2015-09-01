@@ -3,11 +3,17 @@
 
 #include<iostream>
 #include<cmath>
-//#include"../Controller/rs232.h"
-
+#include<vector>
+#include "../Include/geometry.h"
 using namespace std;
 
+//using namespace geometry;
+
+
 void talkToSetare(int velocity , int angle ,int rotation);
+
+void moveFree(vector<geometry::Vector> path , geomrtey::Vector vel);
+void moveWithObs(vector< geometry::Vector > path , geometry::Vector vel);
 
 #endif
 
