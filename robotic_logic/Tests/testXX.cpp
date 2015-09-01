@@ -14,10 +14,10 @@ void graphTest(int argc, char *argv[])
 		geometry::Vector v(0,0);
 		std::vector<geometry::Vector> vertices;
 
-		vertices.push_back(geometry::Vector(185,30));
-		vertices.push_back(geometry::Vector(241,36));
-		vertices.push_back(geometry::Vector(239,73));
-		vertices.push_back(geometry::Vector(182,61));
+		vertices.push_back(geometry::Vector(23,35));
+		vertices.push_back(geometry::Vector(89,30));
+		vertices.push_back(geometry::Vector(87,65));
+		vertices.push_back(geometry::Vector(26,84));
 
 		agent.update(v, vertices);
 	}
@@ -29,10 +29,10 @@ void graphTest(int argc, char *argv[])
 		geometry::Vector v(0,0);
 		std::vector<geometry::Vector> vertices;
 
-		vertices.push_back(geometry::Vector(35,291));
-		vertices.push_back(geometry::Vector(54,291));
-		vertices.push_back(geometry::Vector(54,303));
-		vertices.push_back(geometry::Vector(41,302));
+		vertices.push_back(geometry::Vector(42,278));
+		vertices.push_back(geometry::Vector(67,277));
+		vertices.push_back(geometry::Vector(68,304));
+		vertices.push_back(geometry::Vector(38,309));
 
 		rival.update(v, vertices);
 	}
@@ -45,15 +45,13 @@ void graphTest(int argc, char *argv[])
 		geometry::Vector v(0,0);
 		std::vector<geometry::Vector> vertices;
 
-		vertices.push_back(geometry::Vector(86,119));
-		vertices.push_back(geometry::Vector(72,157));
-		vertices.push_back(geometry::Vector(39,159));
-		vertices.push_back(geometry::Vector(75,175));
-		vertices.push_back(geometry::Vector(75,175));
-		vertices.push_back(geometry::Vector(87,216));
-		vertices.push_back(geometry::Vector(99,173));
-		vertices.push_back(geometry::Vector(135,165));
-		vertices.push_back(geometry::Vector(96,157));
+		vertices.push_back(geometry::Vector(91,112));
+		vertices.push_back(geometry::Vector(74,139));
+		vertices.push_back(geometry::Vector(35,159));
+		vertices.push_back(geometry::Vector(78,170));
+		vertices.push_back(geometry::Vector(77,194));
+		vertices.push_back(geometry::Vector(140,156));
+		vertices.push_back(geometry::Vector(105,147));
 
 	obstacles[obstacles.size()-1].update(v, vertices);
 }
@@ -64,15 +62,28 @@ void graphTest(int argc, char *argv[])
 		geometry::Vector v(0,0);
 		std::vector<geometry::Vector> vertices;
 
-		vertices.push_back(geometry::Vector(135,130));
-		vertices.push_back(geometry::Vector(157,156));
-		vertices.push_back(geometry::Vector(164,178));
-		vertices.push_back(geometry::Vector(152,189));
-		vertices.push_back(geometry::Vector(144,219));
-		vertices.push_back(geometry::Vector(153,230));
-		vertices.push_back(geometry::Vector(175,230));
-		vertices.push_back(geometry::Vector(235,198));
-		vertices.push_back(geometry::Vector(223,143));
+		vertices.push_back(geometry::Vector(115,130));
+		vertices.push_back(geometry::Vector(173,157));
+		vertices.push_back(geometry::Vector(110,193));
+		vertices.push_back(geometry::Vector(110,193));
+		vertices.push_back(geometry::Vector(119,229));
+		vertices.push_back(geometry::Vector(243,199));
+		vertices.push_back(geometry::Vector(231,121));
+		vertices.push_back(geometry::Vector(129,104));
+
+	obstacles[obstacles.size()-1].update(v, vertices);
+}
+
+	obstacles.push_back(MovingObj());
+
+	{
+		geometry::Vector v(0,0);
+		std::vector<geometry::Vector> vertices;
+
+		vertices.push_back(geometry::Vector(164,28));
+		vertices.push_back(geometry::Vector(244,32));
+		vertices.push_back(geometry::Vector(244,86));
+		vertices.push_back(geometry::Vector(160,76));
 
 	obstacles[obstacles.size()-1].update(v, vertices);
 }
