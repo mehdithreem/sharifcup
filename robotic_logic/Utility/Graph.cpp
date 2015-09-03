@@ -196,7 +196,7 @@ void Graph::visualize(int argc, char *argv[], std::vector<int> path,
 	Py_Initialize();
 	PySys_SetArgv(argc,argv);
 
-	// cout << out.str();
+	cout << out.str();
 
 	PyObject * cppInString = PyString_FromString(out.str().c_str());
 
