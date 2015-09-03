@@ -44,7 +44,7 @@ int main(){
 	path.push_back(vy);
 	moveFree(path , agent.velocity , port);
 	talkToSetare(0,0,0,port);
-//  moveFree(path , agent.velocity);
+	//  moveFree(path , agent.velocity);
 	// int speed;
 	// talkToSetare(0,0,0);
 	// int degree1 ,degree2,degree3,degree4  ;

@@ -9,6 +9,7 @@ def drawPoints(points,imageName):
 
 def nothing(x):
 	pass
+
 #in RGB
 initialLowerBound = (40,40,100)
 initialUpperBound = (120,120,255)
@@ -35,9 +36,13 @@ while(1):
 	mGreen = cv2.getTrackbarPos("mgreen","frame")
 	lRed = cv2.getTrackbarPos("lred","frame")
 	mRed = cv2.getTrackbarPos("mred","frame")
+	
 	lowerBound = np.array((lBlue,lGreen,lRed))
 	upperBound = np.array((mBlue,mGreen,mRed))
+
+	# take picture
 	_,frame = cap.read()
+	
 	frame = cv2.blur(frame,(3,3))
 	frame = cv2.resize(frame,(0,0),fx=0.5,fy=0.5)
 	# lowerBound = (cv2.cvtColor(lowerBound,cv2.COLOR_RGB2HSV))[0][0]
@@ -87,15 +92,13 @@ while(1):
 			print "box :"
 			print box
 
-
-
 	# M = cv2.moments(best_cnt)
 	# cx,cy = int(M['m10']/M['m00']), int(M['m01']/M['m00'])
 	# cv2.circle(frame,(cx,cy),5,255,-1)
 	# Show it, if key pressed is 'Esc', exit the loop
 	cv2.imshow('frame',frame)
-	cv2.imshow('threshOrig',threshOrig)
-	cv2.imshow('threshMorpho',threshMorpho)
+	# cv2.imshow('threshOrig',threshOrig)
+	# cv2.imshow('threshMorpho',threshMorpho)
 	# cv2.imshow('threshMorpho',threshMorpho)
 	if cv2.waitKey(33)== 27:
 		break
