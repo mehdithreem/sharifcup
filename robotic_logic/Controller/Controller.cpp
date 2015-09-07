@@ -2,10 +2,10 @@
 
 
 void moveFree(vector< geometry::Vector > path , geometry::Vector vel,serial_port* port){
-	int v=50;
+	int v=45;
 	//for(v=0 ; v<60 ; v+=20)
 	 // talkToSetare(v,0,0,port);
-	talkToSetare(50,0,0,port);
+	talkToSetare(v,0,0,port);
 	for(int i=1 ; i<path.size() ; i++){
 		geometry::Vector currP = path[i]-path[i-1];
 		int angle = geometry::angleDiff(currP-vel,vel);

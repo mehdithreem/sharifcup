@@ -11,12 +11,12 @@ def nothing(x):
 	pass
 
 #in RGB
-initialLowerBound = (40,40,100)
-initialUpperBound = (120,120,255)
+initialLowerBound = (0,0,0)
+initialUpperBound = (191,161,156)
 
 cv2.namedWindow("frame")
 cv2.createTrackbar("noise reductin amount","frame",5,15,nothing)
-cv2.createTrackbar("object size","frame",60,100,nothing)
+cv2.createTrackbar("object size","frame",0,100,nothing)
 cv2.createTrackbar("lred","frame",initialLowerBound[0],255,nothing)
 cv2.createTrackbar("mred","frame",initialUpperBound[0],255,nothing)
 cv2.createTrackbar("lgreen","frame",initialLowerBound[1],255,nothing)
@@ -39,6 +39,7 @@ while(1):
 	
 	lowerBound = np.array((lBlue,lGreen,lRed))
 	upperBound = np.array((mBlue,mGreen,mRed))
+	print upperBound
 
 	# take picture
 	_,frame = cap.read()
@@ -96,9 +97,9 @@ while(1):
 	# cx,cy = int(M['m10']/M['m00']), int(M['m01']/M['m00'])
 	# cv2.circle(frame,(cx,cy),5,255,-1)
 	# Show it, if key pressed is 'Esc', exit the loop
-	cv2.imshow('frame',frame)
-	# cv2.imshow('threshOrig',threshOrig)
-	# cv2.imshow('threshMorpho',threshMorpho)
+        cv2.imshow('frame',frame)
+        cv2.imshow('threshOrig',threshOrig)
+        cv2.imshow('threshMorpho',threshMorpho)
 	# cv2.imshow('threshMorpho',threshMorpho)
 	if cv2.waitKey(33)== 27:
 		break
