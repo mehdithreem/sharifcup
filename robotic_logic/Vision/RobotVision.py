@@ -12,7 +12,7 @@ def nothing(x):
 
 #in RGB
 initialLowerBound = (0,0,0)
-initialUpperBound = (191,161,156)
+initialUpperBound = (70,70,70)
 
 cv2.namedWindow("frame")
 cv2.createTrackbar("noise reductin amount","frame",5,15,nothing)
@@ -43,9 +43,13 @@ while(1):
 
 	# take picture
 	_,frame = cap.read()
+
+	frame = frame[50:430]
 	
 	frame = cv2.blur(frame,(3,3))
-	frame = cv2.resize(frame,(0,0),fx=0.5,fy=0.5)
+
+	# frame = cv2.resize(frame,(0,0),fx=0.5,fy=0.5)
+
 	# lowerBound = (cv2.cvtColor(lowerBound,cv2.COLOR_RGB2HSV))[0][0]
 	# upperBound = (cv2.cvtColor(upperBound,cv2.COLOR_RGB2HSV))[0][0]
 	# print lowerBound
@@ -73,25 +77,29 @@ while(1):
 			if area > objectSizeThresh :
 				if cv2.contourArea(maxContour) < area :
 					maxContour = cnt
-					print "area of curr max " + "%f" % area
+					# print "area of curr max " + "%f" % area
 			++i
 			
 		if(cv2.contourArea(maxContour) > objectSizeThresh):
-			print "area of max max ! " + "%f" % cv2.contourArea(maxContour)
-			print "contour size :"
-			print len(contours)
+			# print "area of max max ! " + "%f" % cv2.contourArea(maxContour)
+			# print "contour size :"
+			# print len(contours)
 
-			points= cv2.convexHull(maxContour)
-			print "points are :"
-			print points
-			cv2.drawContours(frame,[points],0,(0,0,255),thickness=2)
+			# points= cv2.convexHull(maxContour)
+			# print "points are :"
+			# print points
+			# cv2.drawContours(frame,[points],0,(0,0,255),thickness=2)
 
 			rect= cv2.minAreaRect(maxContour)
 			box = cv2.boxPoints(rect)
 			box = np.int0(box)
 			cv2.drawContours(frame,[box],0,(0,0,255),thickness=2)
-			print "box :"
-			print box
+			cv2.circle(frame,(90,240),1,(0,255,0),thickness=2)
+			cv2.circle(frame,(310,240),1,(0,255,0),thickness=2)
+			cv2.circle(frame,(420,95),1,(0,255,0),thickness=2)
+			# print "box :"
+			# print box
+			print "COM:", (box[0]+box[1]+box[2]+box[3])/4
 
 	# M = cv2.moments(best_cnt)
 	# cx,cy = int(M['m10']/M['m00']), int(M['m01']/M['m00'])
