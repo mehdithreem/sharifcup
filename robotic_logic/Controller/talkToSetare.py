@@ -14,24 +14,25 @@ def nothing(x):
 def getPos():
 	#in RGB
 	lowerBound = (0,0,00)
-	upperBound = (191,161,156)
+	upperBound = (86,80,76)
 
-	print "here1"
+	# print "here1"
 
 	cap = cv2.VideoCapture(0)
 
-	print "here2"
+	# print "here2"
 
 	while(1):
 		kernelSize = 0
 		objectSizeThresh = 0
 		objectSizeThresh = (objectSizeThresh/2)*1000
 	
-		print "before cap"
+		# print "before cap"
 		# take picture
 		_,frame = cap.read()
+		frame = frame[50:430]
 
-		print "after cap"
+		# print "after cap"
 		
 		frame = cv2.blur(frame,(3,3))
 		frame = cv2.resize(frame,(0,0),fx=0.5,fy=0.5)
@@ -62,25 +63,25 @@ def getPos():
 				if area > objectSizeThresh :
 					if cv2.contourArea(maxContour) < area :
 						maxContour = cnt
-						print "area of curr max " + "%f" % area
+						# print "area of curr max " + "%f" % area
 				++i
 				
 			if(cv2.contourArea(maxContour) > objectSizeThresh):
-				print "area of max max ! " + "%f" % cv2.contourArea(maxContour)
-				print "contour size :"
-				print len(contours)
+				# print "area of max max ! " + "%f" % cv2.contourArea(maxContour)
+				# print "contour size :"
+				# print len(contours)
 
-				points= cv2.convexHull(maxContour)
-				print "points are :"
-				print points
-				cv2.drawContours(frame,[points],0,(0,0,255),thickness=2)
+				# points= cv2.convexHull(maxContour)
+				# print "points are :"
+				# print points
+				# cv2.drawContours(frame,[points],0,(0,0,255),thickness=2)
 
 				rect= cv2.minAreaRect(maxContour)
 				box = cv2.boxPoints(rect)
 				box = np.int0(box)
-				cv2.drawContours(frame,[box],0,(0,0,255),thickness=2)
+				# cv2.drawContours(frame,[box],0,(0,0,255),thickness=2)
 				print "box :"
-				print box
+				print (box[0]+box[1]+box[2]+box[3])/4
 				cv2.destroyAllWindows()
 				cap.release()
 				return (box[0]+box[1]+box[2]+box[3])/4
@@ -139,25 +140,44 @@ def talkToSetare(velocity, angle, rotation):
 
 
 ser = serial.Serial("/dev/tty.Setareh-DevB")
-goal = (270,42)
-speed = 40
+goal = (300,215)
+speed = 50
 whileEnd = True
+i = 0
+# goals = [(310,240),(420,95)]
+goals = []
 
 try:
 	while whileEnd:
-	    pos = getPos()
-	    print "inloop",pos, goal
-	    angle = math.atan((goal[1]-pos[1])/(goal[0]-pos[0]))*180/math.pi
-	    print angle
-	    m1,m2,m3,m4,A = talkToSetare(speed, angle, 0)
-	    print m1,m2,m3,m4,A
+		pos = getPos()
+		print "GOAL:" ,goal
 
-	    ser.write(chr(115))
-	    ser.write(chr(int(m1)))
-	    ser.write(chr(int(m2)))
-	    ser.write(chr(int(m3)))
-	    ser.write(chr(int(m4)))
-	    ser.write(chr(int(A)))
+		if abs(goal[0]-pos[0])+abs(goal[1]-pos[1]) < 80:
+			print "GOAL CHANGED :D"
+			goal = goals[i]
+			ser.write(chr(115))
+			ser.write(chr(0))
+			ser.write(chr(0))
+			ser.write(chr(0))
+			ser.write(chr(0))
+			ser.write(chr(0))
+			sleep(1)
+			i += 1
+			if i == len(goals)+1:
+				break
+
+		# print "inloop",pos, goal
+		angle = math.atan((goal[1]-pos[1])/(goal[0]-pos[0]))*180/math.pi
+		# print angle
+		m1,m2,m3,m4,A = talkToSetare(speed, 0, 0)
+		# print m1,m2,m3,m4,A
+
+		ser.write(chr(115))
+		ser.write(chr(int(m1)))
+		ser.write(chr(int(m2)))
+		ser.write(chr(int(m3)))
+		ser.write(chr(int(m4)))
+		ser.write(chr(int(A)))
 
 except KeyboardInterrupt:
 	print "IN EXCEPT"
@@ -167,5 +187,12 @@ except KeyboardInterrupt:
 	ser.write(chr(0))
 	ser.write(chr(0))
 	ser.write(chr(0))
+
+ser.write(chr(115))
+ser.write(chr(0))
+ser.write(chr(0))
+ser.write(chr(0))
+ser.write(chr(0))
+ser.write(chr(0))
 
 
