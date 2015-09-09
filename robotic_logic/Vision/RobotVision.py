@@ -47,9 +47,9 @@ def getMiane(headPointIndex,points):
 
 #in RGB
 initialLowerBound = (0,0,0)
-initialUpperBound = (40,40,40)
-intialNoiseReduction =  8
-intialHoleFilling =  3
+initialUpperBound = (66,71,85)
+intialNoiseReduction =  1
+intialHoleFilling =  1
 initialShapeDetail = 20
 
 cv2.namedWindow("frame")
@@ -174,7 +174,6 @@ while(1):
     cv2.imshow('frame',frame)
     cv2.imshow('threshOrig',threshOrig)
     cv2.imshow('threshMorpho',threshMorpho)
-    # cv2.imshow('threshMorpho',threshMorpho)
     if cv2.waitKey(33)== 27:
         break
 
