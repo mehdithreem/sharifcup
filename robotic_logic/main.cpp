@@ -12,7 +12,8 @@ int main(){
 	serial_port* port = openPort(); 
 	MovingObj agent;
 	vector<geometry::Vector> path ;
-	geometry::Vector v1(0,0);
+    geometry::Vector v1(0,0);
+    //
 	path.push_back(v1);
 	geometry::Vector v2(0,10);
 	path.push_back(v2);
