@@ -18,14 +18,15 @@ using namespace std;
 
 class MovingObj{
 public:
+	int direction;
 	geometry::Vector velocity;
 	geometry::Vector COM;
 	vector < geometry::Vector > coords;
 
 	MovingObj();
 
-	void update(geometry::Vector _v , vector<geometry::Vector> _coords);
-	void updateConcave(geometry::Vector _v , vector<geometry::Vector> _coords);
+	void update(geometry::Vector _v , vector<geometry::Vector> _coords , int _d=0 );  
+	void updateConcave(geometry::Vector _v , vector<geometry::Vector> _coords ,int _d=0);
 	void print();
 };
 

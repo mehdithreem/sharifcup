@@ -6,7 +6,7 @@ using namespace geometry;
 namespace geometry{
 	
 	Vector :: Vector(){}
-	Vector :: Vector(double _x , double _y){
+	Vector :: Vector(int _x , int _y){
 		x = _x;
 		y = _y;
 	}
@@ -60,7 +60,7 @@ namespace geometry{
 namespace geometry{
 	
 	Vector cart2polar (Vector cart){
-		double r,a;
+		int r,a;
 		r=cart.size();
 		
 		if(cart.x == 0){

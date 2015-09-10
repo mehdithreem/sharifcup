@@ -12,32 +12,14 @@
 using namespace std;
 using namespace geometry;
 
-MovingObj::MovingObj(): velocity(Vector(0,1)) , COM(Vector(0,0)) {}
+MovingObj::MovingObj(): velocity(Vector(0,0)) , COM(Vector(0,0)) , direction(0) {}
 
-void MovingObj::update(Vector _v , vector<Vector> _coords)
+void MovingObj::update(Vector _v  , vector<Vector> _coords, int _d)
 {
-
-//  	// reinit variables
-//	velocity = _v;
-//	coords.clear();
-//	COM = Vector(0,0);
-//  coords = geometry::convex_hull(_coords);
-//	// update coordinates
-//	for(int i = 0; i < coords.size(); i++){
-//		COM= COM + coords[i];
-//		//COM.y += coords[i].y;
-//	//	coords.push_back(_coords[i]);
-//	}
-//  COM = COM/coords.size();
-//  sortCoordsByPolar(coords , COM);
-
-
-	// reinit variables
 	velocity = _v;
 	coords.clear();
+	direction = _d;
 	COM = Vector(0,0);
-
-	// update coordinates
 	for(int i = 0; i < _coords.size(); i++){
 		COM.x += _coords[i].x;
 		COM.y += _coords[i].y;
@@ -50,14 +32,13 @@ void MovingObj::update(Vector _v , vector<Vector> _coords)
 	sortCoordsByPolar(coords , COM);
 }
 
-void MovingObj::updateConcave(Vector _v , vector<Vector> _coords)
+void MovingObj::updateConcave(Vector _v , vector<Vector> _coords ,int _d)
 {
-	// reinit variables
 	velocity = _v;
 	coords.clear();
+	direction = _d;
 	COM = Vector(0,0);
 
-	// update coordinates
 	for(int i = 0; i < _coords.size(); i++){
 		COM = COM + _coords[i];
 
@@ -66,7 +47,6 @@ void MovingObj::updateConcave(Vector _v , vector<Vector> _coords)
 
 	COM = COM/_coords.size();
   
-	// sortCoordsByPolar(coords , COM);
 }
 
 void MovingObj::print()

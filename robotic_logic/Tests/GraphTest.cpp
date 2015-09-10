@@ -26,7 +26,7 @@ void graphTest(int argc, char *argv[])
 
 	MovingObj rival;
 	{
-		geometry::Vector v(5,3.5);
+		geometry::Vector v(5,3);
 		std::vector<geometry::Vector> vertices;
 
 		vertices.push_back(geometry::Vector(300,300));
@@ -54,7 +54,7 @@ void graphTest(int argc, char *argv[])
 	obstacles.push_back(MovingObj());
 
 	{
-		geometry::Vector v(5,3.5);
+		geometry::Vector v(5,3);
 		std::vector<geometry::Vector> vertices;
 
 		vertices.push_back(geometry::Vector(9*15,8*15));
@@ -68,7 +68,7 @@ void graphTest(int argc, char *argv[])
 	obstacles.push_back(MovingObj());
 
 	{
-		geometry::Vector v(7.5,8);
+		geometry::Vector v(7,8);
 		std::vector<geometry::Vector> vertices;
 
 		vertices.push_back(geometry::Vector(11*15,3*15));
@@ -82,7 +82,7 @@ void graphTest(int argc, char *argv[])
 	obstacles.push_back(MovingObj());
 
 	{
-		geometry::Vector v(11,3.4);
+		geometry::Vector v(11,3);
 		std::vector<geometry::Vector> vertices;
 
 		vertices.push_back(geometry::Vector(19*15,3*15));

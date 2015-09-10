@@ -21,7 +21,7 @@ namespace geometry{
 	public:
 		double x,y;
 		Vector();
-		Vector(double _x , double _y);
+		Vector(int _x , int _y);
 		Vector operator +(const Vector& v)const;
 		Vector operator *(const Vector& v)const;
 		Vector operator /(const Vector& v)const;
