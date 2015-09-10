@@ -18,19 +18,16 @@ const double COEF = 1.0/30;
 const geometry::Vector f(5,5);
 
 
-//using namespace geometry;
 
-
-void talkToSetare(int velocity , int angle ,int rotation, serial_port* port);
-
-void moveFree(vector<geometry::Vector> path , geometry::Vector vel , serial_port* port);
-void moveWithObs(vector< geometry::Vector > path , geometry::Vector vel);
-
-// void fullStop();
-void writePort(int input,serial_port* port);
-serial_port* openPort();
-
-
+class Port{
+public:
+	serial_port* port;
+	Port();
+	~Port();
+	void fullStop();
+	void writePort(int input);
+	void talkToSetare(int velocity, int angle, int rotation ,serial_port* port );
+};
 
 #endif
 
