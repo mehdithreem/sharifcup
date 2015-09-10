@@ -90,9 +90,9 @@ def getPos():
 		# cx,cy = int(M['m10']/M['m00']), int(M['m01']/M['m00'])
 		# cv2.circle(frame,(cx,cy),5,255,-1)
 		# Show it, if key pressed is 'Esc', exit the loop
-	        # cv2.imshow('frame',frame)
-	        # cv2.imshow('threshOrig',threshOrig)
-	        # cv2.imshow('threshMorpho',threshMorpho)
+			# cv2.imshow('frame',frame)
+			# cv2.imshow('threshOrig',threshOrig)
+			# cv2.imshow('threshMorpho',threshMorpho)
 		# cv2.imshow('threshMorpho',threshMorpho)
 		# if cv2.waitKey(33)== 27:
 		# 	break
@@ -101,42 +101,42 @@ def getPos():
     
 
 def talkToSetare(velocity, angle, rotation):
-    m1 = 255*((-math.sin((45.0-angle)/180*3.14))*velocity / 100.0)
-    m2 = 255*((-math.cos((45.0-angle)/180*3.14))*velocity / 100.0)
-    m3 = -m1
-    m4 = -m2
-    e1 = 255 - abs(m1)
-    e2 = 255 - abs(m2)
-    x = (1.0*e1)/(e1 + e2) 
-    m1 += ((     x *rotation)/100.0)*255
-    m2 += (((1 - x)*rotation)/100.0)*255
-    m3 += ((     x *rotation)/100.0)*255
-    m4 += (((1 - x)*rotation)/100.0)*255
-    m1 = math.floor(m1)
-    m2 = math.floor(m2)
-    m3 = math.floor(m3)
-    m4 = math.floor(m4)
-    A = 0
-    if m1>0 :
-        A|=1<<0
-    elif m1<0 :
-        A|=1<<1
-    if m2>0 :
-        A|=1<<2
-    elif m2<0 :
-        A|=1<<3
+	m1 = 255*((-math.sin((45.0-angle)/180*3.14))*velocity / 100.0)
+	m2 = 255*((-math.cos((45.0-angle)/180*3.14))*velocity / 100.0)
+	m3 = -m1
+	m4 = -m2
+	e1 = 255 - abs(m1)
+	e2 = 255 - abs(m2)
+	x = (1.0*e1)/(e1 + e2) 
+	m1 += ((x *rotation)/100.0)*255
+	m2 += (((1 - x)*rotation)/100.0)*255
+	m3 += ((x *rotation)/100.0)*255
+	m4 += (((1 - x)*rotation)/100.0)*255
+	m1 = math.floor(m1)
+	m2 = math.floor(m2)
+	m3 = math.floor(m3)
+	m4 = math.floor(m4)
+	A = 0
+	if m1>0 :
+		A|=1<<0
+	elif m1<0 :
+		A|=1<<1
+	if m2>0 :
+		A|=1<<2
+	elif m2<0 :
+		A|=1<<3
 
-    if m3>0 :
-        A|=1<<4
-    elif m3<0 :
-        A|=1<<5
+	if m3>0 :
+		A|=1<<4
+	elif m3<0 :
+		A|=1<<5
 
-    if m4>0 :
-        A|=1<<6
-    elif m4<0 :
-        A|=1<<7
+	if m4>0 :
+		A|=1<<6
+	elif m4<0 :
+		A|=1<<7
 
-    return abs(m1),abs(m2),abs(m3),abs(m4),A
+	return abs(m1),abs(m2),abs(m3),abs(m4),A
 
 
 ser = serial.Serial("/dev/tty.Setareh-DevB")

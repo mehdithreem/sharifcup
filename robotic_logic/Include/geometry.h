@@ -17,32 +17,32 @@
 using namespace std;
 
 namespace geometry{
-    class Vector{
-    public:
-        double x,y;
-        Vector();
-        Vector(double _x , double _y);
-        Vector operator +(const Vector& v)const;
-        Vector operator *(const Vector& v)const;
-        Vector operator /(const Vector& v)const;
-        Vector operator /(double n)const;
-        Vector operator -(const Vector& v)const;
-        Vector operator -()const;
-        void operator=(const Vector& v);
-        bool operator ==(const Vector& v1);
-        bool operator <(const Vector &v) const;
-        double size()const;
-    };
-    std::ostream& operator<<(std::ostream& out, const Vector& v);
-    
-    Vector cart2polar (Vector cart);
-    bool polarComparator(const pair < Vector , Vector >& coord1 , const pair < Vector , Vector >& coord2);
-    void sortCoordsByPolar(std::vector< geometry::Vector >& coords ,geometry::Vector center);
-    bool IsIntersect(Vector a , Vector b ,Vector c ,Vector d);
-    double cross(const Vector &O, const Vector &A, const Vector &B);
-    vector<Vector> convex_hull(vector<Vector> P);
-    int sign(double x);
-    int angleDiff(Vector v , Vector u);
+	class Vector{
+	public:
+		double x,y;
+		Vector();
+		Vector(double _x , double _y);
+		Vector operator +(const Vector& v)const;
+		Vector operator *(const Vector& v)const;
+		Vector operator /(const Vector& v)const;
+		Vector operator /(double n)const;
+		Vector operator -(const Vector& v)const;
+		Vector operator -()const;
+		void operator=(const Vector& v);
+		bool operator ==(const Vector& v1);
+		bool operator <(const Vector &v) const;
+		double size()const;
+	};
+	std::ostream& operator<<(std::ostream& out, const Vector& v);
+	
+	Vector cart2polar (Vector cart);
+	bool polarComparator(const pair < Vector , Vector >& coord1 , const pair < Vector , Vector >& coord2);
+	void sortCoordsByPolar(std::vector< geometry::Vector >& coords ,geometry::Vector center);
+	bool IsIntersect(Vector a , Vector b ,Vector c ,Vector d);
+	double cross(const Vector &O, const Vector &A, const Vector &B);
+	vector<Vector> convex_hull(vector<Vector> P);
+	int sign(double x);
+	int angleDiff(Vector v , Vector u);
 };
 
 

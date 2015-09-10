@@ -56,17 +56,18 @@ void MovingObj::updateConcave(Vector _v , vector<Vector> _coords)
 	velocity = _v;
 	coords.clear();
 	COM = Vector(0,0);
-  coords = geometry::convex_hull(_coords);
-	// update coordinates
-	for(int i = 0; i < coords.size(); i++){
-		COM= COM + coords[i];
-		//COM.y += coords[i].y;
-	//	coords.push_back(_coords[i]);
-	}
-  COM = COM/coords.size();
-  sortCoordsByPolar(coords , COM);
 
- }
+	// update coordinates
+	for(int i = 0; i < _coords.size(); i++){
+		COM = COM + _coords[i];
+
+		coords.push_back(_coords[i]);
+	}
+
+	COM = COM/_coords.size();
+  
+	// sortCoordsByPolar(coords , COM);
+}
 
 void MovingObj::print()
 {

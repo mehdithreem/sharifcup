@@ -1,6 +1,5 @@
 #include "../Include/Controller.h"
 
-
 void moveFree(vector< geometry::Vector > path , geometry::Vector vel,serial_port* port){
 	int v=45;
 	//for(v=0 ; v<60 ; v+=20)
