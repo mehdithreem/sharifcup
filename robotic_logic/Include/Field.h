@@ -2,28 +2,22 @@
 #define _FIELD_
 
 #include <vector>
+#include <utility>
 #include "../Include/geometry.h"
+#include "../Include/MovingObj.h"
+#include "../Include/Region.h"
 using namespace std;
-
-class Region {
-	Region();
-
-	vector<geometry::Vector> points;
-
-	void reset() {
-		points.clear();
-	}
-};
 
 class Field {
 public:
-	Field();
-	void addRegion(Region& _region);
-
 	MovingObj rival, agent;
 	vector<MovingObj> obstacles;
 
 	vector<Region> regions;
+	Field();
+	//
+	void addRegion(Region& _region);
+	pair<geometry::Vector,geometry::Vector> bestTarget();
 };
 
 #endif

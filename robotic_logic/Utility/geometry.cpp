@@ -51,6 +51,10 @@ namespace geometry{
 	bool Vector::operator ==(const Vector& v){
 		return (v.x==x && v.y==y);
 	}
+
+	bool Vector:: operator !=(const Vector& v){
+		return (v.x!=x || v.y!=y);
+	}
 	
 	double Vector:: size()const{
 		return sqrt(x*x + y*y);

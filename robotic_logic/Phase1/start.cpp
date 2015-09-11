@@ -1,22 +1,23 @@
+#include <utility>
 #include "../Include/Phase1.h"
+#include "../Include/Field.h"
 
-void main() {
-	// read rules file
-	// construct field
+//#include "./const.h"   --->	// read rules file
 
-	// get regins from vision
-	// set fiels region
+int main() {
+	Field field;
+	//Vision vision;
+	//vision.preProcess(field);	
 	
 	bool end = false;
 	while (!end) {
 		bool pause = false;
-		while (!pause) {
-			// main while
-
+		while (!pause) {	
 			geometry::Vector target, destenation;
 			int degreeAtTarget;
-			// update positions from vision
+			//vision.update(field);
 			// choose best target and it's destionation
+			pair<geometry::Vector,geometry::Vector> tar&dest = field.bestTar&dest();
 			// 		if there is no more objects, break, end = true
 			// set degreeAtTarget
 
@@ -48,4 +49,5 @@ void main() {
 
 	// close port
 	// delete
+	return 0;
 }

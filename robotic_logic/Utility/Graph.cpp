@@ -1,6 +1,6 @@
-#include "Python.h"
 #include <sstream>
 #include <cmath>
+#include "Python.h"
 #include "../Include/Graph.h"
 
 Graph::Graph() :_size(0) {
