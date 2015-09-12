@@ -25,15 +25,15 @@ struct openSetGreater{
 	}
 };
 
-vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector goal, vector<MovingObj>& obstacles , MovingObj& rival ) {
-	Graph G;
+vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector goal, Graph& G ) {
+	// Graph G;
 	
 	G.addSingleNode(start);
 	G.addSingleNode(goal);
 	
-	obstacles.push_back(rival);
-	G.addComponent(obstacles);
-	obstacles.pop_back();
+	// obstacles.push_back(rival);
+	// G.addComponent(obstacles);
+	// obstacles.pop_back();
 	
 	VisibiltyGraph(G);
 	

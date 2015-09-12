@@ -1,14 +1,20 @@
 #include <sstream>
 #include <cmath>
-#include "Python.h"
 #include "../Include/Graph.h"
+#include "Python.h"
 
 Graph::Graph() :_size(0) {
   obNum.push_back(0);
 }
 
+void Graph:: makeGraphBasedOnField(Field& field){
+	field.obstacles.push_back(field.rival);
+	addComponent(field.obstacles);
+	field.obstacles.pop_back();
+	return;
+}
+
 void Graph::addEdge(int v ,int u){
-	// cout << "edge: "<< u << "," << v << endl;
   v = abs(v);
 	u = abs(u);
 	if(matrix[v][u]==0){
@@ -32,14 +38,14 @@ void Graph::addComponent (vector<MovingObj>& obstacles){
 
 		// constructing matrix
 
-		for (std::vector<double> line: matrix)
+		for (std::vector<int> line: matrix)
 			line.resize(line.size()+newNodesCount, 0);
 
 		for (int i=0; i < matrix.size(); i++)
 			matrix[i].resize(nodes.size(), 0);
 
 		for (int i=0; i < newNodesCount; i++) {
-			std::vector<double> tempVect(_size+newNodesCount, 0);
+			std::vector<int> tempVect(_size+newNodesCount, 0);
 			matrix.push_back(tempVect);
 
 			if (i == 0) {
@@ -66,6 +72,7 @@ void Graph::addComponent (vector<MovingObj>& obstacles){
 
 		_size += newNodesCount;
 	}
+	return;
 }
 
 int Graph::size() { return list.size(); }
@@ -78,7 +85,7 @@ void Graph::addSingleNode(geometry::Vector newNode) {
     matrix[i].push_back(0);
   
 	nodes.push_back(newNode);
-	matrix.resize(nodes.size() , vector<double>(nodes.size(),0));
+	matrix.resize(nodes.size() , vector<int>(nodes.size(),0));
 
 	_size += 1;
   obNum.push_back(obNum[obNum.size()-1]+1);

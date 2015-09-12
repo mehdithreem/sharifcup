@@ -1,12 +1,18 @@
 #include <utility>
 #include "../Include/Phase1.h"
 #include "../Include/Field.h"
+#include "../Include/geometry.h"
+#include "../Include/Vision.h"
+#include "../Include/Graph.h"
 
+
+const vector<geometry::Vector> DESTPOINTS;
 //#include "./const.h"   --->	// read rules file
 
 int main() {
 	Field field;
-	//Vision vision;
+	RobotVision vision;
+	vision.init();
 	//vision.preProcess(field);	
 	
 	bool end = false;
@@ -15,9 +21,11 @@ int main() {
 		while (!pause) {	
 			geometry::Vector target, destenation;
 			int degreeAtTarget;
-			//vision.update(field);
-			// choose best target and it's destionation
-			pair<geometry::Vector,geometry::Vector> tar&dest = field.bestTar&dest();
+			vision.update(field);
+			Graph g;
+			for(int i=0 ; i<DESTPOINTS.size() ; i++)
+				g.addSingleNode(DESTPOINTS[i]);
+			pair<geometry::Vector,geometry::Vector> goalDest = field.bestTarget();
 			// 		if there is no more objects, break, end = true
 			// set degreeAtTarget
 

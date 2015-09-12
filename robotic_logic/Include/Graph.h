@@ -4,20 +4,20 @@
 #include <vector>
 #include "geometry.h"
 #include "../Include/MovingObj.h"
+#include "../Include/Field.h"
 
 class Graph{
 public:
-	vector< vector<double> > matrix;
+	vector< vector<int> > matrix;
 	vector< vector<int> > list;
 
 	vector< geometry::Vector > nodes;
 
-	//vector< MovingObj* > obstacles;
 	vector< int > obNum;
 	
 	int _size;
 	Graph();
-
+	//void makeGraphBasedOnField(Field& field);
 	void addComponent(vector<MovingObj>& obstacles);
 	void addSingleNode(geometry::Vector newNode);
 	

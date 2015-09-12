@@ -40,7 +40,7 @@ void RobotVision::init(){
 
 }
 
-void RobotVision::update(/*MovingObj& ourBot , MovingObj& enemyBot , vector<MovingObj>& obstacle*/) {
+void RobotVision::update(Field & field) {
     Mat frame ,thresh,threshMorpho,threshMorphoCopy;
     Mat kernelNoise(noiseReduction,noiseReduction,CV_8U,Scalar(1));
     Mat kernelHole(holeFilling,holeFilling,CV_8U,Scalar(1));

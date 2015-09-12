@@ -6,6 +6,8 @@
 #include "../Include/geometry.h"
 #include "../Include/MovingObj.h"
 #include "../Include/Region.h"
+#include "../Include/ShortestPath.h"
+#include "../Include/Graph.h"
 using namespace std;
 
 class Field {

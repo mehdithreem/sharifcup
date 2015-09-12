@@ -2,11 +2,12 @@
 #define robotic_logic_ShortestPath_h
 #include <vector>
 #include <utility>
+#include "../Include/Graph.h"
 #include "../Include/MovingObj.h"
 #include "../Include/geometry.h"
-#include "../Include/Graph.h"
 
-vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector goal, vector<MovingObj>& obstacles , MovingObj& rival);
+
+vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector goal, Graph& G);
 
 void VisibiltyGraph(Graph& graph);
 vector <int>  VisibileVertices(int i,Graph& garph);

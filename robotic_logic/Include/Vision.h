@@ -2,6 +2,7 @@
 #define robotic_logic_Vision_h
 
 #include "../Include/MovingObj.h"
+#include "../Include/Field.h"
 #include <opencv2/videoio/videoio.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -26,7 +27,7 @@ public:
     ~RobotVision();
     bool NewFrameIsReady();
     void init();
-    void update(/*MovingObj& ourBot , MovingObj& enemyBot , vector<MovingObj>& obstacle*/);
+    void update(Field& field);
     void drawPoints(Mat& frame , vector<Point> points);
     
 };
