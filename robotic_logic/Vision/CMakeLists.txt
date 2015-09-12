@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 2.8)
+project( test )
+find_package( OpenCV )
+include_directories( ${OpenCV_INCLUDE_DIRS} ../Include )
+set(HEADERS ../Include/Vision.h)
+SET(SOURCE testMain.cpp Vision.cpp)
+add_executable( testMain ${SOURCE} ${HEADERS})
+target_link_libraries( testMain ${OpenCV_LIBS} )
