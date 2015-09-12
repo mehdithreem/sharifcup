@@ -30,6 +30,11 @@ void MovingObj::update(Vector _v  , vector<Vector> _coords, int _d)
 	COM = COM/_coords.size();
   
 	sortCoordsByPolar(coords , COM);
+
+	if (coords.size() > 0) radious = (COM - coords[0]).size();
+	else radious = 0;
+
+	return;
 }
 
 void MovingObj::updateConcave(Vector _v , vector<Vector> _coords ,int _d)
@@ -46,7 +51,27 @@ void MovingObj::updateConcave(Vector _v , vector<Vector> _coords ,int _d)
 	}
 
 	COM = COM/_coords.size();
-  
+
+	if (coords.size() > 0) radious = (COM - coords[0]).size();
+	else radious = 0;
+
+	return;
+}
+
+
+void MovingObj::setColor(Color _color) {
+	color = _color;
+}
+void MovingObj::setShape(Shape _shape) {
+	shape = _shape;
+}
+
+double MovingObj::distWithCOM(geometry::Vector x, geometry::Vector y) {
+	int a = (y.y - x.y) / (y.x - x.x);
+	double dis = a*(COM.x-y.x) - (COM.y-y.x);
+	dis = dis / (sqrt(a*a+1));
+
+	return dis;	
 }
 
 void MovingObj::print()

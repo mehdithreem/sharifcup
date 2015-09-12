@@ -5,11 +5,15 @@
 #include <utility>
 
 #include "../Include/geometry.h"
+#include "../Include/params.h"
 using namespace std;
 
 class Region {
 public:
 	vector<geometry::Vector> points;
+	vector<pair<Color,Shape>> objects;
+	int ID;
+
 	Region(vector<geometry::Vector> _p);
 	void reset();
 	bool operator==(Region r);

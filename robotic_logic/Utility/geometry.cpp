@@ -59,6 +59,10 @@ namespace geometry{
 	double Vector:: size()const{
 		return sqrt(x*x + y*y);
 	}
+
+	int Vector:: agnle() {
+		return atan2(y, x)*180 / PI;
+	}
 }
 
 namespace geometry{

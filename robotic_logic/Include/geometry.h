@@ -32,6 +32,7 @@ namespace geometry{
 			bool operator ==(const Vector& v1);
 			bool operator !=(const Vector& v1);
 			bool operator <(const Vector &v) const;
+			int angle();
 			double size()const;
 	};
 	std::ostream& operator<<(std::ostream& out, const Vector& v);
