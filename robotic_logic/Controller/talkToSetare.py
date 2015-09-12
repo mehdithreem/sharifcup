@@ -2,6 +2,7 @@ import math
 import serial
 import cv2
 import numpy as np
+import time
 
 def drawPoints(points,imageName):
 	for currPoint in points :
@@ -141,52 +142,64 @@ def talkToSetare(velocity, angle, rotation):
 
 ser = serial.Serial("/dev/tty.Setareh-DevB")
 goal = (300,215)
-speed = 50
+speed = 100
 whileEnd = True
 i = 0
 # goals = [(310,240),(420,95)]
 goals = []
 
-try:
-	while whileEnd:
-		pos = getPos()
-		print "GOAL:" ,goal
+# try:
+	# while whileEnd:
+	# 	pos = getPos()
+	# 	print "GOAL:" ,goal
 
-		if abs(goal[0]-pos[0])+abs(goal[1]-pos[1]) < 80:
-			print "GOAL CHANGED :D"
-			goal = goals[i]
-			ser.write(chr(115))
-			ser.write(chr(0))
-			ser.write(chr(0))
-			ser.write(chr(0))
-			ser.write(chr(0))
-			ser.write(chr(0))
-			sleep(1)
-			i += 1
-			if i == len(goals)+1:
-				break
+	# 	if abs(goal[0]-pos[0])+abs(goal[1]-pos[1]) < 80:
+	# 		print "GOAL CHANGED :D"
+	# 		goal = goals[i]
+	# 		ser.write(chr(115))
+	# 		ser.write(chr(0))
+	# 		ser.write(chr(0))
+	# 		ser.write(chr(0))
+	# 		ser.write(chr(0))
+	# 		ser.write(chr(0))
+	# 		sleep(1)
+	# 		i += 1
+	# 		if i == len(goals)+1:
+	# 			break
 
-		# print "inloop",pos, goal
-		angle = math.atan((goal[1]-pos[1])/(goal[0]-pos[0]))*180/math.pi
-		# print angle
-		m1,m2,m3,m4,A = talkToSetare(speed, 0, 0)
-		# print m1,m2,m3,m4,A
+	# 	# print "inloop",pos, goal
+	# 	angle = math.atan((goal[1]-pos[1])/(goal[0]-pos[0]))*180/math.pi
+	# 	# print angle
+	# 	# m1,m2,m3,m4,A = talkToSetare(0, 0, 50)
+	# 	# time.sleep(3)
+	# 	# m1,m2,m3,m4,A = talkToSetare(speed, 0, 50)
 
-		ser.write(chr(115))
-		ser.write(chr(int(m1)))
-		ser.write(chr(int(m2)))
-		ser.write(chr(int(m3)))
-		ser.write(chr(int(m4)))
-		ser.write(chr(int(A)))
+	# 	# print m1,m2,m3,m4,A
 
-except KeyboardInterrupt:
-	print "IN EXCEPT"
-	ser.write(chr(115))
-	ser.write(chr(0))
-	ser.write(chr(0))
-	ser.write(chr(0))
-	ser.write(chr(0))
-	ser.write(chr(0))
+	# 	ser.write(chr(115))
+	# 	ser.write(chr(int(m1)))
+	# 	ser.write(chr(int(m2)))
+	# 	ser.write(chr(int(m3)))
+	# 	ser.write(chr(int(m4)))
+	# 	ser.write(chr(int(A)))
+
+m1,m2,m3,m4,A = talkToSetare(50, 0, 0)
+ser.write(chr(115))
+ser.write(chr(int(m1)))
+ser.write(chr(int(m2)))
+ser.write(chr(int(m3)))
+ser.write(chr(int(m4)))
+ser.write(chr(int(A)))
+time.sleep(3)
+
+# except KeyboardInterrupt:
+# 	print "IN EXCEPT"
+# 	ser.write(chr(115))
+# 	ser.write(chr(0))
+# 	ser.write(chr(0))
+# 	ser.write(chr(0))
+# 	ser.write(chr(0))
+# 	ser.write(chr(0))
 
 ser.write(chr(115))
 ser.write(chr(0))
