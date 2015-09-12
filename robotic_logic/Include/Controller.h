@@ -8,6 +8,9 @@
 #include <iostream>
 #include <boost/asio.hpp> 
 #include "../Include/geometry.h"
+#include "../Include/params.h"
+#include "../Include/MovingObj.h"
+
 using namespace std;
 
 using namespace::boost::asio;
@@ -26,7 +29,9 @@ public:
 	~Port();
 	void fullStop();
 	void writePort(int input);
-	void talkToSetare(int velocity, int angle, int rotation ,serial_port* port );
+	void talkToSetare(int velocity, int angle, int rotation );
+	bool move(vector<geometry::Vector> path , MovingObj& agent);
+	bool safeMove(vector<geometry::Vector> path , MovingObj& agent);
 };
 
 #endif

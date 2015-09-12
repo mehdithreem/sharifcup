@@ -7,12 +7,12 @@ Graph::Graph() :_size(0) {
   obNum.push_back(0);
 }
 
-void Graph:: makeGraphBasedOnField(Field& field){
-	field.obstacles.push_back(field.rival);
-	addComponent(field.obstacles);
-	field.obstacles.pop_back();
-	return;
-}
+// void Graph:: makeGraphBasedOnField(Field& field){
+// 	field.obstacles.push_back(field.rival);
+// 	addComponent(field.obstacles);
+// 	field.obstacles.pop_back();
+// 	return;
+// }
 
 void Graph::addEdge(int v ,int u){
   v = abs(v);

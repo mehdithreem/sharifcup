@@ -21,6 +21,36 @@ Port::~Port(){
 	delete port;
 }
 
+
+bool Port::move(vector<geometry::Vector> path , MovingObj& agent){
+	if(path.size()==0)
+		return false;
+	if( (agent.COM - path[path.size()-1]).size() < LIMITDEST ){//check the reverse path
+		path.pop_back();
+		if(path.size()==0)
+			return false;
+	}
+	int angle =  path[path.size()-1].angle() - agent.COM.angle() - agent.direction;
+	talkToSetare(SPEED , angle , 0);
+	return true;
+}
+
+bool Port::safeMove(vector<geometry::Vector> path , MovingObj& agent){
+	if(path.size()==0)
+		return false;
+	if( (agent.COM - path[path.size()-1]).size() < LIMITDEST ){//check the reverse path
+		path.pop_back();
+		if(path.size()==0)
+			return false;
+	}
+	int rotation =  path[path.size()-1].angle() - agent.direction;
+	talkToSetare(0 , 0 , rotation);
+	talkToSetare(SPEED , 0 , 0);
+	//check for talkToSetare(SPEED , 0 , rotation);
+	return true;
+}
+
+
 void Port::fullStop(){
 	writePort(115);
 	writePort(0);
@@ -30,7 +60,7 @@ void Port::fullStop(){
 	writePort(170);
 }
 
-void Port::talkToSetare(int velocity, int angle, int rotation ,serial_port* port )
+void Port::talkToSetare(int velocity, int angle, int rotation )
 {
 	unsigned char A = 0 ;
 	float m1 , m2 , m3 , m4 ;
