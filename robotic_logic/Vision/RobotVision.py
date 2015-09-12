@@ -84,10 +84,10 @@ while(1):
 	print upperBound
 
 	_,frame = cap.read()
-	# frame = frame[50:430]
+	frame = frame[50:430]
 	# frame = cv2.blur(frame,(3,3))
 
-	frame = cv2.resize(frame,(0,0),fx=0.5,fy=0.5)
+	# frame = cv2.resize(frame,(0,0),fx=0.5,fy=0.5)
 
 
 	# lowerBound = (cv2.cvtColor(lowerBound,cv2.COLOR_RGB2HSV))[0][0]

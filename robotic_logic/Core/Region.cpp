@@ -22,3 +22,12 @@ void Region::reset(){
 	points.clear();
 }
 
+void Region::addDestPoints(vector<geometry::Vector> _destPoints) {
+	geometry::sortCoordsByPolar(_destPoints);
+
+	for(geometry::Vector point : _destPoints) {
+		destPoints.push_back(make_pair(point, false));
+	}
+
+	return;
+}
