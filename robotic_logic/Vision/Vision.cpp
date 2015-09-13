@@ -27,7 +27,7 @@ void RobotVision::init(){
     shapeDetail = 20 ;
     objectSize = 0 ;
     brightness = 50 ;
-    contrast = 10 ;
+    contrast = 50 ;
     namedWindow("trackbars") ;
     createTrackbar("contrast","trackbars",&contrast,100);
     createTrackbar("brightness","trackbars",&brightness,100);
@@ -56,7 +56,7 @@ void RobotVision::update(Field & field) {
     }
     (*camera) >> frame ;
     frame = frame(Rect(0,50,frame.cols,350));
-    frame *=(contrast/10.0);
+    frame *=pow((contrast/50.0),3);
     frame +=(brightness-50);
 //    blur(frame, frame, Size(3,3));
 //    resize(frame, frame, Size(0,0),0.5,0.5);
