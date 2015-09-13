@@ -25,28 +25,28 @@ Port::~Port(){
 bool Port::move(vector<geometry::Vector> path , MovingObj& agent){
 	if(path.size()==0)
 		return false;
-	if( (agent.COM - path[path.size()-1]).size() < LIMITDEST ){//check the reverse path
+	if( (agent.COM - path[path.size()-1]).size() < params::LIMITDEST ){//check the reverse path
 		path.pop_back();
 		if(path.size()==0)
 			return false;
 	}
 	int angle =  path[path.size()-1].angle() - agent.COM.angle() - agent.direction;
-	talkToSetare(SPEED , angle , 0);
+	talkToSetare(params::SPEED , angle , 0);
 	return true;
 }
 
 bool Port::safeMove(vector<geometry::Vector> path , MovingObj& agent){
 	if(path.size()==0)
 		return false;
-	if( (agent.COM - path[path.size()-1]).size() < LIMITDEST ){//check the reverse path
+	if( (agent.COM - path[path.size()-1]).size() < params::LIMITDEST ){//check the reverse path
 		path.pop_back();
 		if(path.size()==0)
 			return false;
 	}
 	int rotation =  path[path.size()-1].angle() - agent.direction;
 	talkToSetare(0 , 0 , rotation);
-	talkToSetare(SPEED , 0 , 0);
-	//check for talkToSetare(SPEED , 0 , rotation);
+	talkToSetare(params::SPEED , 0 , 0);
+	//check for talkToSetare(params::SPEED , 0 , rotation);
 	return true;
 }
 

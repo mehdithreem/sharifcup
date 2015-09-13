@@ -60,7 +60,7 @@ namespace geometry{
 		return sqrt(x*x + y*y);
 	}
 
-	int Vector:: agnle() {
+	int Vector:: angle() {
 		return atan2(y, x)*180 / PI;
 	}
 }

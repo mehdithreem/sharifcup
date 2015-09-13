@@ -25,8 +25,8 @@ public:
 	geometry::Vector COM;
 	vector < geometry::Vector > coords;
 
-	Color color;
-	Shape shape;
+	params::Color color;
+	params::Shape shape;
 	int regionID;
 	MovingObj();
 
@@ -34,8 +34,8 @@ public:
 	void updateConcave(geometry::Vector _v , vector<geometry::Vector> _coords ,int _d=0);
 	double distWithCOM(geometry::Vector x, geometry::Vector y);
 
-	void setColor(Color _color);
-	void setShape(Shape _shape);
+	void setColor(params::Color _color);
+	void setShape(params::Shape _shape);
 	void print();
 };
 

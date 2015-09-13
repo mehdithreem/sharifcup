@@ -29,7 +29,7 @@ pair<geometry::Vector,geometry::Vector> Field::bestTarget(){
 		for (int j = 0; j < regions[regionIndex].destPoints.size(); j++) {
 			pair<geometry::Vector, bool> dPt = regions[regionIndex].destPoints[j];
 			if (dPt.second == true) {
-				targetDests.push_back(make_pair((obstacles[i].COM - dPt.first)*1.5+dPt.first, dPt.first));
+				targetDests.push_back(make_pair((obstacles[i].COM - dPt.first)/(1/1.5)+dPt.first, dPt.first));
 				cost.push_back(j*100);
 			}
 		}
@@ -38,12 +38,12 @@ pair<geometry::Vector,geometry::Vector> Field::bestTarget(){
 	// calculate obj intersections with lines
 	for (int i = 0; i < obstacles.size(); i++) {
 		for (int j = 0; j < targetDests.size(); j++) {
-			if (obstacles[i].distWithCOM(targetDests.first, targetDests.seconds) <= obstacles[i].radious)
+			if (obstacles[i].distWithCOM(targetDests[j].first, targetDests[j].second) <= obstacles[i].radious)
 				cost[j] += 1000;
 
-			cost[j] += (agent.COM - targetDests.first).size();
+			cost[j] += (agent.COM - targetDests[j].first).size();
 
-			if (obstacles[i].distWithCOM(targetDests.first, agent.COM) <= obstacles[i].radious)
+			if (obstacles[i].distWithCOM(targetDests[j].first, agent.COM) <= obstacles[i].radious)
 				cost[j] += 100;
 		}
 	}
