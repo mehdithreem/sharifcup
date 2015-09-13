@@ -23,14 +23,14 @@ private :
     int holeFilling ;
     int shapeDetail ;
     int objectSize ;
-    MovingObj rival, agent;
+    int contrast , brightness ;
 public:
     ~RobotVision();
     bool NewFrameIsReady();
     void init();
     void update(Field& field);
     void drawPoints(Mat& frame , vector<Point> points);
-//    vector<geometry::Vector> pointsToGeometryVector(vector<Point> points);
+    vector<geometry::Vector> pointsToGeometryVector(vector<Point> points);
     
 };
 double angle2(Point point1,Point point2);
