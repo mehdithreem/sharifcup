@@ -30,6 +30,8 @@ public:
     void init();
     void update(Field& field);
     void drawPoints(Mat& frame , vector<Point> points);
+    void showPoints(vector<Point> points);
+    
     vector<geometry::Vector> pointsToGeometryVector(vector<Point> points);
     
 };

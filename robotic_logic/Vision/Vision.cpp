@@ -136,6 +136,18 @@ vector<geometry::Vector> RobotVision::pointsToGeometryVector(vector<Point> point
     return results ;
 }
 
+void RobotVision::showPoints(vector<Point> points){
+    Mat frame ;
+    while (true) {
+        (*camera) >> frame ;
+        drawPoints(frame, points);
+        imshow("frame", frame) ;
+        if(waitKey(33) == 27){
+            break ;
+        }
+    }
+}
+
 double angle2(Point point1,Point point2){
     return toDegree(atan2(point1.y - point2.y, point1.x - point2.x));
 }
@@ -182,5 +194,7 @@ Point getMiane(int headPointIndex,vector<Point> points){
 double toDegree(double radian){
     return (radian/M_PI)*180 ;
 }
+
+
 
 
