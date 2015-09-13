@@ -21,6 +21,7 @@ class MovingObj{
 public:
 	int direction;
 	int radious;
+	bool updated;
 	geometry::Vector velocity;
 	geometry::Vector COM;
 	vector < geometry::Vector > coords;

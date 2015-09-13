@@ -15,7 +15,7 @@ bool RobotVision::NewFrameIsReady()
 void RobotVision::init(){
     //in RGB
     int initialLowerBound[3] = {0,0,0} ;
-    int initialUpperBound[3] = {66,71,85} ;
+    int initialUpperBound[3] = {75,80,90} ;
     lowerBound[0] = initialLowerBound[0];
     lowerBound[1] = initialLowerBound[1];
     lowerBound[2] = initialLowerBound[2];
@@ -106,9 +106,35 @@ void RobotVision::update(Field & field) {
                 putText(frame,degreeString, Point(0,30), FONT_HERSHEY_PLAIN, 2, Scalar(0,255,0));
                 field.agent.direction = degree ;
                 field.agent.coords = pointsToGeometryVector(shapePoints);
+                field.agent.COM = geometry::Vector(centerPoint.x,centerPoint.y);
+                field.agent.updated = true;
+
+                std::vector<MovingObj> obstacles;
+
+                obstacles.push_back(MovingObj());
+
+                {
+                    geometry::Vector v(10,10);
+                    std::vector<geometry::Vector> vertices;
+
+                    vertices.push_back(geometry::Vector(300,100));
+                    vertices.push_back(geometry::Vector(300,250));
+                    vertices.push_back(geometry::Vector(400,100));
+                    vertices.push_back(geometry::Vector(400,250));
+
+                    obstacles[obstacles.size()-1].update(v, vertices);
+                }
+
+                field.obstacles = obstacles;
+
             }else{
                 field.agent.direction = -1 ;
                 field.agent.coords = pointsToGeometryVector(shapePoints);
+                field.agent.COM = geometry::Vector(centerPoint.x,centerPoint.y);
+                field.agent.updated = false;
+
+                field.agent.update(geometry::Vector(0,0), pointsToGeometryVector(shapePoints), -1);
+
                 cout << "WARNIG : CAN'T RECOGNIZE TRIANGLE !" << endl;
             }
             

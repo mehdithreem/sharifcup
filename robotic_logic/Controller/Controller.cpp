@@ -22,20 +22,38 @@ Port::~Port(){
 }
 
 
-bool Port::move(vector<geometry::Vector> path , MovingObj& agent){
+bool Port::move(vector<geometry::Vector>& path , MovingObj& agent, int& x){
+	int fixedDirection = agent.direction >= 0 ? agent.direction - 180 : agent.direction + 180;
+
 	if(path.size()==0)
 		return false;
 	if( (agent.COM - path[path.size()-1]).size() < params::LIMITDEST ){//check the reverse path
+		cout << "----------MOVE: point poped - path size: " << path.size() << endl;
 		path.pop_back();
 		if(path.size()==0)
 			return false;
+		x = (agent.COM - path[path.size()-1]).size();
+		fullStop();
+		// return true;
 	}
-	int angle =  path[path.size()-1].angle() - agent.COM.angle() - agent.direction;
-	talkToSetare(params::SPEED , angle , 0);
+	int angle =  (path[path.size()-1] - agent.COM).angle() - fixedDirection;
+
+
+	int speed = ((agent.COM - path[path.size()-1]).size() * params::SPEED + x * params::minSPEED) / x;
+	// int speed = ((agent.COM - path[path.size()-1]).size() * params::SPEED) / x;
+	speed = max(speed, params::minSPEED);
+	speed = min(speed, params::maxSPEED);
+
+	cout << "COM: " << agent.COM << " -path: " << path[path.size()-1] << " -border: " << (path[path.size()-1] - agent.COM).size()<< endl;
+	cout << "DIR: " << fixedDirection << " -angle: " << (path[path.size()-1] - agent.COM).angle() << " -drive: " << angle << endl; 
+	cout << "SPEED: " << speed << endl;
+	talkToSetare(speed , angle , 0);
 	return true;
 }
 
 bool Port::safeMove(vector<geometry::Vector> path , MovingObj& agent){
+	int fixedDirection = agent.direction >= 0 ? agent.direction - 180 : agent.direction + 180;
+
 	if(path.size()==0)
 		return false;
 	if( (agent.COM - path[path.size()-1]).size() < params::LIMITDEST ){//check the reverse path
@@ -43,7 +61,7 @@ bool Port::safeMove(vector<geometry::Vector> path , MovingObj& agent){
 		if(path.size()==0)
 			return false;
 	}
-	int rotation =  path[path.size()-1].angle() - agent.direction;
+	int rotation =  path[path.size()-1].angle() - fixedDirection;
 	talkToSetare(0 , 0 , rotation);
 	talkToSetare(params::SPEED , 0 , 0);
 	//check for talkToSetare(params::SPEED , 0 , rotation);

@@ -15,6 +15,8 @@ pair<geometry::Vector,geometry::Vector> Field::bestTarget(){
 	// vector<target,dist>
 	vector<pair<geometry::Vector, geometry::Vector>> targetDests;
 	vector<int> cost;
+	cerr << "----in bestTarget 1" << endl;
+	cerr << "-------- obstacles.size "  << obstacles.size() << endl;
 
 	// find target and dists
 	for (int i = 0; i < obstacles.size(); i++) {
@@ -26,6 +28,8 @@ pair<geometry::Vector,geometry::Vector> Field::bestTarget(){
 			}
 		}
 
+		cerr << "----in bestTarget 2" << endl;
+
 		for (int j = 0; j < regions[regionIndex].destPoints.size(); j++) {
 			pair<geometry::Vector, bool> dPt = regions[regionIndex].destPoints[j];
 			if (dPt.second == true) {
@@ -33,7 +37,12 @@ pair<geometry::Vector,geometry::Vector> Field::bestTarget(){
 				cost.push_back(j*100);
 			}
 		}
+
+		cerr << "----in bestTarget 3" << endl;
+
 	}
+
+	cerr << "----in bestTarget 4" << endl;
 
 	// calculate obj intersections with lines
 	for (int i = 0; i < obstacles.size(); i++) {
@@ -54,6 +63,8 @@ pair<geometry::Vector,geometry::Vector> Field::bestTarget(){
 			minIndex = i;
 	}
 	
+	cerr << "----in bestTarget 5" << endl;
+
 	return targetDests[minIndex];
 }
 

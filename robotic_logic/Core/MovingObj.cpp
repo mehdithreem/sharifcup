@@ -12,7 +12,7 @@
 using namespace std;
 using namespace geometry;
 
-MovingObj::MovingObj(): velocity(Vector(0,0)) , COM(Vector(0,0)) , direction(0) {}
+MovingObj::MovingObj(): velocity(Vector(0,0)) , COM(Vector(0,0)) , direction(0), updated(false) {}
 
 void MovingObj::update(Vector _v  , vector<Vector> _coords, int _d)
 {
@@ -34,6 +34,8 @@ void MovingObj::update(Vector _v  , vector<Vector> _coords, int _d)
 	if (coords.size() > 0) radious = (COM - coords[0]).size();
 	else radious = 0;
 
+	updated = true;
+
 	return;
 }
 
@@ -54,6 +56,8 @@ void MovingObj::updateConcave(Vector _v , vector<Vector> _coords ,int _d)
 
 	if (coords.size() > 0) radious = (COM - coords[0]).size();
 	else radious = 0;
+
+	updated = true;
 
 	return;
 }

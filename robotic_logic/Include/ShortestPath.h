@@ -5,10 +5,13 @@
 #include "../Include/Graph.h"
 #include "../Include/MovingObj.h"
 #include "../Include/geometry.h"
+#include "../Include/params.h"
+#include "../Include/Field.h"
 
 class Graph;
+class Field;
 
-vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector goal, Graph& G);
+vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector goal, Field& F );
 
 void VisibiltyGraph(Graph& graph);
 vector <int>  VisibileVertices(int i,Graph& garph);

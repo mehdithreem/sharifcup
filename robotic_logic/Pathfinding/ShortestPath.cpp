@@ -25,30 +25,27 @@ struct openSetGreater{
 	}
 };
 
-vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector goal, Graph& G ) {
-	// Graph G;
+vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector goal, Field& F ) {
+	Graph G;
+
+	std::vector<MovingObj> finalObstacles;
+	finalObstacles = MinkowskiAll(F.agent, F.rival, F.obstacles);
 	
+
 	G.addSingleNode(start);
 	G.addSingleNode(goal);
-	
-	// obstacles.push_back(rival);
-	// G.addComponent(obstacles);
-	// obstacles.pop_back();
-	
+
+	G.addComponent(finalObstacles);
+
 	VisibiltyGraph(G);
-	
+		
 	std::vector<geometry::Vector> path;
 	
-	try {
-		std::vector<int> pathIndex = AStar(0, 1, G);
-		
-		for (int i = pathIndex.size() - 1; i >= 0 ; i--)
-			path.push_back(G.nodes[pathIndex[i]]);
-	} catch (...) {
-		// no path found!!
-		// use a random direction to pathfind again
-	}
+	std::vector<int> pathIndex = AStar(0, 1, G);
 	
+	for (int i = 0; i < pathIndex.size() ; i++)
+		path.push_back(G.nodes[pathIndex[i]]);
+		
 	return path;
 }
 
@@ -110,7 +107,7 @@ vector<int> AStar(int start , int goal ,Graph& G)
 		}
 	}
 	
-	throw "Can't construct path";
+	throw exceptions::NoPath();
 	return std::vector<int>();
 }
 

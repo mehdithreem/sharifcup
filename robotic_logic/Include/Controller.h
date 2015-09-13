@@ -30,7 +30,7 @@ public:
 	void fullStop();
 	void writePort(int input);
 	void talkToSetare(int velocity, int angle, int rotation );
-	bool move(vector<geometry::Vector> path , MovingObj& agent);
+	bool move(vector<geometry::Vector>& path , MovingObj& agent, int& x);
 	bool safeMove(vector<geometry::Vector> path , MovingObj& agent);
 };
 
