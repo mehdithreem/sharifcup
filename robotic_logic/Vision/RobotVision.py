@@ -11,7 +11,7 @@ def drawPoints(frame,points):
 		cv2.circle(frame,(currPoint[0][0],currPoint[0][1]),2,(0,0,255),thickness=2)
 
 def angle2(point1,point2):
-	return math.degrees(math.atan2(point1[1] - point2[1],point1[0]-point2[0]))
+	return math.atan2(point1[1] - point2[1],point1[0]-point2[0])*180/math.pi
 
 def angle3(point1,centerPoint,point2):
 	P12 = math.sqrt( math.pow( (point1[0]-point2[0]) , 2) + math.pow( (point1[1]-point2[1]) , 2) )
@@ -84,7 +84,7 @@ while(1):
 	print upperBound
 
 	_,frame = cap.read()
-	frame = frame[50:430]
+	frame = frame[50:410]
 	# frame = cv2.blur(frame,(3,3))
 
 	# frame = cv2.resize(frame,(0,0),fx=0.5,fy=0.5)

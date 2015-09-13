@@ -47,7 +47,9 @@ def getMiane(headPointIndex,points):
 	return [x,y]
 
 def getPos():
-	while(1):
+	degree, centerPoint = 0,0
+	found = False
+	while(not found):
 		shapeDetail =(float)(cv2.getTrackbarPos("shape detail","frame")) / 200
 		kernelSizeNoise = cv2.getTrackbarPos("noise reduction","frame")
 		kernelSizeHole = cv2.getTrackbarPos("hole filling","frame")
@@ -62,10 +64,16 @@ def getPos():
 
 		lowerBound = np.array((lBlue,lGreen,lRed))
 		upperBound = np.array((mBlue,mGreen,mRed))
-		print upperBound
+		# print upperBound
 
 		_,frame = cap.read()
-		frame = frame[50:430]
+		frame = frame[50:410]
+
+                cv2.circle(frame,((291,92)),2,(0,255,0),thickness=2)
+                cv2.circle(frame,((397,95)),2,(0,255,0),thickness=2)
+                cv2.circle(frame,((473,122)),2,(0,255,0),thickness=2)
+
+
 		# frame = cv2.blur(frame,(3,3))
 
 		# frame = cv2.resize(frame,(0,0),fx=0.5,fy=0.5)
@@ -103,9 +111,9 @@ def getPos():
 				++i
 
 			if(cv2.contourArea(maxContour) > objectSizeThresh):
-				print "area of max max ! " + "%f" % cv2.contourArea(maxContour)
+				# print "area of max max ! " + "%f" % cv2.contourArea(maxContour)
 				# print "contour size :"
-				print len(contours)
+				# print len(contours)
 
 				# points = cv2.convexHull(maxContour)
 				# print "points are :"
@@ -124,18 +132,17 @@ def getPos():
 
 
 				arcLength = cv2.arcLength(maxContour,True)
-				print "arcLength is :"
-				print arcLength
+				# print "arcLength is :"
+				# print arcLength
 				points = cv2.approxPolyDP(maxContour,shapeDetail*arcLength,True)
 				cv2.drawContours(frame,[points],0,(0,0,255),thickness=1)
 				drawPoints(frame,points)
-				print "points are :"
-				print points
+				# print "points are :"
+				# print points
 				moments = cv2.moments(maxContour)
 				centerPoint = (int(moments['m10']/moments['m00']) , int(moments['m01']/moments['m00']))
 				cv2.circle(frame,centerPoint,2,(0,0,255),thickness=2)
-				print "center point is :"
-				print centerPoint
+				print "center point is :", centerPoint
 				#for degree
 				if (len(points) == 3):
 					print "TRIANGLE RECOGNIZED SUCCESSFULLY"
@@ -143,10 +150,9 @@ def getPos():
 					headPoint = points[headPointIndex][0]
 					miane = getMiane(headPointIndex,points)
 					degree = angle2(miane,headPoint)
-					print "degree is :"
-					print degree
+					print "degree is :", degree
 					cv2.arrowedLine(frame,(miane[0],miane[1]),(headPoint[0],headPoint[1]),(0,255,0),thickness=2,tipLength=0.2)
-					return degree, centerPoint
+					found = True
 				else :
 					print "WARNIG : CAN'T RECOGNIZE TRIANGLE !"
 		# M = cv2.moments(best_cnt)
@@ -158,6 +164,7 @@ def getPos():
 		cv2.imshow('threshMorpho',threshMorpho)
 		if cv2.waitKey(33)== 27:
 			break
+	return degree, centerPoint
 
 def talkToSetare(velocity, angle, rotation):
 	m1 = 255*((-math.sin((45.0-angle)/180*3.14))*velocity / 100.0)
@@ -201,7 +208,7 @@ def talkToSetare(velocity, angle, rotation):
 
 #in RGB
 initialLowerBound = (0,0,0)
-initialUpperBound = (66,71,85)
+initialUpperBound = (85,71,66)
 intialNoiseReduction =  1
 intialHoleFilling =  1
 initialShapeDetail = 20
@@ -225,34 +232,47 @@ SPEED = 60
 whileEnd = True
 i = 1
 # [300,250], [400,250]
-goals = [[300,150] ,[400,150] ,[470,180]]
+goals = [[291,92] ,[397,95] ,[473,122]]
 goal = goals[0]
-
-cv2.circle(frame,([300,150]),2,(0,255,0),thickness=2)
-cv2.circle(frame,([400,150]),2,(0,255,0),thickness=2)
-cv2.circle(frame,([470,180]),2,(0,255,0),thickness=2)
 
 while whileEnd:
 	direction , pos= getPos()
 	print "GOAL:" ,goal
+        x = 100
 
-	if abs(goal[0]-pos[0])**2+abs(goal[1]-pos[1])**2 < 1600:
-		print "GOAL CHANGED :D"
+	if abs(goal[0]-pos[0])**2+abs(goal[1]-pos[1])**2 < 800:
+		print "------------GOAL CHANGED :D---------"
 		goal = goals[i]
+		i += 1
 			#get direction
 		if i == len(goals)+1:
 			break
 		x = math.sqrt(abs(goal[0]-pos[0])**2+(goal[1]-pos[1])**2)
+		ser.write(chr(115))
+		ser.write(chr(0))
+		ser.write(chr(0))
+		ser.write(chr(0))
+		ser.write(chr(0))
+		ser.write(chr(0))
 
 	if (direction >= 0) :
 		fixedDirection = direction - 180 
 	else:
 		fixedDirection = direction + 180
-	angle = atan2(goal[1]-pos[1] , goal[0]-pos[0])*180/math.pi - fixedDirection
-	speed = ( sqrt(abs(goal[0]-pos[0])**2+(goal[1]-pos[1])**2)*SPEED + x*40 ) / x
+
+	angle = math.atan2(goal[1]-pos[1] , goal[0]-pos[0])*180/math.pi - fixedDirection
+	speed = ( math.sqrt(abs(goal[0]-pos[0])**2+(goal[1]-pos[1])**2)*SPEED + x*40 ) / x
+	print "SPEED ANGLE", speed, angle
 	speed = max(speed, 40)
 	speed = min(speed, 50)
-	talkToSetare(speed , angle , 0)
+	m1, m2, m3, m4, A = talkToSetare(speed , angle , 0)
+	ser.write(chr(115))
+	ser.write(chr(int(m1)))
+	ser.write(chr(int(m2)))
+	ser.write(chr(int(m3)))
+	ser.write(chr(int(m4)))
+	ser.write(chr(int(A)))
+
 
 ser.write(chr(115))
 ser.write(chr(0))
