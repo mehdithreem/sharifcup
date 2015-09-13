@@ -59,10 +59,10 @@ void MovingObj::updateConcave(Vector _v , vector<Vector> _coords ,int _d)
 }
 
 
-void MovingObj::setColor(Color _color) {
+void MovingObj::setColor(params::Color _color) {
 	color = _color;
 }
-void MovingObj::setShape(Shape _shape) {
+void MovingObj::setShape(params::Shape _shape) {
 	shape = _shape;
 }
 

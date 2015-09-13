@@ -11,7 +11,7 @@ using namespace std;
 class Region {
 public:
 	vector<geometry::Vector> points;
-	vector<pair<Color,Shape>> objects;
+	vector<pair<params::Color,params::Shape>> objects;
 	int ID;
 
 	Region(vector<geometry::Vector> _p);

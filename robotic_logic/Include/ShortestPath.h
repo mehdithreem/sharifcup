@@ -6,6 +6,7 @@
 #include "../Include/MovingObj.h"
 #include "../Include/geometry.h"
 
+class Graph;
 
 vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector goal, Graph& G);
 
