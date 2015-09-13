@@ -142,64 +142,30 @@ def talkToSetare(velocity, angle, rotation):
 
 ser = serial.Serial("/dev/tty.Setareh-DevB")
 goal = (300,215)
-speed = 100
+SPEED = 60
 whileEnd = True
 i = 0
-# goals = [(310,240),(420,95)]
-goals = []
+goals = [(300,100) , (300,250) ,(400,100) ,(400,250)]
+while whileEnd:
+ 	pos = getPos()
+ 	print "GOAL:" ,goal
 
-# try:
-	# while whileEnd:
-	# 	pos = getPos()
-	# 	print "GOAL:" ,goal
-
-	# 	if abs(goal[0]-pos[0])+abs(goal[1]-pos[1]) < 80:
-	# 		print "GOAL CHANGED :D"
-	# 		goal = goals[i]
-	# 		ser.write(chr(115))
-	# 		ser.write(chr(0))
-	# 		ser.write(chr(0))
-	# 		ser.write(chr(0))
-	# 		ser.write(chr(0))
-	# 		ser.write(chr(0))
-	# 		sleep(1)
-	# 		i += 1
-	# 		if i == len(goals)+1:
-	# 			break
-
-	# 	# print "inloop",pos, goal
-	# 	angle = math.atan((goal[1]-pos[1])/(goal[0]-pos[0]))*180/math.pi
-	# 	# print angle
-	# 	# m1,m2,m3,m4,A = talkToSetare(0, 0, 50)
-	# 	# time.sleep(3)
-	# 	# m1,m2,m3,m4,A = talkToSetare(speed, 0, 50)
-
-	# 	# print m1,m2,m3,m4,A
-
-	# 	ser.write(chr(115))
-	# 	ser.write(chr(int(m1)))
-	# 	ser.write(chr(int(m2)))
-	# 	ser.write(chr(int(m3)))
-	# 	ser.write(chr(int(m4)))
-	# 	ser.write(chr(int(A)))
-
-m1,m2,m3,m4,A = talkToSetare(50, 0, 0)
-ser.write(chr(115))
-ser.write(chr(int(m1)))
-ser.write(chr(int(m2)))
-ser.write(chr(int(m3)))
-ser.write(chr(int(m4)))
-ser.write(chr(int(A)))
-time.sleep(3)
-
-# except KeyboardInterrupt:
-# 	print "IN EXCEPT"
-# 	ser.write(chr(115))
-# 	ser.write(chr(0))
-# 	ser.write(chr(0))
-# 	ser.write(chr(0))
-# 	ser.write(chr(0))
-# 	ser.write(chr(0))
+ 	if abs(goal[0]-pos[0])+abs(goal[1]-pos[1]) < 80:
+ 	    print "GOAL CHANGED :D"
+ 	    goal = goals[i]
+            #get direction
+            if i == len(goals)+1:
+		break
+            x = math.sqrt(abs(goal[0]-pos[0])**2+(goal[1]-pos[1])**2)
+        if (direction >= 0) :
+            fixedDirection = direction - 180 
+        else:
+            fixedDirection = direction + 180
+        angle = atan2(goal[1]-pos[1] , goal[0]-pos[0])*180/math.pi - fixedDirection
+        speed = ( sqrt(abs(goal[0]-pos[0])**2+(goal[1]-pos[1])**2)*SPEED + x*40 ) / x
+        speed = max(speed, 40)
+        speed = min(speed, 50)
+        talkToSetare(speed , angle , 0)
 
 ser.write(chr(115))
 ser.write(chr(0))
