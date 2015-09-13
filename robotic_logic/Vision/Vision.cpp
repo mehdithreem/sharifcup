@@ -2,6 +2,7 @@
 
 
 RobotVision::~RobotVision(){
+    
     camera->release();
     destroyAllWindows();
 }
@@ -37,7 +38,6 @@ void RobotVision::init(){
     createTrackbar("lblue","trackbars",&lowerBound[2],255);
     createTrackbar("mblue","trackbars",&upperBound[2],255);
     camera = new VideoCapture(0);
-
 }
 
 void RobotVision::update(Field & field) {
@@ -98,7 +98,11 @@ void RobotVision::update(Field & field) {
                 strs << degree ;
                 String degreeString = strs.str() ;
                 putText(frame,degreeString, Point(0,30), FONT_HERSHEY_PLAIN, 2, Scalar(0,255,0));
+                field.agent.direction = degree ;
+                field.agent.coords = pointsToGeometryVector(shapePoints);
             }else{
+                field.agent.direction = -1 ;
+                field.agent.coords = pointsToGeometryVector(shapePoints);
                 cout << "WARNIG : CAN'T RECOGNIZE TRIANGLE !" << endl;
             }
             
@@ -116,6 +120,14 @@ void RobotVision::drawPoints(Mat &frame, vector<Point> points){
     for (Point currPoint : points) {
         circle(frame, currPoint, 2, Scalar(0,0,255),2);
     }
+}
+
+vector<geometry::Vector> RobotVision::pointsToGeometryVector(vector<Point> points){
+    vector<geometry::Vector> results;
+    for (int i=0; i<points.size(); i++) {
+        results.push_back(geometry::Vector(points[i].x,points[i].y));
+    }
+    return results ;
 }
 
 double angle2(Point point1,Point point2){
