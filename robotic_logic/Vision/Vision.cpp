@@ -26,7 +26,11 @@ void RobotVision::init(){
     holeFilling =  1 ;
     shapeDetail = 20 ;
     objectSize = 0 ;
+    brightness = 50 ;
+    contrast = 10 ;
     namedWindow("trackbars") ;
+    createTrackbar("contrast","trackbars",&contrast,100);
+    createTrackbar("brightness","trackbars",&brightness,100);
     createTrackbar("shape detail","trackbars",&shapeDetail,100);
     createTrackbar("noise reduction","trackbars",&noiseReduction,15);
     createTrackbar("hole filling","trackbars",&holeFilling,15);
@@ -52,6 +56,8 @@ void RobotVision::update(Field & field) {
     }
     (*camera) >> frame ;
     frame = frame(Rect(0,50,frame.cols,350));
+    frame *=(contrast/10.0);
+    frame +=(brightness-50);
 //    blur(frame, frame, Size(3,3));
 //    resize(frame, frame, Size(0,0),0.5,0.5);
     inRange(frame, Scalar(lowerBound[2],lowerBound[1],lowerBound[0]), Scalar(upperBound[2],upperBound[1],upperBound[0]), thresh);
@@ -93,7 +99,7 @@ void RobotVision::update(Field & field) {
                 Point headPoint = shapePoints[headPointIndex] ;
                 Point miane = getMiane(headPointIndex, shapePoints);
                 double degree = angle2(miane, headPoint);
-                arrowedLine(frame, miane, headPoint, Scalar(0,255,0));
+                arrowedLine(frame, miane, headPoint, Scalar(0,255,0),2);
                 ostringstream strs ;
                 strs << degree ;
                 String degreeString = strs.str() ;
