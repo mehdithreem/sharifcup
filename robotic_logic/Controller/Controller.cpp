@@ -60,12 +60,12 @@ bool Port::safeMove(vector<geometry::Vector> path , MovingObj& agent){
 
 void Port::fullStop(){
 	vector<uint8_t > data;
-	data.push_back((unsigned char)115);
-	data.push_back((unsigned char)0);
-	data.push_back((unsigned char)0);
-	data.push_back((unsigned char)0);
-	data.push_back((unsigned char)0);
-	data.push_back((unsigned char)170);
+	data.push_back((uint8_t )115);
+	data.push_back((uint8_t )0);
+	data.push_back((uint8_t )0);
+	data.push_back((uint8_t )0);
+	data.push_back((uint8_t )0);
+	data.push_back((uint8_t )170);
 	writePort(data);
 }
 
@@ -105,13 +105,14 @@ void Port::talkToSetare(int velocity, int angle, int rotation )
 	else if(m4<0)
 		A|=1<<7;
 
-	vector<uint8_t > data;
-	data.push_back((unsigned char)115);
-	data.push_back((unsigned char)m1);
-	data.push_back((unsigned char)m2);
-	data.push_back((unsigned char)m3);
-	data.push_back((unsigned char)m4);
-	data.push_back((unsigned char)A);
+	vector<uint8_t> data;
+	data.push_back((uint8_t)115);
+	data.push_back((uint8_t)abs(m1));
+	data.push_back((uint8_t)abs(m2));
+	data.push_back((uint8_t)abs(m3));
+	data.push_back((uint8_t)abs(m4));
+	data.push_back((uint8_t)A);
+	cout<<"A IS ##########"<<(int)A<<endl;
 	writePort(data);
 	
 	return;
@@ -119,8 +120,9 @@ void Port::talkToSetare(int velocity, int angle, int rotation )
 
 void Port:: writePort(vector< uint8_t > & 	data){
 	size_t s = 0;
-	while (s <6){
+	while (s < 6){
 		s = port->write(data);
+		// cout << "S is " << s << endl;
 	}
 	return;
 }
