@@ -2,13 +2,15 @@ cmake_minimum_required(VERSION 2.8)
 project( phase1 )
 
 find_package( OpenCV )
-find_package(Boost 1.40.0 REQUIRED system)
+#find_package(Boost 1.40.0 REQUIRED system)
 find_package(PythonLibs REQUIRED)
+find_package(serial)
 
 
 include_directories( ${PYTHON_INCLUDE_DIRS} )
 include_directories( ${OpenCV_INCLUDE_DIRS} )
-include_directories( ${Boost_INCLUDE_DIRS} )
+#include_directories( ${Boost_INCLUDE_DIRS} )
+include_directories( ${serial_INCLUDE_DIRS} )
 
 file(GLOB CONTROLLER_SRC "../Controller/*.cpp")
 file(GLOB CORE_SRC "../Core/*.cpp")
@@ -26,5 +28,6 @@ add_executable( phase1 ${SOURCE} ${HEADERS})
 
 target_link_libraries( phase1 ${OpenCV_LIBS} )
 target_link_libraries( phase1 ${PYTHON_LIBRARIES})
-target_link_libraries( phase1 ${Boost_SYSTEM_LIBRARY})
+#target_link_libraries( phase1 ${Boost_SYSTEM_LIBRARY})
+target_link_libraries( phase1 ${serial_LIBRARIES} )
 target_compile_features( phase1 PRIVATE cxx_range_for )

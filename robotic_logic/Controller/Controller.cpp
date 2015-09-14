@@ -2,18 +2,7 @@
 
 
 Port::Port(){
-	const char *PORT = "/dev/tty.Setareh-DevB";
-	serial_port_base::baud_rate BAUD(38400);
-	serial_port_base::character_size C_SIZE( 8 );
-
-	serial_port_base::flow_control FLOW( serial_port_base::flow_control::none );
-	serial_port_base::parity PARITY( serial_port_base::parity::even );
-	serial_port_base::stop_bits STOP( serial_port_base::stop_bits::one );
-	io_service io;
-	port = new serial_port( io, PORT );
-	port->set_option( BAUD );
-	port->set_option( C_SIZE );
-	port->set_option( PARITY );
+	port = new serial::Serial("/dev/tty.Setareh-DevB", 38400);
 }
 
 Port::~Port(){
@@ -70,12 +59,14 @@ bool Port::safeMove(vector<geometry::Vector> path , MovingObj& agent){
 
 
 void Port::fullStop(){
-	writePort(115);
-	writePort(0);
-	writePort(0);
-	writePort(0);
-	writePort(0);
-	writePort(170);
+	vector<uint8_t > data;
+	data.push_back((unsigned char)115);
+	data.push_back((unsigned char)0);
+	data.push_back((unsigned char)0);
+	data.push_back((unsigned char)0);
+	data.push_back((unsigned char)0);
+	data.push_back((unsigned char)170);
+	writePort(data);
 }
 
 void Port::talkToSetare(int velocity, int angle, int rotation )
@@ -114,20 +105,22 @@ void Port::talkToSetare(int velocity, int angle, int rotation )
 	else if(m4<0)
 		A|=1<<7;
 
-	writePort(115);
-	writePort((int)abs(m1));
-	writePort((int)abs(m2));
-	writePort((int)abs(m3));
-	writePort((int)abs(m4));
-	writePort((int)abs(A));
-
+	vector<uint8_t > data;
+	data.push_back((unsigned char)115);
+	data.push_back((unsigned char)m1);
+	data.push_back((unsigned char)m2);
+	data.push_back((unsigned char)m3);
+	data.push_back((unsigned char)m4);
+	data.push_back((unsigned char)A);
+	writePort(data);
+	
 	return;
 }
 
-void Port:: writePort(int input){
-	unsigned char command[1] = {0};
-	command[0] = static_cast<unsigned char>(input);
-	write( *port, buffer( command, 1 ) );
-	port->send_break();
+void Port:: writePort(vector< uint8_t > & 	data){
+	size_t s = 0;
+	while (s <6){
+		s = port->write(data);
+	}
 	return;
 }
