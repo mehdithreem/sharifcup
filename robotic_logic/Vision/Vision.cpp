@@ -15,7 +15,7 @@ bool RobotVision::NewFrameIsReady()
 void RobotVision::init(){
     //in RGB
     int initialLowerBound[3] = {0,0,0} ;
-    int initialUpperBound[3] = {92,92,93} ;
+    int initialUpperBound[3] = {92,92,92} ;
     lowerBound[0] = initialLowerBound[0];
     lowerBound[1] = initialLowerBound[1];
     lowerBound[2] = initialLowerBound[2];
@@ -46,113 +46,112 @@ void RobotVision::init(){
 
 void RobotVision::update(Field & field) {
     Mat frame ,thresh,threshMorpho,threshMorphoCopy;
-//     Mat kernelNoise(noiseReduction,noiseReduction,CV_8U,Scalar(1));
-//     Mat kernelHole(holeFilling,holeFilling,CV_8U,Scalar(1));
-//     vector<vector<Point> > contours;
-//     vector<Point> maxContour , shapePoints;
-//     if(!camera->isOpened()){
-//         cout << "camera not ready !" ;
-//         return ;
-//     }
+    Mat kernelNoise(noiseReduction,noiseReduction,CV_8U,Scalar(1));
+    Mat kernelHole(holeFilling,holeFilling,CV_8U,Scalar(1));
+    vector<vector<Point> > contours;
+    vector<Point> maxContour , shapePoints;
+    if(!camera->isOpened()){
+        cout << "camera not ready !" ;
+        return ;
+    }
     (*camera) >> frame ;
-//     frame = frame(Rect(0,50,frame.cols,350));
-//     frame *=pow((contrast/50.0),3);
-//     frame +=(brightness-50);
-// //    blur(frame, frame, Size(3,3));
-// //    resize(frame, frame, Size(0,0),0.5,0.5);
-//     inRange(frame, Scalar(lowerBound[2],lowerBound[1],lowerBound[0]), Scalar(upperBound[2],upperBound[1],upperBound[0]), thresh);
-//     morphologyEx(thresh,threshMorpho, MORPH_OPEN,kernelNoise);
-//     morphologyEx(threshMorpho,threshMorpho, MORPH_CLOSE,kernelHole);
-//     threshMorpho.copyTo(threshMorphoCopy);
-//     findContours(threshMorphoCopy,contours,RETR_EXTERNAL,CHAIN_APPROX_SIMPLE) ;
-//     if(contours.size() > 0){
-//         maxContour = contours[0];
-//         int maxContourArea = contourArea(maxContour);
-//         for(int i =0 ; i < contours.size() ; i++){
-//             int area = contourArea(contours[i]);
-//             if(area > (objectSize/2)*1000){
-//                 if(maxContourArea < area){
-//                     maxContour = contours[i];
-//                     maxContourArea = area ;
-//                 }
-//             }
-//         }
-//         if(maxContourArea > (objectSize/2)*1000){
-//             cout << "area of max max !" << maxContourArea << endl ;
-//             double arcLen = arcLength(maxContour, true);
-//             cout << "arcLength is :" << arcLen << endl;
-//             approxPolyDP(maxContour,shapePoints,(shapeDetail/200.0)*arcLen,true);
-//             drawContours(frame, vector<vector<Point> >(1,shapePoints),-1,Scalar(0,0,255));
-//             drawPoints(frame, shapePoints);
-//             cout << "points are : " << endl ;
-//             for (Point currPoint : shapePoints) {
-//                 cout << currPoint.x << " " << currPoint.y << " , " ;
-//             }
-//             cout << endl ;
-//             Moments shapeMomments = moments(maxContour);
-//             Point centerPoint (shapeMomments.m10/shapeMomments.m00 , shapeMomments.m01/shapeMomments.m00);
-//             circle(frame, centerPoint, 2, Scalar(0,0,255),2);
-//             cout << "center point is :" << centerPoint.x << " " << centerPoint.y << endl ;
-//             if(shapePoints.size() == 3){
-//                 cout << "TRIANGLE RECOGNIZED SUCCESSFULLY" << endl;
-//                 int headPointIndex = getHeadPointIndex(shapePoints);
-//                 Point headPoint = shapePoints[headPointIndex] ;
-//                 Point miane = getMiane(headPointIndex, shapePoints);
-//                 double degree = angle2(miane, headPoint);
-//                 arrowedLine(frame, miane, headPoint, Scalar(0,255,0),2);
-//                 ostringstream strs ;
-//                 strs << degree ;
-//                 String degreeString = strs.str() ;
-//                 putText(frame,degreeString, Point(0,30), FONT_HERSHEY_PLAIN, 2, Scalar(0,255,0));
+    frame = frame(Rect(0,50,frame.cols,350));
+    frame *=pow((contrast/50.0),3);
+    frame +=(brightness-50);
+//    blur(frame, frame, Size(3,3));
+//    resize(frame, frame, Size(0,0),0.5,0.5);
+    inRange(frame, Scalar(lowerBound[2],lowerBound[1],lowerBound[0]), Scalar(upperBound[2],upperBound[1],upperBound[0]), thresh);
+    morphologyEx(thresh,threshMorpho, MORPH_OPEN,kernelNoise);
+    morphologyEx(threshMorpho,threshMorpho, MORPH_CLOSE,kernelHole);
+    threshMorpho.copyTo(threshMorphoCopy);
+    findContours(threshMorphoCopy,contours,RETR_EXTERNAL,CHAIN_APPROX_SIMPLE) ;
+    if(contours.size() > 0){
+        maxContour = contours[0];
+        int maxContourArea = contourArea(maxContour);
+        for(int i =0 ; i < contours.size() ; i++){
+            int area = contourArea(contours[i]);
+            if(area > (objectSize/2)*1000){
+                if(maxContourArea < area){
+                    maxContour = contours[i];
+                    maxContourArea = area ;
+                }
+            }
+        }
+        if(maxContourArea > (objectSize/2)*1000){
+            cout << "area of max max !" << maxContourArea << endl ;
+            double arcLen = arcLength(maxContour, true);
+            cout << "arcLength is :" << arcLen << endl;
+            approxPolyDP(maxContour,shapePoints,(shapeDetail/200.0)*arcLen,true);
+            drawContours(frame, vector<vector<Point> >(1,shapePoints),-1,Scalar(0,0,255));
+            drawPoints(frame, shapePoints);
+            cout << "points are : " << endl ;
+            for (Point currPoint : shapePoints) {
+                cout << currPoint.x << " " << currPoint.y << " , " ;
+            }
+            cout << endl ;
+            Moments shapeMomments = moments(maxContour);
+            Point centerPoint (shapeMomments.m10/shapeMomments.m00 , shapeMomments.m01/shapeMomments.m00);
+            circle(frame, centerPoint, 2, Scalar(0,0,255),2);
+            cout << "center point is :" << centerPoint.x << " " << centerPoint.y << endl ;
+            if(shapePoints.size() == 3){
+                cout << "TRIANGLE RECOGNIZED SUCCESSFULLY" << endl;
+                int headPointIndex = getHeadPointIndex(shapePoints);
+                Point headPoint = shapePoints[headPointIndex] ;
+                Point miane = getMiane(headPointIndex, shapePoints);
+                double degree = angle2(miane, headPoint);
+                arrowedLine(frame, miane, headPoint, Scalar(0,255,0),2);
+                ostringstream strs ;
+                strs << degree ;
+                String degreeString = strs.str() ;
+                putText(frame,degreeString, Point(0,30), FONT_HERSHEY_PLAIN, 2, Scalar(0,255,0));
 
-//                 comPath.push_back(centerPoint);
+                comPath.push_back(centerPoint);
 
-//                 field.agent.direction = degree ;
-//                 field.agent.coords = pointsToGeometryVector(shapePoints);
-//                 field.agent.COM = geometry::Vector(centerPoint.x,centerPoint.y);
-//                 field.agent.updated = true;
+                field.agent.direction = degree ;
+                field.agent.coords = pointsToGeometryVector(shapePoints);
+                field.agent.COM = geometry::Vector(centerPoint.x,centerPoint.y);
+                field.agent.updated = true;
 
-//                 std::vector<MovingObj> obstacles;
+                std::vector<MovingObj> obstacles;
 
-//                 obstacles.push_back(MovingObj());
+                obstacles.push_back(MovingObj());
 
-//                 {
-//                     geometry::Vector v(10,10);
-//                     std::vector<geometry::Vector> vertices;
+                {
+                    geometry::Vector v(10,10);
+                    std::vector<geometry::Vector> vertices;
 
-//                     vertices.push_back(geometry::Vector(300,100));
-//                     vertices.push_back(geometry::Vector(300,250));
-//                     vertices.push_back(geometry::Vector(400,100));
-//                     vertices.push_back(geometry::Vector(400,250));
+                    vertices.push_back(geometry::Vector(300,100));
+                    vertices.push_back(geometry::Vector(300,250));
+                    vertices.push_back(geometry::Vector(400,100));
+                    vertices.push_back(geometry::Vector(400,250));
 
-//                     obstacles[obstacles.size()-1].update(v, vertices);
-//                 }
+                    obstacles[obstacles.size()-1].update(v, vertices);
+                }
 
-//                 field.obstacles = obstacles;
+                field.obstacles = obstacles;
 
-//             }else{
-//                 field.agent.direction = -1 ;
-//                 field.agent.coords = pointsToGeometryVector(shapePoints);
-//                 field.agent.COM = geometry::Vector(centerPoint.x,centerPoint.y);
-//                 field.agent.updated = false;
+            }else{
+                field.agent.direction = -1 ;
+                field.agent.coords = pointsToGeometryVector(shapePoints);
+                field.agent.COM = geometry::Vector(centerPoint.x,centerPoint.y);
+                field.agent.updated = false;
 
-//                 field.agent.update(geometry::Vector(0,0), pointsToGeometryVector(shapePoints), -1);
+                field.agent.update(geometry::Vector(0,0), pointsToGeometryVector(shapePoints), -1);
 
-//                 cout << "WARNIG : CAN'T RECOGNIZE TRIANGLE !" << endl;
-//             }
+                cout << "WARNIG : CAN'T RECOGNIZE TRIANGLE !" << endl;
+            }
             
 
             
-//         }
-//     }
-//     drawPoints(frame, points);
-//     drawContours(frame, vector<vector<Point> >(1,comPath),-1,Scalar(255,255,255));
+        }
+    }
+    drawPoints(frame, points);
+    drawContours(frame, vector<vector<Point> >(1,comPath),-1,Scalar(255,255,255));
 
-//     imshow("trackbars",NULL);
-    field.agent.updated = true ;     
+    imshow("trackbars",NULL);
     imshow("frame",frame);
-    // imshow("hreshOrig",thresh);
-    // imshow("threshMorpho", threshMorpho);
+    imshow("hreshOrig",thresh);
+    imshow("threshMorpho", threshMorpho);
 }
 
 void RobotVision::drawPoints(Mat &frame, vector<Point> points){

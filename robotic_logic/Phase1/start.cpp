@@ -59,22 +59,22 @@ int main() {
 					
 					
 
-					path.push_back(field.agent.COM);
-					// path.push_back(geometry::Vector(378,243));
-					path.push_back(field.agent.COM + geometry::Vector(-325,125));
-					path.push_back(field.agent.COM + geometry::Vector(-300,100));
-					// path.push_back(field.agent.COM + geometry::Vector(-275,75));
-					//path.push_back(field.agent.COM + geometry::Vector(-260,60));
-					path.push_back(field.agent.COM + geometry::Vector(-250,50));
-					path.push_back(field.agent.COM + geometry::Vector(-225,25));
-					path.push_back(field.agent.COM + geometry::Vector(-200,0));
-					//pa//th.push_back(field.agent.COM + geometry::Vector(-192,0));
-					path.push_back(field.agent.COM + geometry::Vector(-175,0));
-					//path//.push_back(field.agent.COM + geometry::Vector(-160,0));
-					path.push_back(field.agent.COM + geometry::Vector(-150,0));
-					//path.push_back(field.agent.COM + geometry::Vector(-125,0));
-					path.push_back(field.agent.COM + geometry::Vector(-100,0));
-					path.push_back(field.agent.COM + geometry::Vector(-50,0));
+					// path.push_back(field.agent.COM);
+					path.push_back(geometry::Vector(378,243));
+					// path.push_back(field.agent.COM + geometry::Vector(-325,125));
+					// path.push_back(field.agent.COM + geometry::Vector(-300,100));
+					// // path.push_back(field.agent.COM + geometry::Vector(-275,75));
+					// //path.push_back(field.agent.COM + geometry::Vector(-260,60));
+					// path.push_back(field.agent.COM + geometry::Vector(-250,50));
+					// path.push_back(field.agent.COM + geometry::Vector(-225,25));
+					// path.push_back(field.agent.COM + geometry::Vector(-200,0));
+					// //pa//th.push_back(field.agent.COM + geometry::Vector(-192,0));
+					// path.push_back(field.agent.COM + geometry::Vector(-175,0));
+					// //path//.push_back(field.agent.COM + geometry::Vector(-160,0));
+					// path.push_back(field.agent.COM + geometry::Vector(-150,0));
+					// //path.push_back(field.agent.COM + geometry::Vector(-125,0));
+					// path.push_back(field.agent.COM + geometry::Vector(-100,0));
+					// path.push_back(field.agent.COM + geometry::Vector(-50,0));
 					path.push_back(field.agent.COM);
 
 					vision.showPoints(path);
@@ -101,7 +101,7 @@ int main() {
 			int count =0;
 			clock_t t1, t2;
 			t1 = clock();
-			while (!pause /*&&  Connection.move(path, field.agent, x)*/) { // && not reached target
+			while (!pause Connection.move(path, field.agent, x)) { // && not reached target
 				// cin.ignore();
 				field.agent.updated = false;
 				count ++;
@@ -114,7 +114,7 @@ int main() {
 				// cin.ignore();
 
 				//cout << "--------fieldUpdate in move" << endl;
-				if (count >= 20) pause = true;
+				// if (count >= 20) pause = true;
 
 				// if shasing then break
 				// wall check
