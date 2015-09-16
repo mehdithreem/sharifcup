@@ -16,27 +16,62 @@ bool Port::move(vector<geometry::Vector>& path , MovingObj& agent, int& x){
 
 	if(path.size()==0)
 		return false;
-	if( (agent.COM - path[path.size()-1]).size() < params::LIMITDEST ){//check the reverse path
+
+	geometry::Vector sendV = (path[path.size()-1] - agent.COM);
+
+	int limit = 20;
+	int speed = 50;
+
+	// if (path.size() == 2 || path.size() == 9) 
+	// 	limit = 20;
+	// 	cout << "-------------CORNER2-----------" << endl;
+	// 	limit = 20;
+	// 	speed = 45;
+	// 	if (sendV.size() < limit) fullStop();
+	// }
+	// else if (path.size() == 2 || path.size() == 7) {
+	// 	cout << "-------------CORNER-----------" << endl;
+	// 	limit = 15;
+	// 	speed = 43;
+	// 	if (sendV.size() < limit) fullStop();
+	// }
+
+	// if (path.size() == 6 || path.size() == 1) {
+	// 	cout << "-------------CORNER-----------" << endl;
+	// 	fullStop();
+	// 	// speed = 50;
+	// }
+	// 
+	// if (path.size() == 5) {
+	// 	fullStop();
+	// 	// cin.ignore();
+	// }
+
+	if( (agent.COM - path[path.size()-1]).size() < limit ){//check the reverse path
 		cout << "----------MOVE: point poped - path size: " << path.size() << endl;
 		path.pop_back();
 		if(path.size()==0)
 			return false;
 		x = (agent.COM - path[path.size()-1]).size();
-		fullStop();
+		// fullStop();
+		// cin.ignore();
+		//talkToSetare(0,0,0);
 		// return true;
 	}
-	int angle =  (path[path.size()-1] - agent.COM).angle() - fixedDirection;
+	int angle =  sendV.angle() - fixedDirection;
 
 
-	int speed = ((agent.COM - path[path.size()-1]).size() * params::SPEED + x * params::minSPEED) / x;
-	// int speed = ((agent.COM - path[path.size()-1]).size() * params::SPEED) / x;
-	speed = max(speed, params::minSPEED);
-	speed = min(speed, params::maxSPEED);
+	// speed = ((agent.COM - path[path.size()-1]).size() * params::SPEED + x * params::minSPEED) / x;
+	// // int speed = ((agent.COM - path[path.size()-1]).size() * params::SPEED) / x;
+	// speed = max(speed, params::minSPEED);
+	// speed = min(speed, params::maxSPEED);
 
 	cout << "COM: " << agent.COM << " -path: " << path[path.size()-1] << " -border: " << (path[path.size()-1] - agent.COM).size()<< endl;
 	cout << "DIR: " << fixedDirection << " -angle: " << (path[path.size()-1] - agent.COM).angle() << " -drive: " << angle << endl; 
 	cout << "SPEED: " << speed << endl;
-	talkToSetare(speed , angle , 0);
+
+	// talkToSetare(0, angle , 0);
+	talkToSetare(85 , angle , 0);
 	return true;
 }
 
@@ -61,11 +96,11 @@ bool Port::safeMove(vector<geometry::Vector> path , MovingObj& agent){
 void Port::fullStop(){
 	vector<uint8_t > data;
 	data.push_back((uint8_t )115);
-	data.push_back((uint8_t )0);
-	data.push_back((uint8_t )0);
-	data.push_back((uint8_t )0);
-	data.push_back((uint8_t )0);
-	data.push_back((uint8_t )170);
+	data.push_back((uint8_t )255);
+	data.push_back((uint8_t )255);
+	data.push_back((uint8_t )255);
+	data.push_back((uint8_t )255);
+	data.push_back((uint8_t )255);
 	writePort(data);
 }
 

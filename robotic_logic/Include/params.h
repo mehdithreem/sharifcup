@@ -8,8 +8,8 @@ namespace params {
 	const vector<geometry::Vector> DESTPOINTS;
 	const int LIMITDEST = 40;
 	const int SPEED = 50;
-	const int minSPEED = 20;
-	const int maxSPEED = 55;
+	const int minSPEED = 45;
+	const int maxSPEED = 50;
 }
 
 namespace exceptions {

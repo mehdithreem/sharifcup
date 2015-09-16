@@ -24,13 +24,16 @@ private :
     int shapeDetail ;
     int objectSize ;
     int contrast , brightness ;
+    vector<Point> points;
+    vector<Point> comPath;
+
 public:
     ~RobotVision();
     bool NewFrameIsReady();
     void init();
     void update(Field& field);
     void drawPoints(Mat& frame , vector<Point> points);
-    void showPoints(vector<Point> points);
+    void showPoints(vector<geometry::Vector> newPoints);
     
     vector<geometry::Vector> pointsToGeometryVector(vector<Point> points);
     

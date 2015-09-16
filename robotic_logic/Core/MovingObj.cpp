@@ -16,7 +16,7 @@ MovingObj::MovingObj(): velocity(Vector(0,0)) , COM(Vector(0,0)) , direction(0),
 
 void MovingObj::update(Vector _v  , vector<Vector> _coords, int _d)
 {
-	velocity = _v;
+	// velocity = _v;
 	coords.clear();
 	direction = _d;
 	COM = Vector(0,0);
@@ -41,7 +41,7 @@ void MovingObj::update(Vector _v  , vector<Vector> _coords, int _d)
 
 void MovingObj::updateConcave(Vector _v , vector<Vector> _coords ,int _d)
 {
-	velocity = _v;
+	// velocity = _v;
 	coords.clear();
 	direction = _d;
 	COM = Vector(0,0);

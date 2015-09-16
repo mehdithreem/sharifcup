@@ -1,4 +1,5 @@
 #include "../Include/Phase1.h"
+#include <time.h>
 //#include "./const.h" ---> // read rules file
 
 int main() {
@@ -36,7 +37,7 @@ int main() {
 			pair<geometry::Vector,geometry::Vector> goalDest; // first:target, second:dest
 			std::vector<geometry::Vector> path;
 
-			if (field.obstacles.size() <= 0) {
+			if (field.obstacles.size() < 0) {
 				cout << "No obstacle found --> PAUSE mode" << endl;
 				pause = true;
 				continue;
@@ -54,15 +55,29 @@ int main() {
 
 				// pathfind to target
 				try {
-					path = ShortestPath(field.agent.COM, goalDest.first, field);
+					// path = ShortestPath(field.agent.COM, goalDest.first, field);
+					
+					
 
+					path.push_back(field.agent.COM);
+					// path.push_back(geometry::Vector(378,243));
+					path.push_back(field.agent.COM + geometry::Vector(-325,125));
+					path.push_back(field.agent.COM + geometry::Vector(-300,100));
+					// path.push_back(field.agent.COM + geometry::Vector(-275,75));
+					//path.push_back(field.agent.COM + geometry::Vector(-260,60));
+					path.push_back(field.agent.COM + geometry::Vector(-250,50));
+					path.push_back(field.agent.COM + geometry::Vector(-225,25));
+					path.push_back(field.agent.COM + geometry::Vector(-200,0));
+					//pa//th.push_back(field.agent.COM + geometry::Vector(-192,0));
+					path.push_back(field.agent.COM + geometry::Vector(-175,0));
+					//path//.push_back(field.agent.COM + geometry::Vector(-160,0));
+					path.push_back(field.agent.COM + geometry::Vector(-150,0));
+					//path.push_back(field.agent.COM + geometry::Vector(-125,0));
+					path.push_back(field.agent.COM + geometry::Vector(-100,0));
+					path.push_back(field.agent.COM + geometry::Vector(-50,0));
+					path.push_back(field.agent.COM);
 
-					vector<Point> points;
-					for (int i = 0; i < path.size(); i++) {
-						points.push_back(Point(path[i].x,path[i].y));
-	
-					}
-					vision.showPoints(points);
+					vision.showPoints(path);
 
 					cout << "PATH: ";
 					for (geometry::Vector pt : path) {
@@ -83,21 +98,36 @@ int main() {
 			int x = 100;
 			if (path.size() > 0) x = (path[path.size()-1] - field.agent.COM).size();
 
-			while (!pause &&  Connection.move(path, field.agent, x)) { // && not reached target
-				// Connection.fullStop();
+			int count =0;
+			clock_t t1, t2;
+			t1 = clock();
+			while (!pause /*&&  Connection.move(path, field.agent, x)*/) { // && not reached target
 				// cin.ignore();
 				field.agent.updated = false;
+				count ++;
+				clock_t t3, t4;
+				t3 = clock();
 				while (!field.agent.updated) vision.update(field);
+				t4 = clock();
+				//cout << "each :" << ((float)t-(float)t1)/CLOCKS_PER_SEC << endl;
+				// Connection.fullStop();
+				// cin.ignore();
 
-				cout << "--------fieldUpdate in move" << endl;
+				//cout << "--------fieldUpdate in move" << endl;
+				if (count >= 20) pause = true;
 
 				// if shasing then break
 				// wall check
 			}
+			t2 = clock();
+
+			float diff ((float)t2-(float)t1);
 
 			cout << "----REACHED----" << endl;
+			cout<<"#########"<<count<<endl;
+			cout << diff/CLOCKS_PER_SEC << endl;
 			end = true;
-			// Connection.fullStop();
+			Connection.fullStop();
 
 			// while (!pause) { // && reached target && not lost obstacle && not reched destenation
 			// 	// safe move
@@ -134,9 +164,9 @@ int main() {
 	// 	while (!field.agent.updated) vision.update(field);
 	// }
 	
-	Connection.fullStop();
+	// Connection.fullStop();
 
-	cin.ignore();
+	// cin.ignore();
 
 	// close port
 	// delete
