@@ -6,10 +6,14 @@ namespace params {
 	enum Shape { triangle, rectangle, polygon, circle };
 
 	const vector<geometry::Vector> DESTPOINTS;
-	const int LIMITDEST = 40;
-	const int SPEED = 50;
+	const int REACH_DIST = 10;
+
+	const int ACC_DIST = 30;
+	const int DEC_DIST = 70;
+
+	const int SPEED = 70;
 	const int minSPEED = 45;
-	const int maxSPEED = 50;
+	const int maxSPEED = 85;
 }
 
 namespace exceptions {

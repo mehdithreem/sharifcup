@@ -12,7 +12,7 @@
 using namespace std;
 using namespace geometry;
 
-MovingObj::MovingObj(): velocity(Vector(0,0)) , COM(Vector(0,0)) , direction(0), updated(false) {}
+MovingObj::MovingObj(): velocity(Vector(0,0)) , COM(Vector(0,0)) , direction(0), updated(false), speed(0) {}
 
 void MovingObj::update(Vector _v  , vector<Vector> _coords, int _d)
 {

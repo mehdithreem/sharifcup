@@ -22,7 +22,10 @@ public:
 	int direction;
 	int radious;
 	bool updated;
+
 	geometry::Vector velocity;
+	int speed;
+	
 	geometry::Vector COM;
 	vector < geometry::Vector > coords;
 

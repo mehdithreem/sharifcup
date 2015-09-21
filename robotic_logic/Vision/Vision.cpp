@@ -55,7 +55,8 @@ void RobotVision::update(Field & field) {
         return ;
     }
     (*camera) >> frame ;
-    frame = frame(Rect(0,50,frame.cols,350));
+    cout << "---------"<< frame.rows << " "<< frame.cols<< endl;
+    frame = frame(Rect(85,37,497,404));
     frame *=pow((contrast/50.0),3);
     frame +=(brightness-50);
 //    blur(frame, frame, Size(3,3));
