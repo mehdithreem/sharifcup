@@ -51,4 +51,6 @@ Scalar params::getColorRGB(Color color)
         default:
             break;
     }
+
+    return Scalar(0,0,0);
 }

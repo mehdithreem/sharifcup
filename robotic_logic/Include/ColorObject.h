@@ -35,7 +35,7 @@ public:
 
 	ColorObject(params::Color color/*,int lowerBound[3],int upperBound[3],int noiseReduction ,int holeFilling , int shapeDetail , int objectSizeMin,int objectSizeMax*/);
 	Color getColor();
-	vector<MovingObj> findObjects(Mat& frame, Mat& paintingFrame);
+	vector<MovingObj> findObjects(Mat frame, Mat paintingFrame);
 	vector<geometry::Vector> pointsToGeometryVector(vector<Point> points);
 	void set(VideoCapture* camera);
 };

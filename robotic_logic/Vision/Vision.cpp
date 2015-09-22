@@ -5,18 +5,18 @@ RobotVision::~RobotVision(){
 	
 	camera->release();
 	destroyAllWindows();
-	ofstream initFile("init.txt");
-	if(initFile.is_open())
-	{
-		for (ColorObject currColorObject : colorObjects) {
-			initFile << getColorName(currColorObject.getColor()) << "\n" << currColorObject.lowerBound[0] << " " << currColorObject.lowerBound[1] << " " << currColorObject.lowerBound[2] << "\n" ;
-			initFile << currColorObject.upperBound[0] << " " << currColorObject.upperBound[1] << " " << currColorObject.upperBound[2] << "\n" ;
-			initFile << currColorObject.noiseReduction << "\n" <<currColorObject.holeFilling << "\n" <<currColorObject.shapeDetail << "\n" <<currColorObject.objectSizeMin << "\n" <<currColorObject.objectSizeMax ;
-		}
-		cout << "write successfully !" <<endl ;
-	}else{
-		cout << "can't write !" <<endl ;
-	}
+	// ofstream initFile("init.txt");
+	// if(initFile.is_open())
+	// {
+	// 	for (ColorObject currColorObject : colorObjects) {
+	// 		initFile << getColorName(currColorObject.getColor()) << "\n" << currColorObject.lowerBound[0] << " " << currColorObject.lowerBound[1] << " " << currColorObject.lowerBound[2] << "\n" ;
+	// 		initFile << currColorObject.upperBound[0] << " " << currColorObject.upperBound[1] << " " << currColorObject.upperBound[2] << "\n" ;
+	// 		initFile << currColorObject.noiseReduction << "\n" <<currColorObject.holeFilling << "\n" <<currColorObject.shapeDetail << "\n" <<currColorObject.objectSizeMin << "\n" <<currColorObject.objectSizeMax ;
+	// 	}
+	// 	cout << "write successfully !" <<endl ;
+	// }else{
+	// 	cout << "can't write !" <<endl ;
+	// }
 }
 
 bool RobotVision::NewFrameIsReady()
@@ -60,7 +60,9 @@ void RobotVision::update(Field & field,bool type) {
 
 	(*camera) >> frame ;
 	frame = frame(Rect(CROP_X,CROP_Y,CROP_WIDTH,CROP_HEIGHT));
-	
+	Mat paintingFrame;
+	frame.copyTo(paintingFrame);
+
 	//blur(frame, frame, Size(3,3));
 	//resize(frame, frame, Size(0,0),0.5,0.5);
 	this->currFrame = &frame ;
@@ -68,7 +70,8 @@ void RobotVision::update(Field & field,bool type) {
 	if(type){
 		for (ColorObject currColorObject : colorObjects) {
 			vector<MovingObj> currObjects ;
-			currObjects = currColorObject.findObjects(frame,*(this->currFrame));
+			currObjects = currColorObject.findObjects(frame,paintingFrame);
+			cout << "---" << params::getColorName(currColorObject.getColor()) << "--- " << currObjects.size() << endl;
 			if(currColorObject.getColor() == params::black){
 				if(currObjects.empty()){
 					cout << "CAN'T RECOGNIZE ROBOT AT ALL !" << endl ;
@@ -90,6 +93,9 @@ void RobotVision::update(Field & field,bool type) {
 			
 		}
 		field.obstacles = obstacles ;
+		// imshow("frame", frame);
+		// cout << "wait!" << endl;
+		// cin.ignore();
 	}else{
 		vector<MovingObj> currObjects ;
 		currObjects = colorObjects[0].findObjects(frame,*(this->currFrame));
@@ -109,9 +115,11 @@ void RobotVision::update(Field & field,bool type) {
 	}
 	field.rival = rival ;
 
-	drawPoints(*(this->currFrame), points);
-	drawContours(*(this->currFrame), vector<vector<Point> >(1,comPath),-1,Scalar(255,255,255));
-	imshow("frame",*(this->currFrame));
+	drawPoints(paintingFrame, points);
+	drawContours(paintingFrame, vector<vector<Point> >(1,comPath),-1,Scalar(255,255,255));
+	// cvtColor(frame, frame, CV_HSV2BGR);
+	// imshow("frame2", frame);
+	imshow("Painting",paintingFrame);
 }
 
 void RobotVision::showPoints(vector<geometry::Vector> newPoints){

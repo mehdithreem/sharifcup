@@ -1,5 +1,7 @@
 #include "../Include/ColorObject.h"
 
+// #define __VISION_DEBUG__
+
 ColorObject::ColorObject(params::Color color/*,int lowerBound[3],int upperBound[3],int noiseReduction ,int holeFilling , int shapeDetail , int objectSizeMin ,int objectSizeMax*/)
 {
 	//in RGB
@@ -63,6 +65,8 @@ ColorObject::ColorObject(params::Color color/*,int lowerBound[3],int upperBound[
 		initFile >> *(this->objectSizeMax);
 		initFile >> brightness >> contrast;
 
+		cout << getColorName(this->color)+".txt" << " read." << endl;
+
 		initFile.close();
 	}
 
@@ -73,12 +77,14 @@ Color ColorObject::getColor(){
 	return color ;
 }
 
-vector<MovingObj> ColorObject::findObjects(Mat& frame , Mat& paintingFrame){
-	frame *=pow((contrast/50.0),3);
+vector<MovingObj> ColorObject::findObjects(Mat originalFrame , Mat paintingFrame){
+	Mat frame;
+	originalFrame.copyTo(frame);
+	frame *=pow((contrast/50.0),1.2);
 	frame +=(brightness-50);
-
-
-	#ifdef _VISION_DEBUG__
+	cvtColor(frame, frame, CV_BGR2HSV);
+	
+	#ifdef __VISION_DEBUG__
 	cout << getColorName(color) <<" lower bound :" <<lowerBound[0]<<" "<< lowerBound[1] << " " << lowerBound[2]<< " " << endl ;
 	cout << getColorName(color) <<" upper bound :" <<upperBound[0]<<" "<< upperBound[1] << " " << upperBound[2]<< " " << endl ;
 	#endif
@@ -114,7 +120,7 @@ vector<MovingObj> ColorObject::findObjects(Mat& frame , Mat& paintingFrame){
 			//cout << "arcLength is :" << arcLen << endl;
 			approxPolyDP(maxContour,shapePoints,(*shapeDetail/200.0)*arcLen,true);
 			// drawContours(paintingFrame, vector<vector<Point> >(1,shapePoints),-1,getColorRGB(color));
-			drawPoints(paintingFrame, shapePoints,getColorRGB(color));
+			drawPoints(paintingFrame, shapePoints, getColorRGB(color));
 
 			#ifdef __VISION_DEBUG__
 			cout << getColorName(color) << " shape points are : " << endl ;
@@ -198,10 +204,10 @@ void onMouse(int event, int x, int y, int flag, void *p) {
 	int s = data.val[1];
 	int v = data.val[2];
 	cout << "HSV: " << h << " " << s << " " << v << endl;
-	*(static_cast<ColorObject*>(p)->lowerBound+0) = h - 20;
+	*(static_cast<ColorObject*>(p)->lowerBound+0) = h - 40;
 	*(static_cast<ColorObject*>(p)->lowerBound+1) = 0;
 	*(static_cast<ColorObject*>(p)->lowerBound+2) = 0;
-	*(static_cast<ColorObject*>(p)->upperBound+0) = h + 20;
+	*(static_cast<ColorObject*>(p)->upperBound+0) = h + 30;
 	*(static_cast<ColorObject*>(p)->upperBound+1) = 255;
 	*(static_cast<ColorObject*>(p)->upperBound+2) = 255;
 }
@@ -215,12 +221,12 @@ void ColorObject::set(VideoCapture* camera) {
 
 	namedWindow(colorName);
 	createTrackbar("shape detail",colorName,this->shapeDetail,100);
-	createTrackbar("noise reduction",colorName,this->noiseReduction,15);
+	createTrackbar("noise reduction",colorName,this ->noiseReduction,15);
 	createTrackbar("hole filling",colorName,this->holeFilling,15);
 	createTrackbar("object size min",colorName,this->objectSizeMin,100);
 	createTrackbar("object size max",colorName,this->objectSizeMax,100);
-	createTrackbar("minHue",colorName,&(this->lowerBound[0]),180);
-	createTrackbar("maxHue",colorName,&(this->upperBound[0]),180);
+	createTrackbar("minHue",colorName,&(this->lowerBound[0]),360);
+	createTrackbar("maxHue",colorName,&(this->upperBound[0]),360);
 	createTrackbar("minSat",colorName,&(this->lowerBound[1]),255);
 	createTrackbar("maxSat",colorName,&(this->upperBound[1]),255);
 	createTrackbar("minVal",colorName,&(this->lowerBound[2]),255);
@@ -277,6 +283,9 @@ void ColorObject::set(VideoCapture* camera) {
 		this->upperBound[2] = getTrackbarPos("maxVal",colorName);
 		contrast = getTrackbarPos("contrast",colorName);
 		brightness = getTrackbarPos("brightness",colorName);
+
+		cout << "$$ " << getColorName(color) <<" lower bound :" <<lowerBound[0]<<" "<< lowerBound[1] << " " << lowerBound[2]<< " " << endl ;
+		cout << "$$ " << getColorName(color) <<" upper bound :" <<upperBound[0]<<" "<< upperBound[1] << " " << upperBound[2]<< " " << endl ;
 
 		cvtColor(frame, frame, CV_HSV2BGR);
         imshow(colorName, frame) ;
