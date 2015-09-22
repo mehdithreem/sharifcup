@@ -27,6 +27,7 @@ public :
 	int* shapeDetail ;
 	int* objectSizeMin ;
 	int* objectSizeMax ;
+	int contrast, brightness;
 	
 public:
 	ColorObject(params::Color color,int lowerBound[3],int upperBound[3],int noiseReduction ,int holeFilling , int shapeDetail , int objectSizeMin,int objectSizeMax);

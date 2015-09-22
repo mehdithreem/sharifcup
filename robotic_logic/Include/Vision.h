@@ -17,8 +17,7 @@ using namespace std ;
 using namespace cv ;
 
 class RobotVision {
-public :
-	int contrast , brightness ;    
+public:  
 	VideoCapture* camera ;
 	vector<ColorObject> colorObjects ;
 	Mat* currFrame ;

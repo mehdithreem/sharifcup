@@ -78,11 +78,11 @@ void RobotVision::init() {
 	
 	
 	
-	brightness = 50 ;
-	contrast = 50 ;
+	// brightness = 50 ;
+	// contrast = 50 ;
 	namedWindow("frame") ;
-	createTrackbar("contrast","frame",&contrast,100);
-	createTrackbar("brightness","frame",&brightness,100);
+	// createTrackbar("contrast","frame",&contrast,100);
+	// createTrackbar("brightness","frame",&brightness,100);
 	camera = new VideoCapture(0);
 	
 	
@@ -130,8 +130,6 @@ void RobotVision::update(Field & field,bool type) {
 
 	(*camera) >> frame ;
 	frame = frame(Rect(CROP_X,CROP_Y,CROP_WIDTH,CROP_HEIGHT));
-	frame *=pow((contrast/50.0),3);
-	frame +=(brightness-50);
 	
 	//    blur(frame, frame, Size(3,3));
 	//    resize(frame, frame, Size(0,0),0.5,0.5);

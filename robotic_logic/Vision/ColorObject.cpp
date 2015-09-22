@@ -41,6 +41,9 @@ Color ColorObject::getColor(){
 }
 
 vector<MovingObj> ColorObject::findObjects(Mat& frame , Mat& paintingFrame){
+	frame *=pow((contrast/50.0),3);
+	frame +=(brightness-50);
+
 
 	#ifdef _VISION_DEBUG__
 	cout << getColorName(color) <<" lower bound :" <<lowerBound[0]<<" "<< lowerBound[1] << " " << lowerBound[2]<< " " << endl ;
@@ -170,10 +173,14 @@ void ColorObject::set(VideoCapture* camera) {
 	createTrackbar("mgreen",colorName,&(this->upperBound[1]),255);
 	createTrackbar("lblue",colorName,&(this->lowerBound[2]),255);
 	createTrackbar("mblue",colorName,&(this->upperBound[2]),255);
+	createTrackbar("contrast",colorName,&contrast,100);
+	createTrackbar("brightness",colorName,&brightness,100);
 
 	while (true) {
 		(*camera) >> frame ;
 		frame = frame(Rect(CROP_X,CROP_Y,CROP_WIDTH,CROP_HEIGHT));
+		frame *=pow((contrast/50.0),3);
+		frame +=(brightness-50);
 
 		inRange(frame, Scalar(lowerBound[2],lowerBound[1],lowerBound[0]), Scalar(upperBound[2],upperBound[1],upperBound[0]), thresh);
 		// threshold(frame, thresh, lowerBound[0] , upperBound[0], THRESH_BINARY);
@@ -191,6 +198,9 @@ void ColorObject::set(VideoCapture* camera) {
 		this->upperBound[1] = getTrackbarPos("mgreen",colorName);
 		this->lowerBound[2] = getTrackbarPos("lblue",colorName);
 		this->upperBound[2] = getTrackbarPos("mblue",colorName);
+		contrast = getTrackbarPos("contrast",colorName);
+		brightness = getTrackbarPos("brightness",colorName);
+
         imshow(colorName, frame) ;
         imshow(colorName+" tresh",thresh);
 		imshow(colorName+" threshMorpho", threshMorpho);
