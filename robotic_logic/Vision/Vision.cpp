@@ -55,7 +55,6 @@ void RobotVision::update(Field & field) {
         return ;
     }
     (*camera) >> frame ;
-    cout << "---------"<< frame.rows << " "<< frame.cols<< endl;
     frame = frame(Rect(85,37,497,404));
     frame *=pow((contrast/50.0),3);
     frame +=(brightness-50);
@@ -79,23 +78,23 @@ void RobotVision::update(Field & field) {
             }
         }
         if(maxContourArea > (objectSize/2)*1000){
-            cout << "area of max max !" << maxContourArea << endl ;
+            // cout << "area of max max !" << maxContourArea << endl ;
             double arcLen = arcLength(maxContour, true);
-            cout << "arcLength is :" << arcLen << endl;
+            // cout << "arcLength is :" << arcLen << endl;
             approxPolyDP(maxContour,shapePoints,(shapeDetail/200.0)*arcLen,true);
             drawContours(frame, vector<vector<Point> >(1,shapePoints),-1,Scalar(0,0,255));
             drawPoints(frame, shapePoints);
-            cout << "points are : " << endl ;
-            for (Point currPoint : shapePoints) {
-                cout << currPoint.x << " " << currPoint.y << " , " ;
-            }
-            cout << endl ;
+            // cout << "points are : " << endl ;
+            // for (Point currPoint : shapePoints) {
+            //     cout << currPoint.x << " " << currPoint.y << " , " ;
+            // }
+            // cout << endl ;
             Moments shapeMomments = moments(maxContour);
             Point centerPoint (shapeMomments.m10/shapeMomments.m00 , shapeMomments.m01/shapeMomments.m00);
             circle(frame, centerPoint, 2, Scalar(0,0,255),2);
-            cout << "center point is :" << centerPoint.x << " " << centerPoint.y << endl ;
+            // cout << "center point is :" << centerPoint.x << " " << centerPoint.y << endl ;
             if(shapePoints.size() == 3){
-                cout << "TRIANGLE RECOGNIZED SUCCESSFULLY" << endl;
+                // cout << "TRIANGLE RECOGNIZED SUCCESSFULLY" << endl;
                 int headPointIndex = getHeadPointIndex(shapePoints);
                 Point headPoint = shapePoints[headPointIndex] ;
                 Point miane = getMiane(headPointIndex, shapePoints);

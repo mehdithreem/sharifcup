@@ -8,114 +8,153 @@ int main() {
 	RobotVision vision;
 	vision.init();
 		
-	// bool end = false;
-	// while (!end) {
-	// 	bool pause = false;
-	// 	while (!pause && !end) {
-	// 		int degreeAtTarget;
+	bool end = false;
+	while (!end) {
+		bool pause = false;
+		while (!pause && !end) {
+			int degreeAtTarget;
 
-	// 		field.agent.updated = false;
-	// 		while (!field.agent.updated) vision.update(field);
+			field.agent.updated = false;
+			while (!field.agent.updated) vision.update(field);
 
-	// 		pair<geometry::Vector,geometry::Vector> goalDest; // first:target, second:dest
-	// 		std::vector<geometry::Vector> path;
+			pair<geometry::Vector,geometry::Vector> goalDest; // first:target, second:dest
+			std::vector<geometry::Vector> path;
 
-	// 		if (field.obstacles.size() < 0) {
-	// 			cout << "No obstacle found --> PAUSE mode" << endl;
-	// 			pause = true;
-	// 			continue;
-	// 		} else {
+			if (field.obstacles.size() < 0) {
+				cout << "No obstacle found --> PAUSE mode" << endl;
+				pause = true;
+				continue;
+			} else {
 
-	// 			cerr << "----after visionUpdate" << endl;
+				cerr << "----after visionUpdate" << endl;
 				
-	// 			// goalDest = field.bestTarget();
-	// 			goalDest.first = geometry::Vector(470,180);
+				// goalDest = field.bestTarget();
+				goalDest.first = geometry::Vector(470,180);
 
-	// 			cerr << "----after bestTarget" << endl;
+				cerr << "----after bestTarget" << endl;
 
-	// 			// if there is no more objects, break, end = true
-	// 			// set degreeAtTarget
+				// if there is no more objects, break, end = true
+				// set degreeAtTarget
 
-	// 			// pathfind to target
-	// 			try {
-	// 				// path = ShortestPath(field.agent.COM, goalDest.first, field);
+				// pathfind to target
+				try {
+					// path = ShortestPath(field.agent.COM, goalDest.first, field);
 			
-	// 				path.push_back(field.agent.COM);
-	// 				// path.push_back(geometry::Vector(378,243));
-	// 				// path.push_back(field.agent.COM + geometry::Vector(-325,125));
-	// 				path.push_back(field.agent.COM + geometry::Vector(-200,100));
-	// 				// path.push_back(field.agent.COM + geometry::Vector(-250,50));
-	// 				// path.push_back(field.agent.COM + geometry::Vector(-225,25));
-	// 				path.push_back(field.agent.COM + geometry::Vector(-200,0));
-	// 				// path.push_back(field.agent.COM + geometry::Vector(-175,0));
-	// 				// path.push_back(field.agent.COM + geometry::Vector(-150,0));
-	// 				// path.push_back(field.agent.COM + geometry::Vector(-100,0));
-	// 				// path.push_back(field.agent.COM + geometry::Vector(-50,0));
-	// 				// path.push_back(field.agent.COM);
+					// path.push_back(field.agent.COM);
+					// path.push_back(field.agent.COM + geometry::Vector(-200,100));
+					// path.push_back(field.agent.COM + geometry::Vector(-200,0));
 
-	// 				vision.showPoints(path);
+					// path.push_back(field.agent.COM);
+					// path.push_back(field.agent.COM + geometry::Vector(-100,100));
+					// path.push_back(field.agent.COM + geometry::Vector(-200,100));
+					// path.push_back(field.agent.COM + geometry::Vector(-300,0));
+					// path.push_back(field.agent.COM + geometry::Vector(-200,-100));
+					// path.push_back(field.agent.COM + geometry::Vector(-100,-100));
+					
+					path.push_back(field.agent.COM);
+					path.push_back(field.agent.COM + geometry::Vector(-300,0));
+					path.push_back(field.agent.COM + geometry::Vector(-300,-200));
+					path.push_back(field.agent.COM + geometry::Vector(-300,0));
+					path.push_back(field.agent.COM + geometry::Vector(-200,0));
+					path.push_back(field.agent.COM + geometry::Vector(-200,-200));
+					path.push_back(field.agent.COM + geometry::Vector(-200,0));
+					path.push_back(field.agent.COM + geometry::Vector(-100,0));
+					path.push_back(field.agent.COM + geometry::Vector(-100,-200));
+					path.push_back(field.agent.COM + geometry::Vector(-100,0));
+					path.push_back(field.agent.COM + geometry::Vector(0,-0));
+					path.push_back(field.agent.COM + geometry::Vector(0,-200));
 
-	// 				cout << "PATH: ";
-	// 				for (geometry::Vector pt : path) {
-	// 					cout << " " << pt;
-	// 				}
-	// 				cout << endl;
+					// path.push_back(field.agent.COM);
+					// path.push_back(geometry::Vector(202,291));
 
-	// 			} catch (exceptions::NoPath) {
-	// 				// if there is no path then what???
-	// 				cout << "No Path found --> PAUSE mode" << endl;
-	// 				pause = true;
-	// 				continue;
-	// 			}
 
-	// 			cerr << "----end of bestTarget" << endl;
-	// 		}
+					vision.showPoints(path);
 
-	// 		int x = 100;
-	// 		if (path.size() > 0) x = (path[path.size()-1] - field.agent.COM).size();
+					cout << "PATH: ";
+					for (geometry::Vector pt : path) {
+						cout << " " << pt;
+					}
+					cout << endl;
 
-	// 		while (!pause && Connection.move(path, field.agent, x)) { // && not reached target
-	// 			field.agent.updated = false;
-	// 			while (!field.agent.updated) vision.update(field);
+				} catch (exceptions::NoPath) {
+					// if there is no path then what???
+					cout << "No Path found --> PAUSE mode" << endl;
+					pause = true;
+					continue;
+				}
 
-	// 			// if shasing then break
-	// 			// wall check
-	// 		}
-	// 		t2 = clock();
+				cerr << "----end of bestTarget" << endl;
+			}
 
-	// 		float diff ((float)t2-(float)t1);
+			int x = 100;
+			if (path.size() > 0) x = (path[path.size()-1] - field.agent.COM).size();
 
-	// 		cout << "----REACHED----" << endl;
-	// 		end = true;
-	// 		Connection.fullStop();
+			int index = path.size()-1;
+			vector<int> pathSpeeds;
+			bool rotating = false;
 
-	// 		// while (!pause) { // && reached target && not lost obstacle && not reched destenation
-	// 		// 	// safe move
+			preprocessPath(path, pathSpeeds);
 
-	// 		// 	// if shasing then break
-	// 		// 	// wall check
-	// 		// }
-	// 	}
+			while (!pause && Connection.move(path, pathSpeeds ,field.agent, index,rotating)) { // && not reached target
+				field.agent.updated = false;
+				while (!field.agent.updated) vision.update(field);
 
-	// 	while (pause && !end) {
-	// 		int input = 0;
-	// 		while (input != 1) {
-	// 			cout << "ENTER 1 to continue: ";
-	// 			cin >> input;
-	// 		}
+				// if shasing then break
+				// wall check
+			}
 
-	// 		pause = false;
-	// 		// full stop
-	// 		// input for continue
-	// 		// while pause
-	// 	}
+			cout << "----REACHED----" << endl;
+			end = true;
+			Connection.fullStop();
+
+			// while (!pause) { // && reached target && not lost obstacle && not reched destenation
+			// 	// safe move
+
+			// 	// if shasing then break
+			// 	// wall check
+			// }
+		}
+
+		while (pause && !end) {
+			int input = 0;
+			while (input != 1) {
+				cout << "ENTER 1 to continue: ";
+				cin >> input;
+			}
+
+			pause = false;
+			// full stop
+			// input for continue
+			// while pause
+		}
+	}
+
+	// float var = 25.64;
+	// for(int i=0 ; i<30 ; i++){
+	// 	Connection.talkToSetare(0,0,0);
+
+	// 	usleep(12*var*1000);
+	// 	Connection.fullStop();
+	// 	usleep(400*1000);
 	// }
-	
-	Connection.talkToSetare(100,-180,0);
+
+
+	// while(field.agent.direction < 70 ){
+	// 	Connection.talkToSetare(0,0,0);				
+	// 	cout << "---- degree is :" << field.agent.direction << endl;
+	// 	vision.update(field);		
+	// }
+	// Connection.fullStop();
+
+
+
+	// Connection.talkToSetare(70,0,5);
+
+	// usleep(var*10*1000);
 
 	cin.ignore();
 
-	Connection.fullStop();
+	
 
 	// close port
 	// delete

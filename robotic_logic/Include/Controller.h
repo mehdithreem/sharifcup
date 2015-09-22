@@ -23,7 +23,7 @@ const int ft = 100*1000;
 const double COEF = 1.0/30;
 const geometry::Vector f(5,5);
 
-
+void preprocessPath(vector<geometry::Vector>& path, vector<int>& pathSpeeds);
 
 class Port{
 public:
@@ -33,7 +33,8 @@ public:
 	void fullStop();
 	void writePort(vector< uint8_t > & 	data);
 	void talkToSetare(int velocity, int angle, int rotation );
-	bool move(vector<geometry::Vector>& path , MovingObj& agent, int& x);
+	// bool move(vector<geometry::Vector>& path , MovingObj& agent, int& x);
+	bool move(vector<geometry::Vector>& path, vector<int>& pathSpeeds, MovingObj& agent, int& index, bool& rotating);
 	bool safeMove(vector<geometry::Vector> path , MovingObj& agent);
 };
 
