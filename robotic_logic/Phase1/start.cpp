@@ -7,6 +7,8 @@ int main() {
 	Field field;
 	RobotVision vision;
 	vision.init();
+
+	//vision.preprocess(field);
 		
 	bool end = false;
 	while (!end) {
@@ -16,29 +18,34 @@ int main() {
 
 			field.agent.updated = false;
 			while (!field.agent.updated) vision.update(field,true);
+			cout << "obstacles size: " << field.obstacles.size() << endl;
+
+			for(int i = 0; i < field.obstacles.size(); i++){
+				cout << "obj#" << i << ": " << field.obstacles[i].COM << endl;
+			}
+
+			cin.ignore();
 
 			pair<geometry::Vector,geometry::Vector> goalDest; // first:target, second:dest
 			std::vector<geometry::Vector> path;
-
 			if (field.obstacles.size() < 0) {
 				cout << "No obstacle found --> PAUSE mode" << endl;
 				pause = true;
 				continue;
 			} else {
-
 				cerr << "----after visionUpdate" << endl;
 				
-				// goalDest = field.bestTarget();
-				goalDest.first = geometry::Vector(470,180);
+				goalDest = field.bestTarget();
 
-				cerr << "----after bestTarget" << endl;
+				cout << "target and dest: " << goalDest.first << " -> " << goalDest.second << endl;
 
+				cin.ignore();
 				// if there is no more objects, break, end = true
 				// set degreeAtTarget
 
 				// pathfind to target
 				try {
-					// path = ShortestPath(field.agent.COM, goalDest.first, field);
+					path = ShortestPath(field.agent.COM, goalDest.first, field);
 			
 					// path.push_back(field.agent.COM);
 					// path.push_back(field.agent.COM + geometry::Vector(-200,100));
@@ -51,18 +58,18 @@ int main() {
 					// path.push_back(field.agent.COM + geometry::Vector(-200,-100));
 					// path.push_back(field.agent.COM + geometry::Vector(-100,-100));
 					
-					path.push_back(field.agent.COM);
-					path.push_back(field.agent.COM + geometry::Vector(-300,0));
-					path.push_back(field.agent.COM + geometry::Vector(-300,-200));
-					path.push_back(field.agent.COM + geometry::Vector(-300,0));
-					path.push_back(field.agent.COM + geometry::Vector(-200,0));
-					path.push_back(field.agent.COM + geometry::Vector(-200,-200));
-					path.push_back(field.agent.COM + geometry::Vector(-200,0));
-					path.push_back(field.agent.COM + geometry::Vector(-100,0));
-					path.push_back(field.agent.COM + geometry::Vector(-100,-200));
-					path.push_back(field.agent.COM + geometry::Vector(-100,0));
-					path.push_back(field.agent.COM + geometry::Vector(0,-0));
-					path.push_back(field.agent.COM + geometry::Vector(0,-200));
+					// path.push_back(field.agent.COM);
+					// path.push_back(field.agent.COM + geometry::Vector(-300,0));
+					// path.push_back(field.agent.COM + geometry::Vector(-300,-200));
+					// path.push_back(field.agent.COM + geometry::Vector(-300,0));
+					// path.push_back(field.agent.COM + geometry::Vector(-200,0));
+					// path.push_back(field.agent.COM + geometry::Vector(-200,-200));
+					// path.push_back(field.agent.COM + geometry::Vector(-200,0));
+					// path.push_back(field.agent.COM + geometry::Vector(-100,0));
+					// path.push_back(field.agent.COM + geometry::Vector(-100,-200));
+					// path.push_back(field.agent.COM + geometry::Vector(-100,0));
+					// path.push_back(field.agent.COM + geometry::Vector(0,-0));
+					// path.push_back(field.agent.COM + geometry::Vector(0,-200));
 
 					// path.push_back(field.agent.COM);
 					// path.push_back(geometry::Vector(202,291));
@@ -87,7 +94,6 @@ int main() {
 			}
 
 			int x = 100;
-			if (path.size() > 0) x = (path[path.size()-1] - field.agent.COM).size();
 
 			int index = path.size()-1;
 			vector<int> pathSpeeds;

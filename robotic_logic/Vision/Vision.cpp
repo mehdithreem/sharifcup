@@ -146,29 +146,31 @@ void RobotVision::update(Field & field,bool type) {
                     }
                 }
             }else{
-                vector<MovingObj> currObjects ;
-                currObjects = colorObjects[0].findObjects(frame,*(this->currFrame));
-                if(currObjects.empty()){
-                    cout << "CAN'T RECOGNIZE ROBOT AT ALL !" << endl ;
-                    field.agent = MovingObj() ;
-                    field.agent.updated = false ;
-                }else{
-                    field.agent = currObjects[0];
-                    if(field.agent.coords.size() == 3){
-                        comPath.push_back(Point(field.agent.COM.x, field.agent.COM.y));
-                        field.agent.updated = true ;
-                    }else{
-                        field.agent.updated = false ;
-                    }
+                for(MovingObj currObject : currObjects){
+                    obstacles.push_back(currObject);
                 }
             }
             
         }
+        field.obstacles = obstacles ;
     }else{
-        colorObjects[0].findObjects(frame,*(this->currFrame));
+        vector<MovingObj> currObjects ;
+        currObjects = colorObjects[0].findObjects(frame,*(this->currFrame));
+        if(currObjects.empty()){
+            cout << "CAN'T RECOGNIZE ROBOT AT ALL !" << endl ;
+            field.agent = MovingObj() ;
+            field.agent.updated = false ;
+        }else{
+            field.agent = currObjects[0];
+            if(field.agent.coords.size() == 3){
+                comPath.push_back(Point(field.agent.COM.x, field.agent.COM.y));
+                field.agent.updated = true ;
+            }else{
+                field.agent.updated = false ;
+            }
+        }        
     }
     field.rival = rival ;
-    field.obstacles = obstacles ;
 
     drawPoints(*(this->currFrame), points);
     drawContours(*(this->currFrame), vector<vector<Point> >(1,comPath),-1,Scalar(255,255,255));
