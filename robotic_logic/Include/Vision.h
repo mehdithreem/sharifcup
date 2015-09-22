@@ -3,9 +3,11 @@
 
 #include "../Include/MovingObj.h"
 #include "../Include/Field.h"
+#include "../Include/ColorObject.h"
 #include <opencv2/videoio/videoio.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
+#include <fstream>
 #include <iostream>
 #include <vector>
 #include <String>
@@ -15,35 +17,18 @@ using namespace std ;
 using namespace cv ;
 
 class RobotVision {
-private :
-    VideoCapture* camera ;
-    int lowerBound[3];
-    int upperBound[3];
-    int noiseReduction ;
-    int holeFilling ;
-    int shapeDetail ;
-    int objectSize ;
-    int contrast , brightness ;
-    vector<Point> points;
-    vector<Point> comPath;
-
+public :
+	int contrast , brightness ;    
+	VideoCapture* camera ;
+	vector<ColorObject> colorObjects ;
+	Mat* currFrame ;
 public:
-    ~RobotVision();
-    bool NewFrameIsReady();
-    void init();
-    void update(Field& field);
-    void drawPoints(Mat& frame , vector<Point> points);
-    void showPoints(vector<geometry::Vector> newPoints);
-    
-    vector<geometry::Vector> pointsToGeometryVector(vector<Point> points);
-    
+	~RobotVision();
+	bool NewFrameIsReady();
+	void init();
+	void update(Field& field , bool type);
+	void showPoints(vector<Point> points,Scalar color);
 };
-double angle2(Point point1,Point point2);
-double angle3(Point point1,Point centerPoint,Point point2);
-int getHeadPointIndex(vector<Point> points);
-Point getMiane(int headPointIndex,vector<Point> points);
-double toDegree(double radian);
-
 
 
 #endif

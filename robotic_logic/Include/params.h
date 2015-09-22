@@ -1,9 +1,19 @@
 #ifndef _PARAMS_
 #define _PARAMS_
 
+#include <string>
+#include "geometry.h"
+#include <opencv2/imgproc/imgproc.hpp>
+
+using namespace std ;
+using namespace cv ;
+
 namespace params {
 	enum Color { red, blue, green, yellow, violet };
 	enum Shape { triangle, rectangle, polygon, circle };
+
+	string getColorName(Color color);
+	Scalar getColorRGB(Color color);
 
 	const vector<geometry::Vector> DESTPOINTS;
 	const int REACH_DIST = 15;
