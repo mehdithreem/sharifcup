@@ -30,6 +30,7 @@ public:
 	bool NewFrameIsReady();
 	void init();
 	void update(Field& field , bool type);
+	void set();
 
 	void drawPoints(Mat& frame , vector<Point> points);
     void showPoints(vector<geometry::Vector> newPoints);

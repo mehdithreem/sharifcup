@@ -15,6 +15,11 @@ namespace params {
 	string getColorName(Color color);
 	Scalar getColorRGB(Color color);
 
+	const int CROP_X = 85;
+	const int CROP_Y = 37;
+	const int CROP_WIDTH = 494;
+	const int CROP_HEIGHT = 404;
+
 	const vector<geometry::Vector> DESTPOINTS;
 	const int REACH_DIST = 15;
 

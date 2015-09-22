@@ -18,20 +18,22 @@ using namespace params ;
 
 class ColorObject {
 public :
-    Color color;
-    Scalar colorRGB ;
-    int* lowerBound;
-    int* upperBound;
-    int* noiseReduction ;
-    int* holeFilling ;
-    int* shapeDetail ;
-    int* objectSizeMin ;
-    int* objectSizeMax ;
+	Color color;
+	Scalar colorRGB ;
+	int* lowerBound;
+	int* upperBound;
+	int* noiseReduction ;
+	int* holeFilling ;
+	int* shapeDetail ;
+	int* objectSizeMin ;
+	int* objectSizeMax ;
+	
 public:
-    ColorObject(params::Color color,int lowerBound[3],int upperBound[3],int noiseReduction ,int holeFilling , int shapeDetail , int objectSizeMin,int objectSizeMax);
-    Color getColor();
-    vector<MovingObj> findObjects(Mat& frame, Mat& paintingFrame);
-    vector<geometry::Vector> pointsToGeometryVector(vector<Point> points);
+	ColorObject(params::Color color,int lowerBound[3],int upperBound[3],int noiseReduction ,int holeFilling , int shapeDetail , int objectSizeMin,int objectSizeMax);
+	Color getColor();
+	vector<MovingObj> findObjects(Mat& frame, Mat& paintingFrame);
+	vector<geometry::Vector> pointsToGeometryVector(vector<Point> points);
+	void set(VideoCapture* camera);
 };
 double angle2(Point point1,Point point2);
 double angle3(Point point1,Point centerPoint,Point point2);
