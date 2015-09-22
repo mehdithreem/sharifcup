@@ -1,20 +1,20 @@
 #include "../Include/ColorObject.h"
 
-ColorObject::ColorObject(params::Color color,int lowerBound[3],int upperBound[3],int noiseReduction ,int holeFilling , int shapeDetail , int objectSizeMin ,int objectSizeMax)
+ColorObject::ColorObject(params::Color color/*,int lowerBound[3],int upperBound[3],int noiseReduction ,int holeFilling , int shapeDetail , int objectSizeMin ,int objectSizeMax*/)
 {
 	//in RGB
 	this->color = color ;
-	
-//    int i =0 ;
-//    for(int item : lowerBound){
-//        this->lowerBound[i] = item ;
-//        i++;
-//    }
-//    i =0 ;
-//    for(int item : upperBound){
-//        this->upperBound[i] = item ;
-//        i++;
-//    }
+	// int i =0 ;
+	// for(int item : lowerBound){
+	// 	this->lowerBound[i] = item ;
+	// 	i++;
+	// }
+	// i =0 ;
+	// for(int item : upperBound){
+	// 	this->upperBound[i] = item ;
+	// 	i++;
+	// }
+
 	this->lowerBound = (int*)malloc(sizeof(int)*3);
 	this->upperBound = (int*)malloc(sizeof(int)*3);
 	this->noiseReduction = (int*)malloc(sizeof(int)*1);
@@ -23,17 +23,50 @@ ColorObject::ColorObject(params::Color color,int lowerBound[3],int upperBound[3]
 	this->objectSizeMin = (int*)malloc(sizeof(int)*1);
 	this->objectSizeMax = (int*)malloc(sizeof(int)*1);
 	
-	for(int i =0 ;i < 3 ;i++){
-		*(this->lowerBound + i) = lowerBound[i] ;
-		*(this->upperBound + i) = upperBound[i] ;
-	}
-	*(this->noiseReduction) =  noiseReduction;
-	*(this->holeFilling) =  holeFilling ;
-	*(this->shapeDetail) = shapeDetail ;
-	*(this->objectSizeMin) = objectSizeMin ;
-	*(this->objectSizeMax) = objectSizeMax ;
+	*(this->lowerBound+0) = 0;
+	*(this->lowerBound+1) = 0;
+	*(this->lowerBound+2) = 0;
+
+	*(this->upperBound+0) = 255;
+	*(this->upperBound+1) = 255;
+	*(this->upperBound+2) = 255;
+
+	// for(int i =0 ;i < 3 ;i++){
+	// 	*(this->lowerBound + i) = lowerBound[i] ;
+	// 	*(this->upperBound + i) = upperBound[i] ;
+	// }
+	// *(this->noiseReduction) =  noiseReduction;
+	// *(this->holeFilling) =  holeFilling ;
+	// *(this->shapeDetail) = shapeDetail ;
+	// *(this->objectSizeMin) = objectSizeMin ;
+	// *(this->objectSizeMax) = objectSizeMax ;
+
+	*(this->noiseReduction) =  1;
+	*(this->holeFilling) =  1 ;
+	*(this->shapeDetail) = 20 ;
+	*(this->objectSizeMin) = 0 ;
+	*(this->objectSizeMax) = 100 ;
 
 	this->colorRGB = getColorRGB(this->color);
+
+	contrast = 50;
+	brightness = 50;
+
+	ifstream initFile (getColorName(this->color)+".txt");
+	if (initFile.is_open()) {
+		initFile >> *(this->lowerBound+0) >> *(this->lowerBound+1) >> *(this->lowerBound+2);
+		initFile >> *(this->upperBound+0) >> *(this->upperBound+1) >> *(this->upperBound+2);
+		initFile >> *(this->noiseReduction);
+		initFile >> *(this->holeFilling);
+		initFile >> *(this->shapeDetail);
+		initFile >> *(this->objectSizeMin);
+		initFile >> *(this->objectSizeMax);
+		initFile >> brightness >> contrast;
+
+		initFile.close();
+	}
+
+	return;
 }
 
 Color ColorObject::getColor(){
@@ -154,6 +187,25 @@ vector<geometry::Vector> ColorObject::pointsToGeometryVector(vector<Point> point
 	return results ;
 }
 
+void onMouse(int event, int x, int y, int flag, void *p) {
+	if(event != CV_EVENT_LBUTTONDOWN){
+		p = NULL;
+		return;
+	}
+
+	Vec3b data = static_cast<ColorObject*>(p)->tmpFrame.at<Vec3b>(y, x);
+	int h = data.val[0];
+	int s = data.val[1];
+	int v = data.val[2];
+	cout << "HSV: " << h << " " << s << " " << v << endl;
+	*(static_cast<ColorObject*>(p)->lowerBound+0) = h - 20;
+	*(static_cast<ColorObject*>(p)->lowerBound+1) = 0;
+	*(static_cast<ColorObject*>(p)->lowerBound+2) = 0;
+	*(static_cast<ColorObject*>(p)->upperBound+0) = h + 20;
+	*(static_cast<ColorObject*>(p)->upperBound+1) = 255;
+	*(static_cast<ColorObject*>(p)->upperBound+2) = 255;
+}
+
 void ColorObject::set(VideoCapture* camera) {
 	Mat frame, thresh, threshMorpho;
 	string colorName = getColorName(this->color);
@@ -167,40 +219,66 @@ void ColorObject::set(VideoCapture* camera) {
 	createTrackbar("hole filling",colorName,this->holeFilling,15);
 	createTrackbar("object size min",colorName,this->objectSizeMin,100);
 	createTrackbar("object size max",colorName,this->objectSizeMax,100);
-	createTrackbar("lred",colorName,&(this->lowerBound[0]),255);
-	createTrackbar("mred",colorName,&(this->upperBound[0]),255);
-	createTrackbar("lgreen",colorName,&(this->lowerBound[1]),255);
-	createTrackbar("mgreen",colorName,&(this->upperBound[1]),255);
-	createTrackbar("lblue",colorName,&(this->lowerBound[2]),255);
-	createTrackbar("mblue",colorName,&(this->upperBound[2]),255);
+	createTrackbar("minHue",colorName,&(this->lowerBound[0]),180);
+	createTrackbar("maxHue",colorName,&(this->upperBound[0]),180);
+	createTrackbar("minSat",colorName,&(this->lowerBound[1]),255);
+	createTrackbar("maxSat",colorName,&(this->upperBound[1]),255);
+	createTrackbar("minVal",colorName,&(this->lowerBound[2]),255);
+	createTrackbar("maxVal",colorName,&(this->upperBound[2]),255);
 	createTrackbar("contrast",colorName,&contrast,100);
 	createTrackbar("brightness",colorName,&brightness,100);
 
+	// Point* newPoint = NULL;
+	setMouseCallback(colorName, onMouse, this);
 	while (true) {
 		(*camera) >> frame ;
 		frame = frame(Rect(CROP_X,CROP_Y,CROP_WIDTH,CROP_HEIGHT));
-		frame *=pow((contrast/50.0),3);
+		frame *=pow((contrast/50.0),1.2);
 		frame +=(brightness-50);
+		cvtColor(frame, frame, CV_BGR2HSV);
+		tmpFrame = frame;
+
+		// Vec3b data = frame.at<Vec3b>(20, 20);
+		// int h = data.val[0];
+		// int s = data.val[1];
+		// int v = data.val[2];
+		// cout << "HSV: " << h << " " << s << " " << v << endl;
+
 
 		inRange(frame, Scalar(lowerBound[2],lowerBound[1],lowerBound[0]), Scalar(upperBound[2],upperBound[1],upperBound[0]), thresh);
 		// threshold(frame, thresh, lowerBound[0] , upperBound[0], THRESH_BINARY);
-		morphologyEx(thresh,threshMorpho, MORPH_OPEN,kernelNoise);
-		morphologyEx(threshMorpho,threshMorpho, MORPH_CLOSE,kernelHole);
+		morphologyEx(thresh, threshMorpho, MORPH_OPEN, kernelNoise);
+		morphologyEx(threshMorpho, threshMorpho, MORPH_CLOSE, kernelHole);
+
+		setTrackbarPos("shape detail",colorName,*(this->shapeDetail));
+		setTrackbarPos("noise reduction",colorName,*(this->noiseReduction));
+		setTrackbarPos("hole filling",colorName,*(this->holeFilling));
+		setTrackbarPos("object size min",colorName,*(this->objectSizeMin));
+		setTrackbarPos("object size max",colorName,*(this->objectSizeMax));
+		setTrackbarPos("minHue",colorName,this->lowerBound[0]);
+		setTrackbarPos("maxHue",colorName,this->upperBound[0]);
+		setTrackbarPos("minSat",colorName,this->lowerBound[1]);
+		setTrackbarPos("maxSat",colorName,this->upperBound[1]);
+		setTrackbarPos("minVal",colorName,this->lowerBound[2]);
+		setTrackbarPos("maxVal",colorName,this->upperBound[2]);
+		setTrackbarPos("contrast",colorName,contrast);
+		setTrackbarPos("brightness",colorName,brightness);
 
 		*(this->shapeDetail) = getTrackbarPos("shape detail",colorName);
 		*(this->noiseReduction) = getTrackbarPos("noise reduction",colorName);
 		*(this->holeFilling) = getTrackbarPos("hole filling",colorName);
 		*(this->objectSizeMin) = getTrackbarPos("object size min",colorName);
 		*(this->objectSizeMax) = getTrackbarPos("object size max",colorName);
-		this->lowerBound[0] = getTrackbarPos("lred",colorName);
-		this->upperBound[0] = getTrackbarPos("mred",colorName);
-		this->lowerBound[1] = getTrackbarPos("lgreen",colorName);
-		this->upperBound[1] = getTrackbarPos("mgreen",colorName);
-		this->lowerBound[2] = getTrackbarPos("lblue",colorName);
-		this->upperBound[2] = getTrackbarPos("mblue",colorName);
+		this->lowerBound[0] = getTrackbarPos("minHue",colorName);
+		this->upperBound[0] = getTrackbarPos("maxHue",colorName);
+		this->lowerBound[1] = getTrackbarPos("minSat",colorName);
+		this->upperBound[1] = getTrackbarPos("maxSat",colorName);
+		this->lowerBound[2] = getTrackbarPos("minVal",colorName);
+		this->upperBound[2] = getTrackbarPos("maxVal",colorName);
 		contrast = getTrackbarPos("contrast",colorName);
 		brightness = getTrackbarPos("brightness",colorName);
 
+		cvtColor(frame, frame, CV_HSV2BGR);
         imshow(colorName, frame) ;
         imshow(colorName+" tresh",thresh);
 		imshow(colorName+" threshMorpho", threshMorpho);
@@ -213,6 +291,24 @@ void ColorObject::set(VideoCapture* camera) {
 	destroyWindow(colorName);
 	destroyWindow(colorName+" tresh");
 	destroyWindow(colorName+" threshMorpho");
+
+	ofstream initFile(colorName+".txt");
+	if(initFile.is_open())
+	{
+		initFile << *(this->lowerBound+0) << endl << *(this->lowerBound+1) << endl << *(this->lowerBound+2) << endl;
+		initFile << *(this->upperBound+0) << endl << *(this->upperBound+1) << endl << *(this->upperBound+2) << endl;
+		initFile << *(this->noiseReduction) << endl;
+		initFile << *(this->holeFilling) << endl;
+		initFile << *(this->shapeDetail) << endl;
+		initFile << *(this->objectSizeMin) << endl;
+		initFile << *(this->objectSizeMax) << endl;
+		initFile << brightness << endl << contrast << endl;
+
+		initFile.close();
+		cout << colorName <<".txt write successfully!" <<endl ;
+	}else{
+		cout << "can't write!" <<endl ;
+	}
 
 	return;
 }

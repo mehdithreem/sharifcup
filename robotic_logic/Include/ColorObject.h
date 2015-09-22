@@ -8,6 +8,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <string>
 #include <cmath>
@@ -17,7 +18,7 @@ using namespace cv ;
 using namespace params ;
 
 class ColorObject {
-public :
+public:
 	Color color;
 	Scalar colorRGB ;
 	int* lowerBound;
@@ -30,7 +31,9 @@ public :
 	int contrast, brightness;
 	
 public:
-	ColorObject(params::Color color,int lowerBound[3],int upperBound[3],int noiseReduction ,int holeFilling , int shapeDetail , int objectSizeMin,int objectSizeMax);
+	Mat tmpFrame;
+
+	ColorObject(params::Color color/*,int lowerBound[3],int upperBound[3],int noiseReduction ,int holeFilling , int shapeDetail , int objectSizeMin,int objectSizeMax*/);
 	Color getColor();
 	vector<MovingObj> findObjects(Mat& frame, Mat& paintingFrame);
 	vector<geometry::Vector> pointsToGeometryVector(vector<Point> points);
