@@ -155,6 +155,7 @@ void RobotVision::update(Field & field,bool type) {
                 }else{
                     field.agent = currObjects[0];
                     if(field.agent.coords.size() == 3){
+                        comPath.push_back(Point(field.agent.COM.x, field.agent.COM.y));
                         field.agent.updated = true ;
                     }else{
                         field.agent.updated = false ;
@@ -168,19 +169,25 @@ void RobotVision::update(Field & field,bool type) {
     }
     field.rival = rival ;
     field.obstacles = obstacles ;
+
+    drawPoints(*(this->currFrame), points);
+    drawContours(*(this->currFrame), vector<vector<Point> >(1,comPath),-1,Scalar(255,255,255));
     imshow("frame",*(this->currFrame));
 }
 
-void RobotVision::showPoints(vector<Point> points,Scalar color){
-    for (Point currPoint : points) {
-        cv::circle(*(this->currFrame), currPoint, 2,color,2);
+void RobotVision::showPoints(vector<geometry::Vector> newPoints){
+    for (int i = 0; i < newPoints.size(); i++) {
+        points.push_back(Point(newPoints[i].x,newPoints[i].y));
     }
-    imshow("frame", *(this->currFrame)) ;
+
+    return;
 }
 
-
-
-
+void RobotVision::drawPoints(Mat &frame, vector<Point> points){
+    for (Point currPoint : points) {
+        cv::circle(frame, currPoint, 2, Scalar(0,0,255),2);
+    }
+}
 
 
 

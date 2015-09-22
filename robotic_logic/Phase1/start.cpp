@@ -15,7 +15,7 @@ int main() {
 			int degreeAtTarget;
 
 			field.agent.updated = false;
-			while (!field.agent.updated) vision.update(field);
+			while (!field.agent.updated) vision.update(field,true);
 
 			pair<geometry::Vector,geometry::Vector> goalDest; // first:target, second:dest
 			std::vector<geometry::Vector> path;
@@ -97,7 +97,7 @@ int main() {
 
 			while (!pause && Connection.move(path, pathSpeeds ,field.agent, index,rotating)) { // && not reached target
 				field.agent.updated = false;
-				while (!field.agent.updated) vision.update(field);
+				while (!field.agent.updated) vision.update(field,false);
 
 				// if shasing then break
 				// wall check

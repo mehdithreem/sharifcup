@@ -9,7 +9,7 @@ using namespace std ;
 using namespace cv ;
 
 namespace params {
-	enum Color { red, blue, green, yellow, violet };
+	enum Color { red, blue, green, yellow, violet, black};
 	enum Shape { triangle, rectangle, polygon, circle };
 
 	string getColorName(Color color);

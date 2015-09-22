@@ -22,12 +22,17 @@ public :
 	VideoCapture* camera ;
 	vector<ColorObject> colorObjects ;
 	Mat* currFrame ;
+	vector<Point> points;
+    vector<Point> comPath;
+    
 public:
 	~RobotVision();
 	bool NewFrameIsReady();
 	void init();
 	void update(Field& field , bool type);
-	void showPoints(vector<Point> points,Scalar color);
+
+	void drawPoints(Mat& frame , vector<Point> points);
+    void showPoints(vector<geometry::Vector> newPoints);
 };
 
 
