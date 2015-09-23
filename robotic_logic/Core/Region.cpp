@@ -31,3 +31,15 @@ void Region::addDestPoints(vector<geometry::Vector> _destPoints) {
 
 	return;
 }
+
+bool Region::isInside(geometry::Vector pt) {
+	int xMin = params::xInfinity, yMin = params::yInfinity, xMax=params::MinesXInfinity, yMax = params::yMinesInfinity;
+	for(int i=0 ; i<points.size() ;i++){
+		xMax = max(xMax , points[i].x);
+		xMin = min(xMin , points[i].x);
+		yMax = max(xMax , points[i].y);
+		yMin = min(xMin , points[i].y);
+	}
+
+	return (pt.x < xMax && pt.x > xMin && pt.y < yMax && pt.y >yMin);
+}

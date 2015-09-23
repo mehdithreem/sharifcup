@@ -13,7 +13,6 @@ int heuristic(int start, int goal, Graph& G);
 
 // Comprator for heap used in a-star algorithm
 struct openSetGreater{
-	
 	openSetGreater(std::vector<double>* _key) {
 		key = _key;
 	}

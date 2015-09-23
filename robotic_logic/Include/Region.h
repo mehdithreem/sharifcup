@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <utility>
+#include <algorithm>
 
 #include "../Include/geometry.h"
 #include "../Include/params.h"
@@ -20,6 +21,8 @@ public:
 	int size();
 
 	vector< pair<geometry::Vector, bool> > destPoints;
+
+	bool isInside(geometry::Vector pt);
 
 	void addDestPoints(vector<geometry::Vector> _destPoints);  //Manual
 	void calculateDestPoints(); //Automatic :D

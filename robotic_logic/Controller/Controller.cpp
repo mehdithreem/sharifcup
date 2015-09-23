@@ -160,6 +160,8 @@ bool Port::move(vector<geometry::Vector>& path, vector<int>& pathSpeeds, MovingO
 
 	// calculate speed
 	// bool fullStop = false;
+	
+
 	int sendSpeed = params::SPEED;
 	int distToNext = index >= 0 && index < path.size() ? 
 		(agent.COM - path[index]).size() : std::numeric_limits<int>::max();
@@ -228,10 +230,10 @@ bool Port::move(vector<geometry::Vector>& path, vector<int>& pathSpeeds, MovingO
 	}
 	else rotating = false;
 	
-	cout << "WAY: " << way << endl;
-	cout << "COM: " << agent.COM << " -path: " << path[path.size()-1] << " -border: " << (path[path.size()-1] - agent.COM).size()<< endl;
-	cout << "DIR: " << fixedDirection << " -angle: " << (path[index] - agent.COM).angle() << " -drive: " << angle << endl; 
-	cout << "SPEED: " << sendSpeed << endl;
+	// cout << "WAY: " << way << endl;
+	// cout << "COM: " << agent.COM << " -path: " << path[path.size()-1] << " -border: " << (path[path.size()-1] - agent.COM).size()<< endl;
+	// cout << "DIR: " << fixedDirection << " -angle: " << (path[index] - agent.COM).angle() << " -drive: " << angle << endl; 
+	// cout << "SPEED: " << sendSpeed << endl;
 
 	// if (sendSpeed != 0) sendSpeed = 100;
 	talkToSetare(sendSpeed , way , angle*1);
@@ -248,6 +250,16 @@ void preprocessPath(vector<geometry::Vector>& path, vector<int>& pathSpeeds) {
 	pathSpeeds.clear();
 
 	pathSpeeds.push_back(0);
+
+
+	for(int i=0 ; i<path.size() ; i++){
+		int x , y;
+		x = max(params::xMinBound , path[i].x);  
+		x = min(params::xMaxBound , path[i].x);
+		y = max(params::yMinBound , path[i].y);  
+		y = min(params::yMaxBound , path[i].y);
+		path[i] = geometry::Vector(x,y);
+	} 
 
 	for(int i = 2; i < path.size()-1; i++) {
 		geometry::Vector seg1 = path[i-1] - path[i-2];

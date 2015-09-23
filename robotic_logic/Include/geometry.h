@@ -19,7 +19,7 @@ using namespace std;
 namespace geometry{
 	class Vector{
 		public:
-			double x,y;
+			int x,y;
 			Vector();
 			Vector(int _x , int _y);
 			Vector operator +(const Vector& v)const;

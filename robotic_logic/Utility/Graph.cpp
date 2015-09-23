@@ -221,7 +221,7 @@ void Graph::visualize(int argc, char *argv[], std::vector<int> path,
 		fclose(PythonScriptFile);
 	}
 
-	Py_Finalize();
+	// Py_Finalize();
 
 	cin.ignore();
 

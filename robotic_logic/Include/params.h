@@ -39,6 +39,16 @@ namespace params {
 
 	const vector<int> properDegrees = {0,120,-120,180,-180};
 	const vector<int> safeDegrees = {0};
+
+	const int xMinBound = 50;
+	const int yMinBound = 50;
+	const int xMaxBound = 450;
+	const int yMaxBound = 250;
+
+	const int xInfinity = 1000*10;
+	const int yInfinity = 1000*10;
+	const int MinesXInfinity = -1000*10;
+	const int yMinesInfinity = -1000*10;
 }
 
 namespace exceptions {

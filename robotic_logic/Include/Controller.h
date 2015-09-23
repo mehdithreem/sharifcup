@@ -6,6 +6,7 @@
 #include <vector>
 #include <unistd.h>
 #include <iostream>
+#include <algorithm>
 #include <cstdint>
 #include <limits>
 //#include <boost/asio.hpp> 
