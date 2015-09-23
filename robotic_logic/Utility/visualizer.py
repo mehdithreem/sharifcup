@@ -1,7 +1,7 @@
 import sys
 import pygame
 
-constant = 2
+constant = 1
 
 BLACK = (  0,   0,   0)
 WHITE = (255, 255, 255)
@@ -16,13 +16,15 @@ LBROWN = (72, 65, 45)
 print "Prepare window ..."
 
 pygame.init()
-screen = pygame.display.set_mode((350*constant,350*constant))
+screen = pygame.display.set_mode((494*constant,404*constant))
 screen.fill(BROWN)
 pygame.display.set_caption("VisGraph")
 
 if 'inString' not in locals() or 'inString' not in globals():
 	print "Called independently"
 	inString = open("input").read()
+
+print inString
 
 inString = inString.split('\n')
 
@@ -62,6 +64,7 @@ for line in inString:
 		ShortestPath.append(line)
 
 for line in Obstacles:
+	if len(line) <= 2: continue
 	pygame.draw.polygon(screen ,YELLOW ,line)
 
 for line in Robot:

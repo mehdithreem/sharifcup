@@ -187,7 +187,7 @@ void Port:: writePort(vector< uint8_t > & 	data){
 	return;
 }
 
-bool Port::move(vector<geometry::Vector>& path, vector<int>& pathSpeeds, MovingObj& agent, int& index, bool& rotating) {
+bool Port::move(vector<geometry::Vector>& path, vector<int>& pathSpeeds, MovingObj& agent, int& index, bool& rotating, bool safe) {
 	if(index < 0)
 		return false;
 
@@ -206,7 +206,7 @@ bool Port::move(vector<geometry::Vector>& path, vector<int>& pathSpeeds, MovingO
 			index--;
 			fullStop();
 			// usleep(500*1000);
-			return move(path, pathSpeeds, agent, index, rotating);
+			return move(path, pathSpeeds, agent, index, rotating, false);
 		}
 
 		if(distToNext <= params::DEC_DIST) {
@@ -238,9 +238,11 @@ bool Port::move(vector<geometry::Vector>& path, vector<int>& pathSpeeds, MovingO
 		angle += 360;
 
 	int way = params::properDegrees[0];
-	for(int i = 0; i < params::properDegrees.size(); i++) {
-		if (abs(angle - params::properDegrees[i]) < abs(angle - way))
-			way = params::properDegrees[i];
+	if (!safe) {
+		for(int i = 0; i < params::properDegrees.size(); i++) {
+			if (abs(angle - params::properDegrees[i]) < abs(angle - way))
+				way = params::properDegrees[i];
+		}
 	}
 
 	if (way == -180) way = 180;

@@ -25,26 +25,39 @@ struct openSetGreater{
 	}
 };
 
-vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector goal, Field& F ) {
+vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector goal, Field& F, int argc, char *argv[] ) {
 	Graph G;
 
 	std::vector<MovingObj> finalObstacles;
-	finalObstacles = MinkowskiAll(F.agent, F.rival, F.obstacles);
+	// finalObstacles = MinkowskiAll(F.agent, F.rival, F.obstacles);
 	
+	cout << "----after MinkowskiAll" << endl;
 
 	G.addSingleNode(start);
 	G.addSingleNode(goal);
 
-	G.addComponent(finalObstacles);
+	G.addComponent(F.obstacles);
 
 	VisibiltyGraph(G);
+
+	cout << "----after VisibiltyGraph" << endl;
+
+	std::vector<int> pathIndex;
+	// G.visualize(argc, argv, pathIndex, F.agent, F.agent, F.obstacles);
+	// cin.ignore();
 		
 	std::vector<geometry::Vector> path;
 	
-	std::vector<int> pathIndex = AStar(0, 1, G);
-	
+	cout << "----before AStar" << endl;	
+	pathIndex = AStar(0, 1, G);
+	cout << "----after AStar" << endl;
+
 	for (int i = 0; i < pathIndex.size() ; i++)
 		path.push_back(G.nodes[pathIndex[i]]);
+
+	// G.visualize(argc, argv, pathIndex, F.agent, F.agent, F.obstacles);
+
+	cout << "----before return" << endl;
 		
 	return path;
 }

@@ -203,7 +203,7 @@ void Graph::visualize(int argc, char *argv[], std::vector<int> path,
 	Py_Initialize();
 	PySys_SetArgv(argc,argv);
 
-	cout << out.str();
+	// cout << out.str();
 
 	PyObject * cppInString = PyString_FromString(out.str().c_str());
 
@@ -214,14 +214,16 @@ void Graph::visualize(int argc, char *argv[], std::vector<int> path,
 	Py_DECREF(cppInString);
 
 	FILE* PythonScriptFile;
-	PythonScriptFile = fopen("../Utility/visualizer.py", "r");
+	PythonScriptFile = fopen("../../Utility/visualizer.py", "r");
 	
 	if (PythonScriptFile) {
-		PyRun_SimpleFile(PythonScriptFile, "../Utility/visualizer.py");
+		PyRun_SimpleFile(PythonScriptFile, "../../Utility/visualizer.py");
 		fclose(PythonScriptFile);
 	}
 
 	Py_Finalize();
+
+	cin.ignore();
 
 	return;
 }

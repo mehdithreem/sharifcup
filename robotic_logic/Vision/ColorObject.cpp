@@ -140,6 +140,7 @@ vector<MovingObj> ColorObject::findObjects(Mat originalFrame , Mat paintingFrame
 
 			MovingObj currObject ;
 			currObject.COM = geometry::Vector(centerPoint.x,centerPoint.y);
+			currObject.color = this->getColor();
 			if(this->color == params::black){
 				if(shapePoints.size() == 3){
 					cout << "TRIANGLE RECOGNIZED SUCCESSFULLY" << endl;
@@ -180,7 +181,7 @@ vector<MovingObj> ColorObject::findObjects(Mat originalFrame , Mat paintingFrame
 			objects.push_back(currObject);
 		}
 	}
-	// imshow(getColorName(this->color),thresh);
+	imshow(getColorName(this->color),thresh);
 	// imshow(getColorName(this->color), threshMorpho);
 	return objects ;
 }

@@ -2,15 +2,6 @@
 
 Field::Field(){}
 
-void  Field::addRegion(Region& _region){
-	for(int i=0 ; i<regions.size() ; i++)
-		if(regions[i]==_region)
-			return;
-	regions.push_back(_region);
-	return;
-}
-
-
 pair<geometry::Vector,geometry::Vector> Field::bestTarget(){
 	// vector<target,dist>
 	vector<pair<geometry::Vector, geometry::Vector>> targetDests;
@@ -28,9 +19,10 @@ pair<geometry::Vector,geometry::Vector> Field::bestTarget(){
 			}
 		}
 
-		cerr << "----in bestTarget 2" << endl;
+		cerr << "----in bestTarget 2 :regionIndex = " << regionIndex << " color: " << getColorName(obstacles[i].color) << endl;
 
 		for (int j = 0; j < regions[regionIndex].destPoints.size(); j++) {
+			cerr << regions[regionIndex].destPoints[j].first << endl;
 			pair<geometry::Vector, bool> dPt = regions[regionIndex].destPoints[j];
 			if (dPt.second == true) {
 				targetDests.push_back(make_pair((obstacles[i].COM - dPt.first)/(1/1.5)+dPt.first, dPt.first));
@@ -42,7 +34,7 @@ pair<geometry::Vector,geometry::Vector> Field::bestTarget(){
 
 	}
 
-	cerr << "----in bestTarget 4" << endl;
+	cerr << "----in bestTarget 4 :targetDests.size() = " << targetDests.size() << endl;
 
 	// calculate obj intersections with lines
 	for (int i = 0; i < obstacles.size(); i++) {

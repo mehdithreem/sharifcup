@@ -11,7 +11,8 @@
 class Graph;
 class Field;
 
-vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector goal, Field& F );
+// vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector goal, Field& F );
+vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector goal, Field& F, int argc , char *argv[] ); 
 
 void VisibiltyGraph(Graph& graph);
 vector <int>  VisibileVertices(int i,Graph& garph);

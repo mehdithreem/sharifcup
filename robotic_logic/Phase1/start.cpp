@@ -2,8 +2,8 @@
 #include <time.h>
 //#include "./const.h" ---> // read rules file
 
-int main() {
-	// Port Connection;
+int main(int argc, char *argv[]) {
+	Port Connection;
 	Field field;
 	RobotVision vision;
 	vision.init();
@@ -22,12 +22,63 @@ int main() {
 		while (!pause && !end) {
 			int degreeAtTarget;
 
+			vector<geometry::Vector> region1, region2, region3, destPoints;
+			region1.push_back(geometry::Vector(50,200));
+			region1.push_back(geometry::Vector(50,150));
+			region1.push_back(geometry::Vector(0,150));
+			region1.push_back(geometry::Vector(0,200));
+
+			vision.showPoints(region1);
+			field.regions.push_back(Region(region1));
+			destPoints.clear();
+			destPoints.push_back(geometry::Vector(25,175));
+			vision.showPoints(destPoints);
+			field.regions[0].ID = 0;
+			field.regions[0].addDestPoints(destPoints);
+
+			region2.push_back(geometry::Vector(190,70));
+			region2.push_back(geometry::Vector(300,70));
+			region2.push_back(geometry::Vector(190,0));
+			region2.push_back(geometry::Vector(300,0));
+
+			vision.showPoints(region2);
+			field.regions.push_back(Region(region2));
+			destPoints.clear();
+			destPoints.push_back(geometry::Vector(230,35));
+			destPoints.push_back(geometry::Vector(270,35));
+			vision.showPoints(destPoints);
+			field.regions[1].ID = 1;
+			field.regions[1].addDestPoints(destPoints);
+
+			region3.push_back(geometry::Vector(300,350));
+			region3.push_back(geometry::Vector(360,350));
+			region3.push_back(geometry::Vector(300,400));
+			region3.push_back(geometry::Vector(360,400));
+
+			vision.showPoints(region3);
+			field.regions.push_back(Region(region3));
+			destPoints.clear();
+			destPoints.push_back(geometry::Vector(330,375));
+			vision.showPoints(destPoints);
+			field.regions[2].ID = 2;
+			field.regions[2].addDestPoints(destPoints);
+
+
 			field.agent.updated = false;
 			while (!field.agent.updated) vision.update(field,true);
 			cout << "obstacles size: " << field.obstacles.size() << endl;
+			field.agent.coords.clear();
+			field.agent.coords.push_back(field.agent.COM+geometry::Vector(25,25));
+			field.agent.coords.push_back(field.agent.COM+geometry::Vector(25,-25));
+			field.agent.coords.push_back(field.agent.COM+geometry::Vector(-25,-25));
+			field.agent.coords.push_back(field.agent.COM+geometry::Vector(-25,25));
 
 			for(int i = 0; i < field.obstacles.size(); i++){
-				cout << "obj#" << i << ": " << field.obstacles[i].COM << endl;
+				cout << "obj#" << i << " (" << getColorName(field.obstacles[i].color) << "): " << field.obstacles[i].COM << endl;
+				if (field.obstacles[i].color == yellow) field.obstacles[i].regionID = 2;
+				else if (field.obstacles[i].color == green) field.obstacles[i].regionID = 1;
+				else if (field.obstacles[i].color == red) field.obstacles[i].regionID = 0;
+				else field.obstacles[i].regionID = 1;
 			}
 
 			cin.ignore();
@@ -51,7 +102,7 @@ int main() {
 
 				// pathfind to target
 				try {
-					path = ShortestPath(field.agent.COM, goalDest.first, field);
+					path = ShortestPath(field.agent.COM, goalDest.first, field, argc, argv);
 			
 					// path.push_back(field.agent.COM);
 					// path.push_back(field.agent.COM + geometry::Vector(-200,100));
@@ -107,24 +158,39 @@ int main() {
 
 			preprocessPath(path, pathSpeeds);
 
-			// while (!pause && Connection.move(path, pathSpeeds ,field.agent, index,rotating)) { // && not reached target
-			// 	field.agent.updated = false;
-			// 	while (!field.agent.updated) vision.update(field,false);
+			while (!pause && Connection.move(path, pathSpeeds ,field.agent, index,rotating, false)) { // && not reached target
+				field.agent.updated = false;
+				while (!field.agent.updated) vision.update(field,false);
 
-			// 	// if shasing then break
-			// 	// wall check
-			// }
+				// if shasing then break
+				// wall check
+			}
 
 			cout << "----REACHED----" << endl;
-			end = true;
-			// Connection.fullStop();
+			// end = true;
+			Connection.fullStop();
+			cin.ignore();
 
-			// while (!pause) { // && reached target && not lost obstacle && not reched destenation
-			// 	// safe move
+			// degreeAtTarget = (goalDest.second - goalDest.first).angle();
+			path.clear();
+			path.push_back(goalDest.second);
+			pathSpeeds.clear();
+			rotating = false;
+			index = path.size()-1;
 
-			// 	// if shasing then break
-			// 	// wall check
-			// }
+			preprocessPath(path, pathSpeeds);
+
+			while (!pause && Connection.move(path, pathSpeeds ,field.agent, index,rotating, true)) { // && not reached target
+				field.agent.updated = false;
+				while (!field.agent.updated) vision.update(field,false);
+
+				// if shasing then break
+				// wall check
+			}
+
+			cout << "-----DONE------" << endl;
+			Connection.fullStop();
+			cin.ignore();
 		}
 
 		while (pause && !end) {

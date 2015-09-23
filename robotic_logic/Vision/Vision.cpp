@@ -35,11 +35,11 @@ void RobotVision::init() {
 	camera = new VideoCapture(0);
 	
 	colorObjects.push_back(ColorObject(params::black/*, lowBlack, upBlack, noiseBlack, holeBlack, detailBlack, sizeMinBlack,sizeMaxBlack*/));
-	colorObjects.push_back(ColorObject(params::blue/*, lowBlue, upBlue, noiseBlue, holeBlue, detailBlue, sizeMinBlue,sizeMaxBlue*/));
+	// colorObjects.push_back(ColorObject(params::blue/*, lowBlue, upBlue, noiseBlue, holeBlue, detailBlue, sizeMinBlue,sizeMaxBlue*/));
 	colorObjects.push_back(ColorObject(params::red/*, lowRed , upRed, noiseRed, holeRed, detailRed, sizeMinRed,sizeMaxRed*/));
 	colorObjects.push_back(ColorObject(params::green/*, lowGreen, upGreen, noiseGreen, holeGreen, detailGreen, sizeMinGreen,sizeMaxGreen*/));
 	colorObjects.push_back(ColorObject(params::yellow/*, lowYellow, upYellow, noiseYellow, holeYellow, detailYellow, sizeMinYellow,sizeMaxYellow*/));
-	colorObjects.push_back(ColorObject(params::violet/*, lowViolet, upViolet, noiseViolet, holeViolet, detailViolet, sizeMinViolet,sizeMaxViolet*/));
+	// colorObjects.push_back(ColorObject(params::violet/*, lowViolet, upViolet, noiseViolet, holeViolet, detailViolet, sizeMinViolet,sizeMaxViolet*/));
 }
 
 void RobotVision::set() {

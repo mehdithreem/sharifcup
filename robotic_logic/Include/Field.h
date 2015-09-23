@@ -17,8 +17,7 @@ public:
 
 	vector<Region> regions;
 	Field();
-	//
-	void addRegion(Region& _region);
+	
 	pair<geometry::Vector,geometry::Vector> bestTarget();
 };
 
