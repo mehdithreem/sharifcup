@@ -34,8 +34,8 @@ public:
 	void writePort(vector< uint8_t > & 	data);
 	void talkToSetare(int velocity, int angle, int rotation );
 	// bool move(vector<geometry::Vector>& path , MovingObj& agent, int& x);
-	bool move(vector<geometry::Vector>& path, vector<int>& pathSpeeds, MovingObj& agent, int& index, bool& rotating, bool safe);
-	bool safeMove(vector<geometry::Vector> path , MovingObj& agent);
+	bool move(vector<geometry::Vector>& path, vector<int>& pathSpeeds, MovingObj& agent, int& index, bool& rotating);
+	bool safeMove(geometry::Vector destination , MovingObj& agent, bool& rotating);
 };
 
 #endif

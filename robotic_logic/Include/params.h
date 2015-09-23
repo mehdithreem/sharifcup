@@ -27,6 +27,7 @@ namespace params {
 	const int DEC_DIST = 70;
 
 	const int SPEED = 55;
+	const int safeSPEED = 47;
 	const int minSPEED = 35;
 	const int maxSPEED = 60;
 

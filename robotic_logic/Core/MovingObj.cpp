@@ -51,10 +51,11 @@ void MovingObj::updateConcave(Vector _v , vector<Vector> _coords ,int _d)
 
 		coords.push_back(_coords[i]);
 	}
-
-	COM = COM/_coords.size();
-
-	if (coords.size() > 0) radious = (COM - coords[0]).size();
+	COM = geometry::Vector(0,0);
+	if (coords.size() > 0){ 
+		radious = (COM - coords[0]).size();
+		COM = COM/coords.size();
+	}
 	else radious = 0;
 
 	updated = true;

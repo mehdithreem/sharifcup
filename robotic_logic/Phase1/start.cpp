@@ -102,6 +102,7 @@ int main(int argc, char *argv[]) {
 
 				// pathfind to target
 				try {
+					field.agent.print();
 					path = ShortestPath(field.agent.COM, goalDest.first, field, argc, argv);
 			
 					// path.push_back(field.agent.COM);
@@ -158,7 +159,7 @@ int main(int argc, char *argv[]) {
 
 			preprocessPath(path, pathSpeeds);
 
-			while (!pause && Connection.move(path, pathSpeeds ,field.agent, index,rotating, false)) { // && not reached target
+			while (!pause && Connection.move(path, pathSpeeds ,field.agent, index, rotating)) { // && not reached target
 				field.agent.updated = false;
 				while (!field.agent.updated) vision.update(field,false);
 
@@ -172,15 +173,11 @@ int main(int argc, char *argv[]) {
 			cin.ignore();
 
 			// degreeAtTarget = (goalDest.second - goalDest.first).angle();
-			path.clear();
-			path.push_back(goalDest.second);
-			pathSpeeds.clear();
 			rotating = false;
-			index = path.size()-1;
 
 			preprocessPath(path, pathSpeeds);
 
-			while (!pause && Connection.move(path, pathSpeeds ,field.agent, index,rotating, true)) { // && not reached target
+			while (!pause && Connection.safeMove(goalDest.second, field.agent, rotating)) { // && not reached target
 				field.agent.updated = false;
 				while (!field.agent.updated) vision.update(field,false);
 
