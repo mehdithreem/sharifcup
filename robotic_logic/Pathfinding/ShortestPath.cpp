@@ -8,7 +8,7 @@
 vector<int> constructPath(std::vector<int>& parent, int goal, int start);
 int heuristic(int start, int goal, Graph& G);
 
-void PolyTree2MovingObj(std::vector<MovingObj>& obstacles, ClipperLib::PolyNode* currNode);
+// void PolyTree2MovingObj(std::vector<MovingObj>& obstacles, ClipperLib::PolyNode* currNode);
 
 
 // Comprator for heap used in a-star algorithm
@@ -201,43 +201,43 @@ std::vector<MovingObj> MinkowskiAll(const MovingObj& agent, MovingObj& rival, co
 
 	ClipperLib::Path pattern;
 	std::vector<ClipperLib::Paths> obstaclesPaths;
-	for(int i=0 ; i < obstacles.size() ; i++)
-	 	for(int j=0 ; j<obstacles[i].coords.size() ; j++)
-	 		cout<<i<<"#####"<<obstacles[i].coords[j].x<<" , "<<obstacles[i].coords[j].y<<endl;
-	for(int j=0 ; j<agent.coords.size() ; j++)
-	 	cout<<"agent"<<"####"<<agent.coords[j].x<<" , "<<agent.coords[j].y<<endl;
-
-	for(int j=0 ; j<rival.coords.size() ; j++)
-	 	cout<<"rival"<<"####"<<rival.coords[j].x<<" , "<<rival.coords[j].y<<endl;
-	
-	for (geometry::Vector coordinate: agent.coords) {
-		pattern << ClipperLib::IntPoint((agent.COM.x -coordinate.x),(agent.COM.y - coordinate.y));
-	}
-	
-	for (MovingObj obj: obstacles) {
-		ClipperLib::Paths tmpPath(1);
-		
-		for (geometry::Vector coordinate: obj.coords) {
-			tmpPath[0] << ClipperLib::IntPoint(coordinate.x,coordinate.y );
-		}
-		
-		obstaclesPaths.push_back(tmpPath);
-		//cout<<"#########"<<tmpPath.size()<<endl;
-		
-		ClipperLib::MinkowskiSum(pattern, tmpPath, obstaclesPaths[obstaclesPaths.size()-1], true);
-	}
-
 	// for(int i=0 ; i < obstacles.size() ; i++)
-	// {
-	// 	ClipperLib::Path tmp;
-	// 	ClipperLib::Paths sol;
-	// 	for(int j=0 ; j<obstacles[i].coords.size() ; j++)
-	// 		tmp << ClipperLib::IntPoint(obstacles[i].coords[j].x , obstacles[i].coords[j].y);
-	// 	ClipperLib::ClipperOffset co;
-	// 	co.AddPath(tmp , ClipperLib::jtRound ,ClipperLib::etClosedPolygon);
-	// 	co.Execute(sol , -20);
-	// 	obstaclesPaths.push_back(sol);
+	//  	for(int j=0 ; j<obstacles[i].coords.size() ; j++)
+	//  		cout<<i<<"#####"<<obstacles[i].coords[j].x<<" , "<<obstacles[i].coords[j].y<<endl;
+	// for(int j=0 ; j<agent.coords.size() ; j++)
+	//  	cout<<"agent"<<"####"<<agent.coords[j].x<<" , "<<agent.coords[j].y<<endl;
+
+	// for(int j=0 ; j<rival.coords.size() ; j++)
+	//  	cout<<"rival"<<"####"<<rival.coords[j].x<<" , "<<rival.coords[j].y<<endl;
+	
+	// for (geometry::Vector coordinate: agent.coords) {
+	// 	pattern << ClipperLib::IntPoint((agent.COM.x -coordinate.x),(agent.COM.y - coordinate.y));
 	// }
+	
+	// for (MovingObj obj: obstacles) {
+	// 	ClipperLib::Paths tmpPath(1);
+		
+	// 	for (geometry::Vector coordinate: obj.coords) {
+	// 		tmpPath[0] << ClipperLib::IntPoint(coordinate.x,coordinate.y );
+	// 	}
+		
+	// 	obstaclesPaths.push_back(tmpPath);
+	// 	//cout<<"#########"<<tmpPath.size()<<endl;
+		
+	// 	ClipperLib::MinkowskiSum(pattern, tmpPath, obstaclesPaths[obstaclesPaths.size()-1], true);
+	// }
+
+	for(int i=0 ; i < obstacles.size() ; i++)
+	{
+		ClipperLib::Path tmp;
+		ClipperLib::Paths sol;
+		for(int j=0 ; j<obstacles[i].coords.size() ; j++)
+			tmp << ClipperLib::IntPoint(obstacles[i].coords[j].x , obstacles[i].coords[j].y);
+		ClipperLib::ClipperOffset co;
+		co.AddPath(tmp , ClipperLib::jtSquare ,ClipperLib::etClosedPolygon);
+		co.Execute(sol , 25);
+		obstaclesPaths.push_back(sol);
+	}
 	
 	for (vector<ClipperLib::Paths>::iterator target = obstaclesPaths.begin(); target != obstaclesPaths.end(); target++) {
 		for (vector<ClipperLib::Paths>::iterator object = obstaclesPaths.begin(); object != obstaclesPaths.end(); object++) {
@@ -276,12 +276,12 @@ std::vector<MovingObj> MinkowskiAll(const MovingObj& agent, MovingObj& rival, co
 					double x = obstaclesPaths[k][j][i].X;
 					double y = obstaclesPaths[k][j][i].Y;
 					cout<<"JIIIIIIIgh+ "<<x <<" , "<<y<<endl;
-				 	if(x>0 && x<500 && y>0 && y<400)
+				 	//if(x>0 && x<500 && y>0 && y<400)
 						vertices.push_back(geometry::Vector(x , y));
 					cout<<"BOOOOOgh"<<endl;
 				}
 				cout<<"Soooooot"<<endl;
-				if(finalObstacles.size()>0)
+				//if(finalObstacles.size()>0)
 					finalObstacles[finalObstacles.size()-1].updateConcave(v, vertices);
 				cout<<"tamam"<<endl;
 			}
@@ -291,28 +291,28 @@ std::vector<MovingObj> MinkowskiAll(const MovingObj& agent, MovingObj& rival, co
 	return finalObstacles;
 }
 
-void PolyTree2MovingObj(std::vector<MovingObj>& obstacles, ClipperLib::PolyNode* currNode)
-{
-	if (currNode == NULL)
-		return;
+// void PolyTree2MovingObj(std::vector<MovingObj>& obstacles, ClipperLib::PolyNode* currNode)
+// {
+// 	if (currNode == NULL)
+// 		return;
 	
-	obstacles.push_back(MovingObj());
-	geometry::Vector v(0,0);
-	std::vector<geometry::Vector> vertices;
+// 	obstacles.push_back(MovingObj());
+// 	geometry::Vector v(0,0);
+// 	std::vector<geometry::Vector> vertices;
 	
-	for (int i = 0; i < currNode->Contour.size(); ++i)
-	{
-		vertices.push_back(geometry::Vector(currNode->Contour[i].X, currNode->Contour[i].Y));
-	}
+// 	for (int i = 0; i < currNode->Contour.size(); ++i)
+// 	{
+// 		vertices.push_back(geometry::Vector(currNode->Contour[i].X/10.0, currNode->Contour[i].Y/10.0));
+// 	}
 	
-	obstacles[obstacles.size()-1].updateConcave(v, vertices);
+// 	obstacles[obstacles.size()-1].updateConcave(v, vertices);
 	
-	for (ClipperLib::PolyNode* child: currNode->Childs) {
-		cout << "warning: obstacles has child" << endl;
-		PolyTree2MovingObj(obstacles, child);
-	}
+// 	for (ClipperLib::PolyNode* child: currNode->Childs) {
+// 		cout << "warning: obstacles has child" << endl;
+// 		PolyTree2MovingObj(obstacles, child);
+// 	}
 	
-	PolyTree2MovingObj(obstacles, currNode->GetNext());
-	return;
-}
+// 	PolyTree2MovingObj(obstacles, currNode->GetNext());
+// 	return;
+// }
 
