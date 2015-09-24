@@ -21,6 +21,7 @@ namespace params {
 	const int CROP_HEIGHT = 404;
 
 	const vector<geometry::Vector> DESTPOINTS;
+	const int LOST_LIMIT = 70;
 	const int REACH_DIST = 15;
 
 	const int ACC_DIST = 30;

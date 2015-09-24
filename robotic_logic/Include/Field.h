@@ -18,7 +18,7 @@ public:
 	vector<Region> regions;
 	Field();
 	
-	pair<geometry::Vector,geometry::Vector> bestTarget();
+	pair<geometry::Vector,geometry::Vector> bestTarget(params::Color& targetColor);
 };
 
 #endif
