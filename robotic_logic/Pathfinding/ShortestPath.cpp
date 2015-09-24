@@ -42,7 +42,7 @@ vector<geometry::Vector> ShortestPath(geometry::Vector start, geometry::Vector g
 
 	cout << "----after VisibiltyGraph" << endl;
 
-	G.visualize(argc, argv, pathIndex, F.agent, F.agent, F.obstacles);
+	// G.visualize(argc, argv, pathIndex, F.agent, F.agent, F.obstacles);
 	// cin.ignore();
 		
 	std::vector<geometry::Vector> path;
@@ -234,7 +234,7 @@ std::vector<MovingObj> MinkowskiAll(const MovingObj& agent, MovingObj& rival, co
 			tmp << ClipperLib::IntPoint(obstacles[i].coords[j].x , obstacles[i].coords[j].y);
 		ClipperLib::ClipperOffset co;
 		co.AddPath(tmp , ClipperLib::jtSquare ,ClipperLib::etClosedPolygon);
-		co.Execute(sol , 25);
+		co.Execute(sol , 35);
 		obstaclesPaths.push_back(sol);
 	}
 	

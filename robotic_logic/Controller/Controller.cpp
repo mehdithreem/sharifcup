@@ -10,8 +10,8 @@ Port::~Port(){
 	delete port;
 }
 
-bool Port::safeMove(geometry::Vector destination , MovingObj& agent, bool& rotating){
- 	// calculate speed
+bool Port::safeMove(geometry::Vector destination , MovingObj& agent, bool& rotating) {
+	// calculate speed
 	int sendSpeed = params::safeSPEED;
 	int dist = (destination - agent.COM).size();
 	
@@ -155,8 +155,11 @@ void Port:: writePort(vector< uint8_t > & 	data){
 }
 
 bool Port::move(vector<geometry::Vector>& path, vector<int>& pathSpeeds, MovingObj& agent, int& index, bool& rotating) {
-	if(index < 0)
+	if(index < 0){
+		fullStop();
 		return false;
+	}
+
 
 	// calculate speed
 	// bool fullStop = false;
@@ -168,6 +171,11 @@ bool Port::move(vector<geometry::Vector>& path, vector<int>& pathSpeeds, MovingO
 	int distToPrev = index-1 >= 0 && index-1 < path.size() ? 
 		(agent.COM - path[index-1]).size() : std::numeric_limits<int>::max();
 	int speedAtPrev = index-1 >= 0 && index-1 < path.size() ? pathSpeeds[index-1] : 0;
+
+	if(index == 0 && distToNext <= 50){
+		fullStop();
+		return false;
+	}
 
 	if (distToNext <= distToPrev) {
 		// obey target point rules

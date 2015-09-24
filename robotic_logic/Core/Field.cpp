@@ -2,9 +2,10 @@
 
 Field::Field(){}
 
-pair<geometry::Vector,geometry::Vector> Field::bestTarget(){
+pair<geometry::Vector,geometry::Vector> Field::bestTarget(params::Color& targetColor){
 	// vector<target,dist>
 	vector<pair<geometry::Vector, geometry::Vector>> targetDests;
+	vector<params::Color> targetColors;
 	vector<int> cost;
 	// cerr << "----in bestTarget 1" << endl;
 	// cerr << "-------- obstacles.size "  << obstacles.size() << endl;
@@ -37,6 +38,7 @@ pair<geometry::Vector,geometry::Vector> Field::bestTarget(){
 			pair<geometry::Vector, bool> dPt = regions[regionIndex].destPoints[j];
 			if (dPt.second == true) {
 				targetDests.push_back(make_pair((obstacles[i].COM - dPt.first)/(1/1.6)+dPt.first, dPt.first));
+				targetColors.push_back(obstacles[i].color);
 				cost.push_back(j*100);
 			}
 		}
@@ -68,6 +70,7 @@ pair<geometry::Vector,geometry::Vector> Field::bestTarget(){
 	
 	// cerr << "----in bestTarget 5" << endl;
 
+	targetColor = targetColors[minIndex];
 	return targetDests[minIndex];
 }
 

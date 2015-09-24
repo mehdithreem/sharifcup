@@ -10,6 +10,8 @@ int main(int argc, char *argv[]) {
 
 	// vision.set();
 
+	// return 0;
+
 	// while(true) {
 	// 	vision.update(field, true);
 	// }
@@ -81,22 +83,25 @@ int main(int argc, char *argv[]) {
 				else field.obstacles[i].regionID = 1;
 			}
 
-			cin.ignore();
+			// cin.ignore();
 
 			pair<geometry::Vector,geometry::Vector> goalDest; // first:target, second:dest
+			params::Color targetColor;
+
 			std::vector<geometry::Vector> path;
-			if (field.obstacles.size() < 0) {
+			
+			if (field.obstacles.size() == 0) {
 				cout << "No obstacle found --> PAUSE mode" << endl;
 				pause = true;
 				continue;
 			} else {
 				cerr << "----after visionUpdate" << endl;
 				
-				goalDest = field.bestTarget();
+				goalDest = field.bestTarget(targetColor);
 
-				cout << "target and dest: " << goalDest.first << " -> " << goalDest.second << endl;
+				cout << "target and dest: " << goalDest.first << " -> " << goalDest.second << " :color " << params::getColorName(targetColor) << endl;
 
-				cin.ignore();
+				// cin.ignore();
 				// if there is no more objects, break, end = true
 				// set degreeAtTarget
 
@@ -170,24 +175,44 @@ int main(int argc, char *argv[]) {
 			cout << "----REACHED----" << endl;
 			// end = true;
 			Connection.fullStop();
-			cin.ignore();
+			// cin.ignore();
 
 			// degreeAtTarget = (goalDest.second - goalDest.first).angle();
 			rotating = false;
+			bool lost = false;
+			bool pushing = false;
 
 			preprocessPath(path, pathSpeeds);
 
-			while (!pause && Connection.safeMove(goalDest.second, field.agent, rotating)) { // && not reached target
+			while (!pause && Connection.safeMove(goalDest.second, field.agent, rotating) && !lost) { // && not reached target
 				field.agent.updated = false;
-				while (!field.agent.updated) vision.update(field,false);
+				while (!field.agent.updated) vision.update(field,true);
 
+				for(int i = 0; i < field.obstacles.size(); i++) {
+					if (field.obstacles[i].color == targetColor) {
+						if (pushing && (field.obstacles[i].COM - field.agent.COM).size() >= params::LOST_LIMIT){
+							cout << "--------OBSTACLE LOST :(-----------" << params::getColorName(targetColor) << endl;
+							cout << (field.obstacles[i].COM - field.agent.COM).size() << endl;
+							lost = true;
+							break;
+						}
+						else if ((field.obstacles[i].COM - field.agent.COM).size() < params::LOST_LIMIT - 20) {
+							// Connection.fullStop();
+							cout << "----PUSHING-----" << endl;
+							// cin.ignore();
+							pushing = true;
+						}
+					}
+				}
 				// if shasing then break
 				// wall check
 			}
 
-			cout << "-----DONE------" << endl;
-			Connection.fullStop();
-			cin.ignore();
+				Connection.fullStop();
+			if (!lost) {
+				cout << "-----DONE------" << endl;
+				// cin.ignore();
+			}
 		}
 
 		while (pause && !end) {

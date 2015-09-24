@@ -37,8 +37,8 @@ bool Region::isInside(geometry::Vector pt) {
 	for(int i=0 ; i<points.size() ;i++){
 		xMax = max(xMax , points[i].x);
 		xMin = min(xMin , points[i].x);
-		yMax = max(xMax , points[i].y);
-		yMin = min(xMin , points[i].y);
+		yMax = max(yMax , points[i].y);
+		yMin = min(yMin , points[i].y);
 	}
 
 	return (pt.x < xMax && pt.x > xMin && pt.y < yMax && pt.y >yMin);
