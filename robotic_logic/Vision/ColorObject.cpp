@@ -143,37 +143,38 @@ vector<MovingObj> ColorObject::findObjects(Mat originalFrame , Mat paintingFrame
 			currObject.color = this->getColor();
 			if(this->color == params::black){
 				if(shapePoints.size() == 3){
-					cout << "TRIANGLE RECOGNIZED SUCCESSFULLY" << endl;
-					int headPointIndex = getHeadPointIndex(shapePoints);
-					Point headPoint = shapePoints[headPointIndex] ;
-					Point miane = getMiane(headPointIndex, shapePoints);
-					double degree = angle2(miane, headPoint);
-					arrowedLine(paintingFrame, miane, headPoint, Scalar(0,255,156),2);
-					ostringstream strs ;
-					strs << degree ;
-					String degreeString = strs.str() ;
-					putText(paintingFrame,degreeString, Point(0,30), FONT_HERSHEY_PLAIN, 1, Scalar(0,255,156));
-					
-					// std::vector<MovingObj> obstacles;
-					// obstacles.push_back(MovingObj());
-
-					// {
-					//     geometry::Vector v(10,10);
-					//     std::vector<geometry::Vector> vertices;
-
-					//     vertices.push_back(geometry::Vector(300,100));
-					//     vertices.push_back(geometry::Vector(300,250));
-					//     vertices.push_back(geometry::Vector(400,100));
-					//     vertices.push_back(geometry::Vector(400,250));
-
-					//     obstacles[obstacles.size()-1].update(v, vertices);
-					// }
-
-					currObject.update(geometry::Vector(0,0), pointsToGeometryVector(shapePoints),degree);
+                    cout << "OK !I AM WATCHING AGENT !!!" << endl;
+                    //                    int headPointIndex = getHeadPointIndex(shapePoints);
+                    //                    Point headPoint = shapePoints[importantPoints[0]];
+                    //                    Point miane = getMiane(headPointIndex, shapePoints);
+                    vector<Point> importantPoints = getImportantPoints(shapePoints);
+                    Point miane = getMiane(importantPoints[1], importantPoints[2]);
+                    double degree = angle2(miane, importantPoints[0]);
+                    arrowedLine(paintingFrame, miane, importantPoints[0], Scalar(0,255,156),2);
+                    ostringstream strs ;
+                    strs << degree ;
+                    String degreeString = strs.str() ;
+                    putText(paintingFrame,degreeString, Point(0,30), FONT_HERSHEY_PLAIN, 1, Scalar(0,255,156));
+                    
+                    //                std::vector<MovingObj> obstacles;
+                    //                obstacles.push_back(MovingObj());
+                    //
+                    //                {
+                    //                    geometry::Vector v(10,10);
+                    //                    std::vector<geometry::Vector> vertices;
+                    //
+                    //                    vertices.push_back(geometry::Vector(300,100));
+                    //                    vertices.push_back(geometry::Vector(300,250));
+                    //                    vertices.push_back(geometry::Vector(400,100));
+                    //                    vertices.push_back(geometry::Vector(400,250));
+                    //
+                    //                    obstacles[obstacles.size()-1].update(v, vertices);
+                    //                }
+                    currObject.update(geometry::Vector(0,0), pointsToGeometryVector(shapePoints),degree);
 					
 				}else{
 					currObject.update(geometry::Vector(0,0), pointsToGeometryVector(shapePoints));
-					cout << "WARNIG : CAN'T RECOGNIZE TRIANGLE !" << endl;
+                    cout << "AKHEY ... I CAN'T SEE AGENT" << endl;
 				}
 			}else{
 				currObject.update(geometry::Vector(0,0), pointsToGeometryVector(shapePoints));
@@ -181,8 +182,8 @@ vector<MovingObj> ColorObject::findObjects(Mat originalFrame , Mat paintingFrame
 			objects.push_back(currObject);
 		}
 	}
-	imshow(getColorName(this->color),thresh);
-	// imshow(getColorName(this->color), threshMorpho);
+//	imshow(getColorName(this->color),thresh);
+	 imshow(getColorName(this->color), threshMorpho);
 	return objects ;
 }
 

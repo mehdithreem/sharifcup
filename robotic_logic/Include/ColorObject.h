@@ -42,7 +42,9 @@ public:
 double angle2(Point point1,Point point2);
 double angle3(Point point1,Point centerPoint,Point point2);
 int getHeadPointIndex(vector<Point> points);
+vector<Point> getImportantPoints(vector<Point>& points);
 Point getMiane(int headPointIndex,vector<Point> points);
+Point getMiane(Point point1,Point point2);
 double toDegree(double radian);
 void drawPoints(Mat& frame , vector<Point> points,Scalar color);
 
