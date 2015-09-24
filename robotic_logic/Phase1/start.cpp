@@ -8,9 +8,9 @@ int main(int argc, char *argv[]) {
 	RobotVision vision;
 	vision.init();
 
-	// vision.set();
+	vision.set();
 
-	// return 0;
+	return 0;
 
 	// while(true) {
 	// 	vision.update(field, true);
@@ -89,6 +89,7 @@ int main(int argc, char *argv[]) {
 			params::Color targetColor;
 
 			std::vector<geometry::Vector> path;
+			bool done = false;
 			
 			if (field.obstacles.size() == 0) {
 				cout << "No obstacle found --> PAUSE mode" << endl;
@@ -97,13 +98,12 @@ int main(int argc, char *argv[]) {
 			} else {
 				cerr << "----after visionUpdate" << endl;
 
-				bool done = false;
 				
 				goalDest = field.bestTarget(targetColor, done);
 
 				if (done) {
 					cout << "end" << endl;
-					goalDest.first = field.regions[2].destPoints[0];
+					goalDest.first = field.regions[2].destPoints[0].first;
 				}
 				else cout << "target and dest: " << goalDest.first << " -> " << goalDest.second << " :color " << params::getColorName(targetColor) << endl;
 
