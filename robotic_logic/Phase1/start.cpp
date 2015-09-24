@@ -77,10 +77,10 @@ int main(int argc, char *argv[]) {
 
 			for(int i = 0; i < field.obstacles.size(); i++){
 				cout << "obj#" << i << " (" << getColorName(field.obstacles[i].color) << "): " << field.obstacles[i].COM << endl;
-				if (field.obstacles[i].color == yellow) field.obstacles[i].regionID = 2;
+				if (field.obstacles[i].color == yellow) field.obstacles[i].regionID = 1;
 				else if (field.obstacles[i].color == green) field.obstacles[i].regionID = 1;
 				else if (field.obstacles[i].color == red) field.obstacles[i].regionID = 0;
-				else field.obstacles[i].regionID = 1;
+				else field.obstacles[i].regionID = 2;
 			}
 
 			// cin.ignore();
@@ -96,10 +96,16 @@ int main(int argc, char *argv[]) {
 				continue;
 			} else {
 				cerr << "----after visionUpdate" << endl;
-				
-				goalDest = field.bestTarget(targetColor);
 
-				cout << "target and dest: " << goalDest.first << " -> " << goalDest.second << " :color " << params::getColorName(targetColor) << endl;
+				bool done = false;
+				
+				goalDest = field.bestTarget(targetColor, done);
+
+				if (done) {
+					cout << "end" << endl;
+					goalDest.first = field.regions[2].destPoints[0];
+				}
+				else cout << "target and dest: " << goalDest.first << " -> " << goalDest.second << " :color " << params::getColorName(targetColor) << endl;
 
 				// cin.ignore();
 				// if there is no more objects, break, end = true
@@ -173,8 +179,12 @@ int main(int argc, char *argv[]) {
 			}
 
 			cout << "----REACHED----" << endl;
-			// end = true;
 			Connection.fullStop();
+			if (done) {
+				cout << "-----END------" << endl;
+				end = true;
+				break;
+			}
 			// cin.ignore();
 
 			// degreeAtTarget = (goalDest.second - goalDest.first).angle();

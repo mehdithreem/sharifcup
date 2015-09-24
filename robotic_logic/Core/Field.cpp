@@ -2,7 +2,7 @@
 
 Field::Field(){}
 
-pair<geometry::Vector,geometry::Vector> Field::bestTarget(params::Color& targetColor){
+pair<geometry::Vector,geometry::Vector> Field::bestTarget(params::Color& targetColor, bool& done){
 	// vector<target,dist>
 	vector<pair<geometry::Vector, geometry::Vector>> targetDests;
 	vector<params::Color> targetColors;
@@ -69,6 +69,11 @@ pair<geometry::Vector,geometry::Vector> Field::bestTarget(params::Color& targetC
 	}
 	
 	// cerr << "----in bestTarget 5" << endl;
+
+	if (targetColors.size() == 0) {
+		done = true;
+		return make_pair(geometry::Vector(0,0), geometry::Vector(0,0));
+	}
 
 	targetColor = targetColors[minIndex];
 	return targetDests[minIndex];
