@@ -1,1 +1,1 @@
-# sharifcup
+# Sharifcup
